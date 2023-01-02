@@ -1,6 +1,14 @@
 <template>
   <div>
     <div class="pa-3">
+      <div
+        v-if="messageSent"
+        style="border: 1px solid #efb0a1; border-radius: 5px"
+        class="pa-3 elevation-4"
+      >
+        <h2>Message Sent!</h2>
+        <p>Thanks for reaching out! I'll get back to as soon as I can!</p>
+      </div>
       <div class="py-3">
         <h2>Say Hello</h2>
         <p>Want to know more or place an order? Shoot me a message!</p>
@@ -58,6 +66,7 @@ export default {
   },
   data() {
     return {
+      messageSent: false,
       valid: true,
       firstName: "",
       lastName: "",
@@ -74,33 +83,37 @@ export default {
     handleSubmit(e) {
       console.log(this.$refs.form);
       console.log(e.target, "target");
+      if (this.valid) {
+        const templateParams = {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          message: this.message,
+        };
 
-      const templateParams = {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        email: this.email,
-        message: this.message,
-      };
-
-      try {
-        emailsjs
-          .send(
-            import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
-            import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
-            templateParams,
-            import.meta.env.VITE_APP_EMAILJS_PUB_KEY
-          )
-          .then((response) => {
-            console.log(response, "success");
-          });
-      } catch (error) {
-        console.log({ error });
+        try {
+          emailsjs
+            .send(
+              import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
+              import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
+              templateParams,
+              import.meta.env.VITE_APP_EMAILJS_PUB_KEY
+            )
+            .then((response) => {
+              console.log(response, "success");
+              this.snackbarStore.showSnackbar({ message: "Message sent!" });
+            });
+        } catch (error) {
+          console.log({ error });
+        }
+        this.$refs.form.reset();
+        this.messageSent = true;
+      } else {
+        this.snackbarStore.showSnackbar({
+          message: "Please fill out required fields",
+        });
       }
-      // //Reset Form
-      // this.firstName = "";
-      // this.lastName = "";
-      // this.email = "";
-      // this.message = "";
+
       // if (this.valid) {
       //   this.snackbarStore.showSnackbar({ message: "Valid" });
       // } else {
@@ -110,8 +123,4 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-// .contact-form .v-text-field--active {
-//   color: green;
-// }
-</style>
+<style lang="scss"></style>
