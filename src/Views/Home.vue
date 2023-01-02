@@ -90,9 +90,9 @@ export default {
 };
 </script>
 <style lang="scss">
-#home-container {
-  min-height: 100%;
-}
+// #home-container {
+//   min-height: 100%;
+// }
 .featured-recipes {
   margin: 20px 10px;
 }
