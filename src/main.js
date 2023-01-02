@@ -4,17 +4,64 @@
  * Bootstraps Vuetify and other plugins then mounts the App`
  */
 
-// Components
-import App from './App.vue'
+// =============================================================================
+// COMPONENTS
+// =============================================================================
+import App from "./App.vue";
+import router from "@/router";
 
-// Composables
-import { createApp } from 'vue'
+// =============================================================================
+// COMPOSABLES
+// =============================================================================
+import { createApp } from "vue";
+import { createPinia } from "pinia";
 
-// Plugins
-import { registerPlugins } from '@/plugins'
+const app = createApp(App);
+const pinia = createPinia();
+// =============================================================================
+// PLUGINS
+// =============================================================================
+import { registerPlugins } from "@/plugins";
 
-const app = createApp(App)
+// =============================================================================
+// FONT AWESOME CORE
+// =============================================================================
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-registerPlugins(app)
+// =============================================================================
+// FONT AWESOME ICONS
+// =============================================================================
+import {
+  faArrowLeft,
+  faBreadSlice,
+  faBacon,
+  faIceCream,
+  faDrumstickBite,
+} from "@fortawesome/free-solid-svg-icons";
 
-app.mount('#app')
+// import { fa } from "@fortawesome/free-regular-svg-icons";
+
+library.add(faArrowLeft, faBreadSlice, faBacon, faIceCream, faDrumstickBite);
+
+// =============================================================================
+// FONT AWESOME CONFIG
+// =============================================================================
+app.component("font-awesome-icon", FontAwesomeIcon);
+
+// =============================================================================
+// GLOBALS
+// =============================================================================
+import axios from "axios";
+const axiosInstance = axios.create({
+  withCredentials: true,
+});
+app.config.globalProperties.$axios = { ...axiosInstance };
+
+// =============================================================================
+// INIT
+// =============================================================================
+app.use(router);
+app.use(pinia);
+registerPlugins(app);
+app.mount("#app");
