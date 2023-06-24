@@ -1,27 +1,12 @@
 <template>
   <div>
-    <div id="home-container">
+    <!-- <div id="home-container">
       <div class="featured-recipes">
-        <!-- <recipe-card-scroll /> -->
+    
         <h2 class="text-center">Featured Recipes</h2>
         <featured-recipes />
       </div>
-      <!-- <div class="quick-search">
-        <h3 style="color: white" class="text-center">
-          Find the Perfect Recipe
-        </h3>
-        <v-row>
-          <v-col cols="3" v-for="category in categories">
-            <div class="pa-2 text-center">
-              <font-awesome-icon
-                style="color: white; font-size: 2.3rem"
-                :icon="category.icon"
-              />
-              <p style="color: white">{{ category.label }}</p>
-            </div>
-          </v-col>
-        </v-row>
-      </div> -->
+     
       <div class="recipe-list">
         <v-row no-gutters class="pa-3">
           <v-col cols="3">
@@ -54,7 +39,7 @@
         </v-row>
         <recipe-list />
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -73,6 +58,7 @@ export default {
   data() {
     return {
       message: "hi",
+      user: this.$auth0.user,
       categories: [
         { label: "Breads", icon: "fa-bread-slice" },
         { label: "Breakfast", icon: "fa-bacon" },
@@ -81,11 +67,48 @@ export default {
       ],
     };
   },
+  methods: {
+    async handleAuthStatus() {
+      const token = await this.$auth0.getAccessTokenSilently();
+
+      console.log("TESTING");
+      this.$axios
+        // .get("http://localhost:3000/todos")
+        .get("http://localhost:3000/private", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((resp) => {
+          console.log(resp, "test success");
+        })
+        .catch((err) => {
+          console.log(err, "test err");
+        });
+    },
+    handleLogin() {
+      try {
+        this.$auth0.loginWithRedirect({
+          redirect_uri: window.location.origin + "/callback",
+        });
+      } catch (error) {
+        console.log("Login error: ", error);
+      }
+    },
+    handleLogout() {
+      this.$auth0.logout({
+        logoutParams: { returnTo: window.location.origin },
+      });
+    },
+    handleProfile() {
+      console.log(this.user, "USER");
+    },
+  },
   components: {
-    // ArticleList,
-    RecipeList,
-    RecipeCardScroll,
-    FeaturedRecipes,
+    // // ArticleList,
+    // RecipeList,
+    // RecipeCardScroll,
+    // FeaturedRecipes,
   },
 };
 </script>
