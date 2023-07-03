@@ -2,6 +2,7 @@
 // CORE
 // =============================================================================
 import { createRouter, createWebHistory } from "vue-router";
+import { authGuard, adminGuard } from "./router-guard";
 
 // =============================================================================
 // Main
@@ -27,7 +28,13 @@ import RecipeDetail from "@/Views/Recipes/RecipeDetail.vue";
 const routes = [
   { path: "/", name: "Home", component: Home },
   { path: "/about", name: "About", component: About },
-  { path: "/admin", name: "Admin", component: Admin },
+  {
+    path: "/admin",
+    name: "Admin",
+    component: Admin,
+    meta: { requiresAuth: true, roles: ["SuperAdmin"] },
+    beforeEnter: adminGuard,
+  },
   { path: "/callback", name: "Callback", component: Callback },
   { path: "/contact", name: "Contact", component: Contact },
   { path: "/articles", name: "Articles", component: Articles },
