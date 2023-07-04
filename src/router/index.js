@@ -24,6 +24,7 @@ import ArticleDetail from "@/Views/Articles/ArticleDetail.vue";
 // =============================================================================
 import Recipes from "@/Views/Recipes/Recipes.vue";
 import RecipeDetail from "@/Views/Recipes/RecipeDetail.vue";
+import CreateRecipe from "@/Views/Recipes/CreateRecipe.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
@@ -41,6 +42,7 @@ const routes = [
   { path: "/articles/:id", name: "ArticleDetail", component: ArticleDetail },
   { path: "/recipes", name: "Recipes", component: Recipes },
   { path: "/recipes/:id", name: "RecipeDetail", component: RecipeDetail },
+  { path: "/recipes/create", name: "CreateRecipe", component: CreateRecipe },
 ];
 
 const router = createRouter({

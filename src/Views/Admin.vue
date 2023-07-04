@@ -29,6 +29,14 @@
       <div>is auth - {{ $auth0.isAuthenticated }}</div>
 
       <pre>{{ $auth0.user }}</pre>
+
+      <div style="border: 2px solid blue">
+        <div class="d-flex justify-space-between">
+          <h3>Recipe List</h3>
+          <v-btn @click="$router.push('/recipes/create')">Add +</v-btn>
+        </div>
+        <recipe-list />
+      </div>
     </div>
     <div v-else>
       <p>Admin account required</p>
@@ -37,6 +45,7 @@
   </div>
 </template>
 <script>
+import RecipeList from "@/components/Recipes/RecipeList.vue";
 export default {
   data() {
     return {
@@ -44,6 +53,7 @@ export default {
       isAuthenticated: this.$auth0.isAuthenticated,
     };
   },
+  components: { RecipeList },
   methods: {
     getTodos() {
       this.$axios

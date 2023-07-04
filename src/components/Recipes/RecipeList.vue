@@ -52,10 +52,10 @@ export default {
   methods: {
     getRecipes() {
       this.$axios
-        .get(import.meta.env.VITE_APP_API + "/Recipes?fields=*.*.*.*.*images.*")
+        .get(import.meta.env.VITE_APP_API + "/recipes")
         .then((res) => {
-          console.log(res.data.data, "articles");
-          this.recipes = res.data.data;
+          console.log(res.data, "recipes");
+          this.recipes = res.data;
         })
         .catch((err) => {
           console.log(err, "error");
