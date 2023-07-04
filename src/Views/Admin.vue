@@ -55,16 +55,6 @@ export default {
   },
   components: { RecipeList },
   methods: {
-    getTodos() {
-      this.$axios
-        .get(import.meta.env.VITE_APP_API + "/todos")
-        .then((resp) => {
-          console.log(resp, "todos");
-        })
-        .catch((err) => {
-          console.log(err, "error");
-        });
-    },
     async handleAuthStatus() {
       const token = await this.$auth0.getAccessTokenSilently();
 
@@ -97,9 +87,7 @@ export default {
       console.log(this.user, "USER");
     },
   },
-  mounted() {
-    this.getTodos();
-  },
+  mounted() {},
 };
 </script>
 <style lang=""></style>

@@ -2,7 +2,7 @@
 // CORE
 // =============================================================================
 import { createRouter, createWebHistory } from "vue-router";
-import { authGuard, adminGuard } from "./router-guard";
+import { adminGuard } from "@/auth/authGuard";
 
 // =============================================================================
 // Main
@@ -42,7 +42,13 @@ const routes = [
   { path: "/articles/:id", name: "ArticleDetail", component: ArticleDetail },
   { path: "/recipes", name: "Recipes", component: Recipes },
   { path: "/recipes/:id", name: "RecipeDetail", component: RecipeDetail },
-  { path: "/recipes/create", name: "CreateRecipe", component: CreateRecipe },
+  {
+    path: "/recipes/create",
+    name: "CreateRecipe",
+    component: CreateRecipe,
+    meta: { requiresAuth: true, roles: ["SuperAdmin"] },
+    beforeEnter: adminGuard,
+  },
 ];
 
 const router = createRouter({
