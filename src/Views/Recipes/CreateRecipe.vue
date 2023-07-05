@@ -81,8 +81,10 @@
         </div>
       </v-form>
       <div class="d-flex justify-space-between">
-        <v-btn @click="addRecipeIngredient">Add +</v-btn>
-        <v-btn @click="submitRecipe" color="primary">Submit</v-btn>
+        <v-btn variant="tonal" @click="addRecipeIngredient">Add +</v-btn>
+        <v-btn variant="tonal" @click="submitRecipe" color="primary"
+          >Submit</v-btn
+        >
       </div>
     </div>
   </div>

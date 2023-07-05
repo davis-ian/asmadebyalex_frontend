@@ -1,18 +1,23 @@
 <template>
   <div style="min-height: 100%" class="pa-3">
-    <v-btn size="x-small" variant="outlined" text @click="$router.back()">
-      <font-awesome-icon :icon="['fas', 'arrow-left']" />
-    </v-btn>
+    <div class="d-flex justify-space-between mb-3">
+      <v-btn size="small" variant="tonal" text @click="$router.back()">
+        <font-awesome-icon :icon="['fas', 'arrow-left']" />
+      </v-btn>
+      <v-btn size="small" variant="tonal" @click="editing = !editing"
+        >Edit</v-btn
+      >
+    </div>
     <div v-if="recipe">
       <div v-if="editing">
         <v-form ref="form" v-model="isValid">
-          <div class="d-flex justify-space-between">
-            valid {{ isValid }}
-            <v-text-field v-model="tempRecipe.name"></v-text-field>
-            <v-btn @click="editing = !editing">Edit</v-btn>
-          </div>
+          <v-text-field
+            variant="outlined"
+            v-model="tempRecipe.name"
+          ></v-text-field>
 
           <v-textarea
+            variant="outlined"
             v-if="editing"
             label="Description"
             v-model="tempRecipe.description"
@@ -57,7 +62,7 @@
               </v-col>
 
               <v-col cols="1">
-                <div class="d-flex flex-column">
+                <div>
                   <v-btn
                     variant="tonal"
                     size="small"
@@ -74,19 +79,23 @@
               </v-col>
             </v-row>
             <div class="d-flex justify-space-between">
-              <v-btn @click="addRecipeIngredient">Add +</v-btn>
-              <v-btn @click="updateRecipe" color="primary">Update</v-btn>
+              <v-btn size="small" variant="tonal" @click="addRecipeIngredient"
+                >Add +</v-btn
+              >
+              <v-btn
+                size="large"
+                variant="tonal"
+                @click="updateRecipe"
+                color="primary"
+                >Update</v-btn
+              >
             </div>
           </div>
         </v-form>
       </div>
 
       <div v-else>
-        <div class="d-flex justify-space-between">
-          <h1>{{ recipe.name }}</h1>
-
-          <v-btn @click="editing = !editing">Edit</v-btn>
-        </div>
+        <h1>{{ recipe.name }}</h1>
 
         <p>
           {{ recipe.description }}

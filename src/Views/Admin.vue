@@ -30,7 +30,7 @@
 
       <pre>{{ $auth0.user }}</pre>
 
-      <div style="border: 2px solid blue">
+      <div>
         <div class="d-flex justify-space-between">
           <h3>Recipe List</h3>
           <v-btn @click="$router.push('/recipes/create')">Add +</v-btn>
