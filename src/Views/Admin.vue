@@ -1,32 +1,13 @@
 <template>
-  <div style="border: 2px solid red">
-    <v-navigation-drawer class="bg-deep-purple" theme="dark" permanent>
-      <v-list color="transparent">
-        <v-list-item
-          prepend-icon="mdi-view-dashboard"
-          title="Dashboard"
-        ></v-list-item>
-        <v-list-item
-          prepend-icon="mdi-account-box"
-          title="Account"
-        ></v-list-item>
-        <v-list-item prepend-icon="mdi-gavel" title="Admin"></v-list-item>
-      </v-list>
-
-      <template v-slot:append>
-        <div class="pa-2">
-          <v-btn block> Logout </v-btn>
-        </div>
-      </template>
-    </v-navigation-drawer>
+  <div>
     <h2>Admin Page</h2>
     <div v-if="isAuthenticated">
-      <v-btn @click="handleLogin">Login</v-btn>
-      <v-btn @click="handleLogout">Logout</v-btn>
-      <v-btn @click="handleProfile">Profile</v-btn>
-      <v-btn @click="handleAuthStatus">Auth Status</v-btn>
+      <h3>Account</h3>
+      <!-- <v-btn @click="handleLogout">Logout</v-btn> -->
+      <!-- <v-btn @click="handleProfile">Profile</v-btn>
+      <v-btn @click="handleAuthStatus">Auth Status</v-btn> -->
 
-      <div>is auth - {{ $auth0.isAuthenticated }}</div>
+      <!-- <div>is auth - {{ $auth0.isAuthenticated }}</div> -->
 
       <pre>{{ $auth0.user }}</pre>
 

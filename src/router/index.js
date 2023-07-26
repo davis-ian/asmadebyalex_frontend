@@ -34,7 +34,7 @@ const routes = [
     name: "Admin",
     component: Admin,
     meta: { requiresAuth: true, roles: ["SuperAdmin"] },
-    beforeEnter: adminGuard,
+    // beforeEnter: adminGuard,
   },
   { path: "/callback", name: "Callback", component: Callback },
   { path: "/contact", name: "Contact", component: Contact },
