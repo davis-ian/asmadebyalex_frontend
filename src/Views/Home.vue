@@ -1,5 +1,18 @@
 <template>
   <div>
+    <div style="border: 2px solid red">
+      <p>upload test</p>
+      <v-file-input
+        multiple
+        show-size
+        counter
+        solo
+        label="File Input"
+        v-model="files"
+      ></v-file-input>
+      <v-btn @click="handleFileUpload">Submit</v-btn>
+      <div>Progress: {{ uploadProgress }}%</div>
+    </div>
     <!-- <div id="home-container">
       <div class="featured-recipes">
     
@@ -59,6 +72,8 @@ export default {
     return {
       message: "hi",
       user: this.$auth0.user,
+      files: [],
+      uploadProgress: 0,
       categories: [
         { label: "Breads", icon: "fa-bread-slice" },
         { label: "Breakfast", icon: "fa-bacon" },
@@ -102,6 +117,46 @@ export default {
     },
     handleProfile() {
       console.log(this.user, "USER");
+    },
+    async handleFileUpload() {
+      console.log(this.files[0], "files upload");
+
+      if (this.files.length == 0) {
+        this.showSnackbar({ message: "No file selected" });
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("image", this.files[0]);
+      formData.append("key", "f1ea07e92d707b432e6c016a09728e7b");
+
+      try {
+        const response = await this.$axios.post(
+          "https://api.imgbb.com/1/upload",
+          formData,
+          {
+            // headers: {
+            //   'Content-Type': 'multipart/form-data'
+            // },
+            onUploadProgress: (progressEvent) => {
+              this.uploadProgress = Math.round(
+                (progressEvent.loaded * 100) / progressEvent.total
+              );
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        if (data.success) {
+          console.log("UPLOAD SUCCESS");
+          imageUrl.value = data.data.url;
+        } else {
+          alert("Failed to upload image.");
+        }
+      } catch (error) {
+        console.error("There was a problem uploading the image:", error);
+      }
     },
   },
   components: {
