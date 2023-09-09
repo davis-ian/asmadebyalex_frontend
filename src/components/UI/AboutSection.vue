@@ -1,12 +1,12 @@
 <template>
   <div class="about">
     <v-row no-gutters>
-      <v-col>
+      <v-col cols="12" md="6">
         <div style="height: 100%; display: flex" class="pa-5">
           <v-img :src="placeholderImgSrc" :lazy-src="placeholderImgSrc"></v-img>
         </div>
       </v-col>
-      <v-col>
+      <v-col cols="12" md="6">
         <div class="pa-5">
           <h1 class="all-caps">Welcome To As Made By Alex</h1>
           <p>

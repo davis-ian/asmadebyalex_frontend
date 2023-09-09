@@ -2,10 +2,14 @@
   <div class="home-featured pa-5">
     <div>
       <h1 class="all-caps text-center pa-3">
-        Discover My Carefully Curated Selection of Mouthwatering Creations!
+        Discover My Carefully Curated Selection of Mouth watering Creations!
       </h1>
-      <div class="d-flex justify-center" style="gap: 40px">
-        <div v-for="i in 3" style="width: 100%">
+
+      <!-- <div class="d-flex justify-center" style="gap: 40px">
+        <div v-for="i in 3" style="width: 100%"> -->
+
+      <v-row>
+        <v-col v-for="i in 3" cols="12" md="4" sm="6">
           <div class="pa-3">
             <v-img
               cover
@@ -19,8 +23,10 @@
               <p>$20</p>
             </div>
           </div>
-        </div>
-      </div>
+        </v-col>
+      </v-row>
+      <!-- </div>
+      </div> -->
       <div class="text-center pa-5">
         <v-btn size="large">Shop</v-btn>
       </div>
