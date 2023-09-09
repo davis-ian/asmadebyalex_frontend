@@ -13,9 +13,21 @@
       </v-col>
       <v-col cols="12" md="6">
         <div class="pa-5">
-          <v-text-field bg-color="white" label="Name"></v-text-field>
-          <v-text-field bg-color="white" label="Email"></v-text-field>
-          <v-textarea bg-color="white" label="Message"></v-textarea>
+          <v-text-field
+            variant="solo"
+            bg-color="white"
+            label="Name"
+          ></v-text-field>
+          <v-text-field
+            variant="solo"
+            bg-color="white"
+            label="Email"
+          ></v-text-field>
+          <v-textarea
+            variant="solo"
+            bg-color="white"
+            label="Message"
+          ></v-textarea>
           <v-btn style="color: #313035" color="#f3d6d8">Send</v-btn>
         </div>
       </v-col>
