@@ -4,11 +4,11 @@
       <v-col cols="12" md="6">
         <div class="pa-5">
           <h1 class="all-caps display">Get In Touch</h1>
-          <h5>
+          <p>
             Drop us a message and let's start a conversation. We love hearing
             from you and will get back to you as soon as we can. And don't
             worry, your message is safe with us.
-          </h5>
+          </p>
         </div>
       </v-col>
       <v-col cols="12" md="6">

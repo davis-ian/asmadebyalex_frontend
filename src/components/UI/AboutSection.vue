@@ -9,7 +9,7 @@
       <v-col>
         <div class="pa-5">
           <h1 class="display all-caps">Welcome To As Made By Alex</h1>
-          <h5>
+          <p>
             Discover a world of flavors, insights, and advice. Unleash your
             culinary creativity and let your taste buds be your guide. At As
             Made by Alex, we believe that food is more than just sustenance -
@@ -19,7 +19,7 @@
             meals that will leave you wanting more. Let your passion for food
             ignite and fuel your imagination. Get ready to embark on a culinary
             adventure like no other.
-          </h5>
+          </p>
         </div>
       </v-col>
     </v-row>

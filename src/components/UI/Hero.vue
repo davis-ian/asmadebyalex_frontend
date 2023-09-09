@@ -10,14 +10,14 @@
             <h1 class="all-caps display">Welcome to</h1>
             <h1 class="all-caps display">As Made By Alex</h1>
 
-            <h5>
+            <p>
               A site that will provoke culinary inspiration; where I
               passionately curate a collection of delicious recipes, genuine
               opinions, helpful tips, and valuable suggestions.
-            </h5>
+            </p>
 
             <div>
-              <v-btn variant="text">Learn More</v-btn>
+              <v-btn variant="tonal">Learn More</v-btn>
             </div>
           </div>
         </v-col>
@@ -48,6 +48,5 @@ export default {
 <style lang="scss" scoped>
 .hero {
   background-color: #f3d6d8;
-  font-family: serif;
 }
 </style>

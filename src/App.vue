@@ -130,9 +130,10 @@ h3,
 h4,
 h5 {
   margin: 3rem 0 1.38rem;
-  font-family: "Poppins", sans-serif;
+  // font-family: "Poppins", sans-serif;
   font-weight: 400;
   line-height: 1.3;
+  font-family: "DM Serif Display", serif;
 }
 
 h1 {
@@ -166,10 +167,14 @@ small,
   font-size: 0.8rem;
 }
 
+p {
+  font-family: "DM Sans", sans-serif;
+}
+
 .all-caps {
   text-transform: uppercase;
 }
 .display {
-  font-size: 4.768rem;
+  font-size: 3.815rem;
 }
 </style>
