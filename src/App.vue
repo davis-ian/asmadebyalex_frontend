@@ -48,6 +48,7 @@
 <script>
 import NavBar from "@/components/Layout/NavBar.vue";
 import Snackbar from "@/components/UI/Snackbar.vue";
+import Footer from "@/components/Layout/Footer.vue";
 import { useSnackbarStore } from "@/stores/snackbar";
 
 export default {
@@ -91,7 +92,7 @@ export default {
       });
     },
   },
-  components: { NavBar, Snackbar },
+  components: { NavBar, Snackbar, Footer },
 };
 </script>
 
@@ -114,7 +115,7 @@ html {
 
 body {
   background: white;
-  font-family: "Poppins", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-weight: 400;
   line-height: 1.75;
   color: #000000;
@@ -165,10 +166,6 @@ h5 {
 small,
 .text_small {
   font-size: 0.8rem;
-}
-
-p {
-  font-family: "DM Sans", sans-serif;
 }
 
 .all-caps {
