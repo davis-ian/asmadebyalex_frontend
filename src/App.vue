@@ -138,22 +138,27 @@ h5 {
 h1 {
   margin-top: 0;
   font-size: 3.052rem;
+  line-height: 0.9;
 }
 
 h2 {
   font-size: 2.441rem;
+  line-height: 1;
 }
 
 h3 {
   font-size: 1.953rem;
+  line-height: 1.1;
 }
 
 h4 {
   font-size: 1.563rem;
+  line-height: 1.2;
 }
 
 h5 {
   font-size: 1.25rem;
+  line-height: 1.3;
 }
 
 small,
@@ -165,6 +170,6 @@ small,
   text-transform: uppercase;
 }
 .display {
-  font-size: 76.29px;
+  font-size: 4.768rem;
 }
 </style>
