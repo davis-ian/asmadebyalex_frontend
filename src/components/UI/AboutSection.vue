@@ -8,7 +8,7 @@
       </v-col>
       <v-col>
         <div class="pa-5">
-          <h1 class="display all-caps">Welcome To As Made By Alex</h1>
+          <h1 class="all-caps">Welcome To As Made By Alex</h1>
           <p>
             Discover a world of flavors, insights, and advice. Unleash your
             culinary creativity and let your taste buds be your guide. At As

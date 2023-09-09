@@ -176,5 +176,6 @@ p {
 }
 .display {
   font-size: 3.815rem;
+  line-height: 0.8;
 }
 </style>

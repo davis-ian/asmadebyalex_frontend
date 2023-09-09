@@ -1,7 +1,7 @@
 <template>
   <div class="home-featured pa-5">
     <div>
-      <h1 class="all-caps display text-center">
+      <h1 class="all-caps text-center pa-3">
         Discover My Carefully Curated Selection of Mouthwatering Creations!
       </h1>
       <div class="d-flex justify-center" style="gap: 40px">
@@ -15,7 +15,7 @@
               :lazy-src="placeholderImgSrc"
             ></v-img>
             <div class="text-center all-caps">
-              <h5>Recipe</h5>
+              <h5 class="mb-0">Recipe</h5>
               <p>$20</p>
             </div>
           </div>
