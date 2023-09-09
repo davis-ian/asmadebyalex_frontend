@@ -18,6 +18,8 @@
         </div>
         <recipe-list />
       </div>
+
+      <v-btn @click="handleLogout" color="red">Logout</v-btn>
     </div>
     <div v-else>
       <p>Admin account required</p>

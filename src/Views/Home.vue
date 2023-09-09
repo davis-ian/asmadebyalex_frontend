@@ -1,6 +1,11 @@
 <template>
   <div>
-    <div style="border: 2px solid red">
+    <hero></hero>
+    <home-featured-recipes></home-featured-recipes>
+    <about-section></about-section>
+    <contact-section class="pt-5"></contact-section>
+
+    <!-- <div style="border: 2px solid red">
       <p>upload test</p>
       <v-file-input
         multiple
@@ -12,7 +17,7 @@
       ></v-file-input>
       <v-btn @click="handleFileUpload">Submit</v-btn>
       <div>Progress: {{ uploadProgress }}%</div>
-    </div>
+    </div> -->
     <!-- <div id="home-container">
       <div class="featured-recipes">
     
@@ -60,8 +65,11 @@
 // import ArticleList from "@/components/Articles/ArticleList.vue";
 import RecipeList from "@/components/Recipes/RecipeList.vue";
 import RecipeCardScroll from "@/components/Recipes/RecipeCardScroll.vue";
-import FeaturedRecipes from "@/components/Recipes/FeaturedRecipes.vue";
 
+import Hero from "@/components/UI/Hero.vue";
+import HomeFeaturedRecipes from "@/components/UI/FeaturedRecipes.vue";
+import AboutSection from "@/components/UI/AboutSection.vue";
+import ContactSection from "@/components/UI/ContactSection.vue";
 export default {
   name: "Home",
   metaInfo: {
@@ -81,6 +89,15 @@ export default {
         { label: "Savory", icon: "fa-drumstick-bite" },
       ],
     };
+  },
+  components: {
+    // // ArticleList,
+    // RecipeList,
+    // RecipeCardScroll,
+    Hero,
+    HomeFeaturedRecipes,
+    AboutSection,
+    ContactSection,
   },
   methods: {
     async handleAuthStatus() {
@@ -130,40 +147,27 @@ export default {
       formData.append("image", this.files[0]);
       formData.append("key", "f1ea07e92d707b432e6c016a09728e7b");
 
+      // const targetUrl = "https://api.imgbb.com/1/upload";
+      const targetUrl = "http://localhost:3000/upload";
+
       try {
         const response = await this.$axios.post(
-          "https://api.imgbb.com/1/upload",
-          formData,
-          {
-            // headers: {
-            //   'Content-Type': 'multipart/form-data'
-            // },
-            onUploadProgress: (progressEvent) => {
-              this.uploadProgress = Math.round(
-                (progressEvent.loaded * 100) / progressEvent.total
-              );
-            },
-          }
+          import.meta.env.VITE_APP_API + "/recipes/test"
+          // formData,
+          // {
+          //   onUploadProgress: (progressEvent) => {
+          //     this.uploadProgress = Math.round(
+          //       (progressEvent.loaded * 100) / progressEvent.total
+          //     );
+          //   },
+          // }
         );
 
-        const data = await response.json();
-
-        if (data.success) {
-          console.log("UPLOAD SUCCESS");
-          imageUrl.value = data.data.url;
-        } else {
-          alert("Failed to upload image.");
-        }
+        console.log(response, "response");
       } catch (error) {
         console.error("There was a problem uploading the image:", error);
       }
     },
-  },
-  components: {
-    // // ArticleList,
-    // RecipeList,
-    // RecipeCardScroll,
-    // FeaturedRecipes,
   },
 };
 </script>

@@ -38,37 +38,6 @@
 
     <!-- START: Main Content -->
     <v-main id="main">
-      <!-- START: Admin Nav -->
-      <v-navigation-drawer
-        v-if="isSuperAdmin"
-        class="bg-deep-purple"
-        theme="dark"
-        permanent
-      >
-        <v-list color="transparent">
-          <v-list-item
-            prepend-icon="mdi-view-dashboard"
-            title="Dashboard"
-          ></v-list-item>
-          <v-list-item
-            prepend-icon="mdi-account-box"
-            title="Account"
-          ></v-list-item>
-          <v-list-item
-            @click="$router.push('/admin')"
-            prepend-icon="mdi-gavel"
-            title="Admin"
-          ></v-list-item>
-        </v-list>
-
-        <template v-slot:append>
-          <div class="pa-2">
-            <v-btn block @click="handleLogout">Logout</v-btn>
-            <!-- <v-btn block> {{ isSuperAdmin }} </v-btn> -->
-          </div>
-        </template>
-      </v-navigation-drawer>
-      <!-- END: Admin Nav -->
       <router-view id="rv" />
       <snackbar />
     </v-main>
@@ -96,6 +65,7 @@ export default {
         { icon: "home", title: "Recipes", path: "/recipes" },
         { icon: "info", title: "About Me", path: "/about" },
         { icon: "warning", title: "Contact", path: "/contact" },
+        { icon: "warning", title: "Admin", path: "/admin" },
       ],
     };
   },
@@ -133,5 +103,61 @@ export default {
 
 .nav-btns .v-btn--active {
   color: red;
+}
+
+// Typescale setup
+@import url("https://fonts.googleapis.com/css?family=Poppins:400");
+
+html {
+  font-size: 100%;
+} /*16px*/
+
+body {
+  background: white;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  line-height: 1.75;
+  color: #000000;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 3rem 0 1.38rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: 3.052rem;
+}
+
+h2 {
+  font-size: 2.441rem;
+}
+
+h3 {
+  font-size: 1.953rem;
+}
+
+h4 {
+  font-size: 1.563rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+small,
+.text_small {
+  font-size: 0.8rem;
 }
 </style>
