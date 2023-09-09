@@ -29,5 +29,9 @@ export default {};
 .contact-section {
   background-color: #313035;
   color: #f3d6d8;
+
+  p {
+    color: white;
+  }
 }
 </style>
