@@ -160,4 +160,11 @@ small,
 .text_small {
   font-size: 0.8rem;
 }
+
+.all-caps {
+  text-transform: uppercase;
+}
+.display {
+  font-size: 76.29px;
+}
 </style>
