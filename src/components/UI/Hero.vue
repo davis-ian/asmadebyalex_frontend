@@ -17,7 +17,7 @@
             </p>
 
             <div>
-              <v-btn variant="tonal">Learn More</v-btn>
+              <v-btn>Learn More</v-btn>
             </div>
           </div>
         </v-col>

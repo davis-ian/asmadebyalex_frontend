@@ -22,7 +22,7 @@
         </div>
       </div>
       <div class="text-center pa-5">
-        <v-btn dark size="large" variant="tonal">Shop</v-btn>
+        <v-btn size="large">Shop</v-btn>
       </div>
     </div>
   </div>
