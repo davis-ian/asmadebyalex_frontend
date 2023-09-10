@@ -18,6 +18,7 @@ import Callback from "@/Views/Callback.vue";
 // =============================================================================
 import Articles from "@/Views/Articles/Articles.vue";
 import ArticleDetail from "@/Views/Articles/ArticleDetail.vue";
+import CreateEditArticle from "@/Views/Articles/CreateEditArticle.vue";
 
 // =============================================================================
 // Recipes
@@ -39,6 +40,11 @@ const routes = [
   { path: "/callback", name: "Callback", component: Callback },
   { path: "/contact", name: "Contact", component: Contact },
   { path: "/articles", name: "Articles", component: Articles },
+  {
+    path: "/articles/create",
+    name: "CreateArticle",
+    component: CreateEditArticle,
+  },
   { path: "/articles/:id", name: "ArticleDetail", component: ArticleDetail },
   { path: "/recipes", name: "Recipes", component: Recipes },
   { path: "/recipes/:id", name: "RecipeDetail", component: RecipeDetail },

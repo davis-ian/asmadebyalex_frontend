@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="recipes">
     <h2 class="ml-3">Recipes</h2>
     <recipe-list />
   </div>
@@ -11,4 +11,8 @@ export default {
   components: { RecipeList },
 };
 </script>
-<style lang=""></style>
+<style lang="scss">
+.recipes {
+  background-color: #f3d6d8;
+}
+</style>

@@ -25,7 +25,7 @@
 
           <div v-for="(item, index) in tempRecipe.ingredients" :key="index">
             <v-row>
-              <v-col>
+              <v-col cols="12" sm="4">
                 <v-autocomplete
                   :items="ingredients"
                   label="Ingredient"
@@ -37,7 +37,7 @@
                   :rules="[rules.required]"
                 ></v-autocomplete>
               </v-col>
-              <v-col>
+              <v-col cols="12" sm="4">
                 <v-text-field
                   type="number"
                   label="Quantity"
@@ -48,7 +48,7 @@
                 ></v-text-field>
               </v-col>
 
-              <v-col>
+              <v-col cols="12" sm="4">
                 <v-autocomplete
                   :items="measurements"
                   variant="outlined"
@@ -60,36 +60,22 @@
                   :rules="[rules.required]"
                 ></v-autocomplete>
               </v-col>
-
-              <v-col cols="1">
-                <div>
-                  <v-btn
-                    variant="tonal"
-                    size="small"
-                    icon
-                    color="error"
-                    @click="tempRecipe.ingredients.shift()"
-                    v-if="index == tempRecipe.ingredients.length - 1"
-                  >
-                    <font-awesome-icon
-                      icon="fa-solid fa-trash"
-                    ></font-awesome-icon>
-                  </v-btn>
-                </div>
-              </v-col>
             </v-row>
-            <div class="d-flex justify-space-between">
-              <v-btn size="small" variant="tonal" @click="addRecipeIngredient"
-                >Add +</v-btn
-              >
-              <v-btn
-                size="large"
-                variant="tonal"
-                @click="updateRecipe"
-                color="primary"
-                >Update</v-btn
-              >
-            </div>
+          </div>
+          <div
+            style="gap: 20px"
+            class="d-flex flex-column justify-space-between flex-sm-row"
+          >
+            <v-btn size="large" variant="tonal" @click="addRecipeIngredient"
+              >Add +</v-btn
+            >
+            <v-btn
+              size="large"
+              variant="tonal"
+              @click="updateRecipe"
+              color="primary"
+              >Update</v-btn
+            >
           </div>
         </v-form>
       </div>
@@ -121,13 +107,16 @@
           </v-list>
         </v-card>
 
-        <div class="mt-3" v-if="recipe.instructions">
+        <div class="mt-3">
           <h3>Instructions</h3>
-          <div class="pa-3" v-html="recipe.instructions"></div>
+          <div v-if="recipe.instructions" v-html="recipe.instructions"></div>
+          <div v-else>
+            <p>No instructions available.</p>
+          </div>
         </div>
-        <v-btn class="mt-6" @click="deleteRecipePrompt" color="error"
+        <!-- <v-btn class="mt-6" @click="deleteRecipePrompt" color="error"
           >Delete</v-btn
-        >
+        > -->
       </div>
     </div>
     <div

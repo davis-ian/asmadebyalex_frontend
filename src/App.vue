@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <!-- START: Header -->
-    <v-app-bar app elevation="0">
+    <v-app-bar style="background-color: #f3d6d8" elevation="0">
       <v-toolbar-title @click="$router.push('/')" style="font-size: 1rem">
         <strong>AS MADE BY ALEX</strong>
       </v-toolbar-title>
@@ -20,6 +20,7 @@
       </v-toolbar-items>
 
       <v-app-bar-nav-icon
+        style="background-color: #f3d6d8"
         class="hidden-md-and-up"
         @click="toggleMenu"
       ></v-app-bar-nav-icon>
@@ -130,7 +131,8 @@ h2,
 h3,
 h4,
 h5 {
-  margin: 3rem 0 1.38rem;
+  // margin: 3rem 0 1.38rem;
+  margin: 1rem 0 1.38rem;
   // font-family: "Poppins", sans-serif;
   font-weight: 400;
   line-height: 1.3;
