@@ -1,23 +1,12 @@
 <template>
-  <div>
+  <div class="pa-3">
     <div v-if="article">
-      <h3>{{ article.title }}</h3>
+      <h1 class="mb-2">{{ article.title }}</h1>
       <div>
-        <i>{{ article.date_created }}</i>
+        <i style="color: #aaa">{{ formatDate(article.createdAt) }}</i>
       </div>
-      {{ article }}
-      <div style="border: 2px solid" v-if="article.recipe">
-        <h3>Recipe:</h3>
-        <h4>{{ article.recipe.name }}</h4>
-        <i>{{ article.recipe.description }}</i>
-        <p
-          style="border: 2px solid red"
-          v-for="item in article.recipe.ingredients"
-        >
-          {{ item }}
-        </p>
-        {{ article.recipe }}
-      </div>
+
+      <div class="mt-8" v-html="article.content"></div>
     </div>
     <div v-else>Article not found..</div>
   </div>
@@ -31,13 +20,20 @@ export default {
     };
   },
   methods: {
+    formatDate(val) {
+      return new Date(val).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    },
     getArticle(id) {
       console.log(id, "route id");
       this.$axios
-        .get(import.meta.env.VITE_APP_API + `/Articles/${id}?fields=*.*.*.*`)
+        .get(import.meta.env.VITE_APP_API + `/articles/${id}`)
         .then((res) => {
           console.log(res, "success");
-          this.article = res.data.data;
+          this.article = res.data;
         })
         .catch((err) => {
           console.log(err, "error");

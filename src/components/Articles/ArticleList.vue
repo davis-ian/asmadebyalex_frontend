@@ -27,10 +27,10 @@ export default {
   methods: {
     getArtilcles() {
       this.$axios
-        .get(import.meta.env.VITE_APP_API + "/Articles?fields=*.*.*.*")
+        .get(import.meta.env.VITE_APP_API + "/articles")
         .then((res) => {
-          console.log(res.data.data, "articles");
-          this.articles = res.data.data;
+          console.log(res.data, "articles");
+          this.articles = res.data;
         })
         .catch((err) => {
           console.log(err, "error");
