@@ -37,6 +37,7 @@ export default {
 </script>
 <style lang="scss">
 .about {
-  background-color: #f3d6d8;
+  // background-color: #f3d6d8;
+  background-color: #fff2f3;
 }
 </style>

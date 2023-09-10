@@ -28,7 +28,7 @@
             bg-color="white"
             label="Message"
           ></v-textarea>
-          <v-btn style="color: #313035" color="#f3d6d8">Send</v-btn>
+          <v-btn style="color: #313035" color="#fff2f3">Send</v-btn>
         </div>
       </v-col>
     </v-row>
@@ -40,7 +40,7 @@ export default {};
 <style lang="scss">
 .contact-section {
   background-color: #313035;
-  color: #f3d6d8;
+  color: #fff2f3;
 
   p {
     color: white;

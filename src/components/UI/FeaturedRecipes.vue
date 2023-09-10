@@ -38,7 +38,9 @@
       <!-- </div>
       </div> -->
       <div class="text-center pa-5">
-        <v-btn @click="$router.push('/recipes')" size="large">Shop</v-btn>
+        <v-btn @click="$router.push('/recipes')" size="large"
+          >Explore Recipes</v-btn
+        >
       </div>
     </div>
   </div>

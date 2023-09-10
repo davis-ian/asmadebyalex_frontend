@@ -1,26 +1,28 @@
 <template>
-  <v-app>
+  <v-app style="background-color: #fff2f3">
     <!-- START: Header -->
-    <v-app-bar style="background-color: #f3d6d8" elevation="0">
-      <v-toolbar-title @click="$router.push('/')" style="font-size: 1rem">
-        <strong>AS MADE BY ALEX</strong>
+    <v-app-bar style="background-color: #fff2f3" elevation="0">
+      <v-toolbar-title @click="$router.push('/')" style="cursor: pointer">
+        <h6 style>AS MADE BY ALEX</h6>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
 
-      <v-toolbar-items class="hidden-sm-and-down nav-btns">
+      <!-- <v-toolbar-items class="hidden-sm-and-down nav-btns">
         <v-btn
-          v-for="item in menuItems"
+          v-for="(item, index) in menuItems"
           :key="item.icon"
           :to="item.path"
+          :style="{ '--item-index': index }"
+          style="border: 2px solid red"
           tile
           rounded
           >{{ item.title }}</v-btn
         >
-      </v-toolbar-items>
+      </v-toolbar-items> -->
 
       <v-app-bar-nav-icon
-        style="background-color: #f3d6d8"
+        style="background-color: transparent"
         class="hidden-md-and-up"
         @click="toggleMenu"
       ></v-app-bar-nav-icon>
@@ -28,9 +30,20 @@
     <!-- END: Header -->
 
     <!-- START: Main nav -->
-    <v-navigation-drawer v-model="menuShowing" absolute bottom temporary>
+    <v-navigation-drawer
+      color="#fff2f3"
+      style="width: 100%; height: calc(100vh - 64px); overflow: hidden"
+      v-model="menuShowing"
+      absolute
+      bottom
+      temporary
+    >
       <v-list nav dense>
-        <v-list-item v-for="item in menuItems">
+        <v-list-item
+          :style="{ '--item-index': index }"
+          class="drawer-item"
+          v-for="item in menuItems"
+        >
           <h4 @click="$router.push(item.path)">{{ item.title }}</h4>
         </v-list-item>
       </v-list>
@@ -101,6 +114,7 @@ export default {
 #rv {
   height: 100%;
   overflow: auto;
+  background-color: #fff2f3;
 }
 
 .nav-btns .v-btn--active {
@@ -112,10 +126,10 @@ export default {
 
 html {
   font-size: 100%;
+  background-color: #fff2f3;
 } /*16px*/
 
 body {
-  background: white;
   font-family: "DM Sans", sans-serif;
   font-weight: 400;
   line-height: 1.75;
@@ -130,7 +144,8 @@ h1,
 h2,
 h3,
 h4,
-h5 {
+h5,
+h6 {
   // margin: 3rem 0 1.38rem;
   margin: 1rem 0 1.38rem;
   // font-family: "Poppins", sans-serif;
@@ -176,5 +191,28 @@ small,
 .display {
   font-size: 3.815rem;
   line-height: 0.8;
+}
+
+.drawer-item {
+  // opacity: 0;
+  max-width: 100%;
+  // transform: translateY(20px);
+  // animation: fadeIn 0.5s ease forwards;
+  // animation-delay: calc(
+  //   0.1s * var(--item-index)
+  // ); /* Delay based on item index */
+  transition: 0.3s;
+}
+
+.drawer-item:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
