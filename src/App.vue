@@ -76,6 +76,7 @@ export default {
       menuItems: [
         { icon: "home", title: "Home", path: "/" },
         { icon: "home", title: "Recipes", path: "/recipes" },
+        { icon: "home", title: "Articles", path: "/articles" },
         { icon: "info", title: "About Me", path: "/about" },
         { icon: "warning", title: "Contact", path: "/contact" },
         // { icon: "warning", title: "Admin", path: "/admin" },

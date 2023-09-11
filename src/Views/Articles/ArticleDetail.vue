@@ -30,11 +30,7 @@
             align-items: center;
           "
         >
-          <v-progress-circular
-            size="70"
-            indeterminate
-            color="#EFB0A1"
-          ></v-progress-circular>
+          <v-progress-circular size="70" indeterminate></v-progress-circular>
           <p class="mt-5">Finding Article..</p>
         </div>
         <div v-else>Article not found..</div>

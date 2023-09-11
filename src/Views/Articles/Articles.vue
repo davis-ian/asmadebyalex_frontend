@@ -1,6 +1,6 @@
 <template>
   <div class="pa-3">
-    <h2>article list view</h2>
+    <h2>Articles</h2>
     <article-list />
   </div>
 </template>

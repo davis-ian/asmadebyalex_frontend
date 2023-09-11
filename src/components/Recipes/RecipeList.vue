@@ -1,5 +1,8 @@
 <template>
   <div class="pa-3 pt-0">
+    <div v-if="loading">
+      <v-progress-linear indeterminate></v-progress-linear>
+    </div>
     <v-row>
       <v-col v-for="(recipe, index) in recipes" cols="12" md="6">
         <v-card
@@ -28,6 +31,7 @@ export default {
     return {
       message: "hi",
       recipes: [],
+      loading: true,
       placeholderImgSrc: PlaceholerImgSrc,
       testRecipes: [
         { id: 1, name: "Recipe1", image: this.placeholderImgSrc },
@@ -43,6 +47,8 @@ export default {
   },
   methods: {
     getRecipes() {
+      this.loading = true;
+
       this.$axios
         .get(import.meta.env.VITE_APP_API + "/recipes")
         .then((res) => {
@@ -51,6 +57,9 @@ export default {
         })
         .catch((err) => {
           console.log(err, "error");
+        })
+        .finally(() => {
+          this.loading = false;
         });
     },
   },

@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div>
+      <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
+    </div>
     <v-row>
       <v-col cols="12" sm="6" v-for="(article, index) in articles">
         <v-card
@@ -33,6 +36,7 @@ export default {
       placeholderImgSrc: PlaceholerImgSrc,
       message: "hi",
       articles: [],
+      loading: true,
     };
   },
   methods: {
@@ -44,6 +48,8 @@ export default {
       });
     },
     getArtilcles() {
+      this.loading = true;
+
       this.$axios
         .get(import.meta.env.VITE_APP_API + "/articles")
         .then((res) => {
@@ -52,6 +58,9 @@ export default {
         })
         .catch((err) => {
           console.log(err, "error");
+        })
+        .finally(() => {
+          this.loading = false;
         });
     },
   },
