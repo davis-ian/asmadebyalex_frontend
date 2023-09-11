@@ -2,7 +2,7 @@
   <div>
     <hero></hero>
     <home-featured-recipes></home-featured-recipes>
-    <about-section></about-section>
+    <!-- <about-section></about-section> -->
     <contact-section class="pt-5"></contact-section>
 
     <!-- <div style="border: 2px solid red">

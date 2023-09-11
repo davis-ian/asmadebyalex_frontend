@@ -32,19 +32,17 @@
     <!-- START: Main nav -->
     <v-navigation-drawer
       color="#fff2f3"
-      style="width: 100%; height: calc(100vh - 64px); overflow: hidden"
+      style="width: 100%; height: calc(100vh - 64px); overflow: auto"
       v-model="menuShowing"
-      absolute
       bottom
-      temporary
     >
       <v-list nav dense>
         <v-list-item
           :style="{ '--item-index': index }"
           class="drawer-item"
-          v-for="item in menuItems"
+          v-for="(item, index) in filteredMenuItems"
         >
-          <h4 @click="$router.push(item.path)">{{ item.title }}</h4>
+          <h4 @click="handleNavItemClick(item)">{{ item.title }}</h4>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -80,7 +78,7 @@ export default {
         { icon: "home", title: "Recipes", path: "/recipes" },
         { icon: "info", title: "About Me", path: "/about" },
         { icon: "warning", title: "Contact", path: "/contact" },
-        { icon: "warning", title: "Admin", path: "/admin" },
+        // { icon: "warning", title: "Admin", path: "/admin" },
       ],
     };
   },
@@ -95,14 +93,39 @@ export default {
       }
       return false;
     },
+    filteredMenuItems() {
+      if (this.isAuthenticated) {
+        return [
+          ...this.menuItems,
+          { icon: "warning", title: "Admin", path: "/admin" },
+          { icon: "warning", title: "Logout", path: "" },
+        ];
+      }
+      return [...this.menuItems, { icon: "warning", title: "Login", path: "" }];
+    },
   },
   methods: {
     toggleMenu() {
       this.menuShowing = !this.menuShowing;
     },
+    handleNavItemClick(item) {
+      if (item.title == "Login") {
+        this.handleLogin();
+      } else if (item.title == "Logout") {
+        this.handleLogout();
+      } else {
+        this.$router.push(item.path);
+      }
+    },
     handleLogout() {
       this.$auth0.logout({
         logoutParams: { returnTo: window.location.origin },
+      });
+    },
+    handleLogin() {
+      console.log("logging in ");
+      this.$auth0.loginWithRedirect({
+        redirect_uri: window.location.origin + "/callback",
       });
     },
   },
@@ -183,6 +206,24 @@ h5 {
 small,
 .text_small {
   font-size: 0.8rem;
+}
+
+pre {
+  background-color: #3b3b3b;
+  overflow: auto;
+  color: white;
+  max-width: 100%;
+  padding: 12px;
+
+  border-radius: 5px;
+  box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2),
+    0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+
+  white-space: pre-wrap; /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word;
 }
 
 .all-caps {

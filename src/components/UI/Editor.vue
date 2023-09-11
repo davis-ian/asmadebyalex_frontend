@@ -1,17 +1,17 @@
 <template>
   <div>
     <v-text-field label="Title" v-model="title"></v-text-field>
-    <QuillEditor
-      ref="quillEditor"
-      v-model:content="editorContent"
-      :toolbar="'full'"
-      :options="editorOptions"
-      style="min-height: 300px"
-      @ready="setReady"
-    />
 
-    <div class="pt-3">
-      <v-btn color="primary" @click="submitPost">Save</v-btn>
+    <div>
+      <QuillEditor
+        class="quill-editor"
+        ref="quillEditor"
+        v-model:content="editorContent"
+        :toolbar="'full'"
+        :options="editorOptions"
+        @ready="setReady"
+      />
+      <v-btn block class="mt-3" color="black">Save</v-btn>
     </div>
   </div>
 </template>
@@ -28,6 +28,7 @@ export default {
       title: "",
       editorContent: "", // Store the editor content
       htmlContent: "",
+      showRaw: false,
       editorOptions: {
         // Quill options (customize as needed)
         placeholder: "Type something...",
@@ -43,8 +44,21 @@ export default {
     },
     getHtml() {
       const htmlContent = this.$refs.quillEditor.getHTML();
-      console.log(htmlContent, "html content");
       this.htmlContent = htmlContent;
+    },
+    setHTML(val) {
+      this.$refs.quillEditor.setHTML(val);
+    },
+    testRef() {
+      console.log("REF HANDLER");
+    },
+    toggleRawHtml() {
+      if (!this.showRaw) {
+        this.getHtml();
+      } else {
+        this.setHtml(this.htmlContent);
+      }
+      this.showRaw = !this.showRaw;
     },
     submitPost() {
       this.getHtml();
@@ -76,6 +90,19 @@ export default {
       // });
     },
   },
+  mounted() {
+    if (this.$route.params.id) {
+      console.log(this.$route.params.id, "route id");
+    }
+  },
 };
 </script>
-<style lang=""></style>
+<style lang="scss">
+.quill-editor {
+  min-height: 300px;
+
+  .ql-editor {
+    min-height: 300px;
+  }
+}
+</style>

@@ -1,25 +1,73 @@
 <template>
-  <div>
+  <div class="pa-3">
     <h2>Admin Page</h2>
     <div v-if="isAuthenticated">
-      <h3>Account</h3>
-      <!-- <v-btn @click="handleLogout">Logout</v-btn> -->
-      <!-- <v-btn @click="handleProfile">Profile</v-btn>
-      <v-btn @click="handleAuthStatus">Auth Status</v-btn> -->
-
-      <!-- <div>is auth - {{ $auth0.isAuthenticated }}</div> -->
-
-      <pre>{{ $auth0.user }}</pre>
-
+      <!-- <h3>Account</h3> -->
+      <!-- <pre style="width: 100%">{{ $auth0.user }}</pre> -->
       <div>
-        <div class="d-flex justify-space-between">
-          <h3>Recipe List</h3>
-          <v-btn @click="$router.push('/recipes/create')">Add +</v-btn>
-        </div>
-        <recipe-list />
-      </div>
+        <h3>Articles</h3>
+        <div>
+          <div
+            @click="$router.push(`/articles/${item.id}`)"
+            v-for="(item, index) in articles"
+            :key="item.id"
+          >
+            <div class="d-flex">
+              <div class="pa-2">
+                <img
+                  style="
+                    width: 60px;
+                    height: 60px;
 
-      <v-btn @click="handleLogout" color="red">Logout</v-btn>
+                    object-fit: cover;
+                  "
+                  :src="placeholderImgSrc"
+                  :lazy-src="placeholderImgSrc"
+                />
+              </div>
+              <div class="pa-2" style="width: 100%">
+                <div>
+                  {{ item.title }}
+                </div>
+                <div>{{ formatDate(item.createdAt) }}</div>
+              </div>
+            </div>
+            <v-divider v-if="index != articles.length - 1"></v-divider>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3>Recipes</h3>
+        <div>
+          <div
+            @click="$router.push(`/recipes/${item.id}`)"
+            v-for="(item, index) in recipes"
+            :key="item.id"
+          >
+            <div class="d-flex">
+              <div class="pa-2">
+                <img
+                  style="
+                    width: 60px;
+                    height: 60px;
+
+                    object-fit: cover;
+                  "
+                  :src="placeholderImgSrc"
+                  :lazy-src="placeholderImgSrc"
+                />
+              </div>
+              <div class="pa-2" style="width: 100%">
+                <div>
+                  {{ item.name }}
+                </div>
+                <div>{{ formatDate(item.createdAt) }}</div>
+              </div>
+            </div>
+            <v-divider v-if="index != recipes.length - 1"></v-divider>
+          </div>
+        </div>
+      </div>
     </div>
     <div v-else>
       <p>Admin account required</p>
@@ -28,12 +76,16 @@
   </div>
 </template>
 <script>
+import PlaceholerImgSrc from "@/assets/images/pastry-board.jpg";
 import RecipeList from "@/components/Recipes/RecipeList.vue";
 export default {
   data() {
     return {
+      placeholderImgSrc: PlaceholerImgSrc,
       user: this.$auth0.user,
       isAuthenticated: this.$auth0.isAuthenticated,
+      articles: [],
+      recipes: [],
     };
   },
   components: { RecipeList },
@@ -69,8 +121,40 @@ export default {
     handleProfile() {
       console.log(this.user, "USER");
     },
+    getArtilcles() {
+      this.$axios
+        .get(import.meta.env.VITE_APP_API + "/articles")
+        .then((res) => {
+          console.log(res.data, "articles");
+          this.articles = res.data;
+        })
+        .catch((err) => {
+          console.log(err, "error");
+        });
+    },
+    getRecipes() {
+      this.$axios
+        .get(import.meta.env.VITE_APP_API + "/recipes")
+        .then((res) => {
+          console.log(res.data, "recipes");
+          this.recipes = res.data;
+        })
+        .catch((err) => {
+          console.log(err, "error");
+        });
+    },
+    formatDate(val) {
+      return new Date(val).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    },
   },
-  mounted() {},
+  mounted() {
+    this.getArtilcles();
+    this.getRecipes();
+  },
 };
 </script>
 <style lang=""></style>

@@ -45,6 +45,7 @@ const routes = [
     name: "CreateArticle",
     component: CreateEditArticle,
   },
+
   { path: "/articles/:id", name: "ArticleDetail", component: ArticleDetail },
   { path: "/recipes", name: "Recipes", component: Recipes },
   { path: "/recipes/:id", name: "RecipeDetail", component: RecipeDetail },

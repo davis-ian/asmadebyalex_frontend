@@ -17,7 +17,7 @@
             </p>
 
             <div>
-              <v-btn>Learn More</v-btn>
+              <v-btn @click="$router.push('/about')">Learn More</v-btn>
             </div>
           </div>
         </v-col>
