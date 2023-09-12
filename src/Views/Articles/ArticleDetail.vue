@@ -4,7 +4,13 @@
       <v-btn size="small" variant="tonal" text @click="$router.back()">
         <font-awesome-icon :icon="['fas', 'arrow-left']" />
       </v-btn>
-      <v-btn @click="toggleEditing" size="small" variant="tonal">Edit</v-btn>
+      <v-btn
+        v-if="userStore.roles.includes('SuperAdmin')"
+        @click="toggleEditing"
+        size="small"
+        variant="tonal"
+        >Edit</v-btn
+      >
     </div>
     <div>
       <div style="width: 100%; max-width: 600px" v-if="article">
@@ -41,6 +47,9 @@
 <script>
 import Editor from "@/components/UI/Editor.vue";
 import PlaceholerImgSrc from "@/assets/images/pastry-board.jpg";
+import { mapStores } from "pinia";
+import { useAuthStore } from "@/stores/user";
+
 export default {
   data() {
     return {
@@ -53,6 +62,9 @@ export default {
   },
   components: {
     Editor,
+  },
+  computed: {
+    ...mapStores(useAuthStore),
   },
   methods: {
     toggleEditing() {

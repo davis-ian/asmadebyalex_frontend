@@ -8,12 +8,14 @@ export const useAuthStore = defineStore({
   state: () => ({
     isAuthenticated: false,
     user: null,
+    roles: [],
   }),
 
   actions: {
-    updateAuthStatus(isAuthenticated, user) {
-      this.isAuthenticated = isAuthenticated;
+    updateAuthStatus(user) {
+      this.isAuthenticated = user.isAuthenticated;
       this.user = user;
+      this.roles = user["https://asmadebyalex.com/roles"];
     },
   },
 });

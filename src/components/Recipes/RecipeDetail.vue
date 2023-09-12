@@ -4,7 +4,11 @@
       <v-btn size="small" variant="tonal" text @click="$router.back()">
         <font-awesome-icon :icon="['fas', 'arrow-left']" />
       </v-btn>
-      <v-btn size="small" variant="tonal" @click="editing = !editing"
+      <v-btn
+        v-if="userStore.roles.includes('SuperAdmin')"
+        size="small"
+        variant="tonal"
+        @click="editing = !editing"
         >Edit</v-btn
       >
     </div>
@@ -166,10 +170,12 @@
 <script>
 import IngredientTable from "@/components/Recipes/IngredientTable.vue";
 import { useSnackbarStore } from "@/stores/snackbar";
+import { mapStores } from "pinia";
+import { useAuthStore } from "@/stores/user";
+
 export default {
   data() {
     return {
-      snackbarStore: useSnackbarStore(),
       message: "recipe details",
       recipe: null,
       tempRecipe: null,
@@ -182,7 +188,9 @@ export default {
       },
     };
   },
-  components: { IngredientTable },
+  computed: {
+    ...mapStores(useAuthStore, useSnackbarStore),
+  },
   methods: {
     confirmDelete() {
       this.loading = true;

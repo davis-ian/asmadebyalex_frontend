@@ -73,13 +73,11 @@
 import NavBar from "@/components/Layout/NavBar.vue";
 import Snackbar from "@/components/UI/Snackbar.vue";
 import Footer from "@/components/Layout/Footer.vue";
+import { mapStores } from "pinia";
+import { useAuthStore } from "@/stores/user";
 import { useSnackbarStore } from "@/stores/snackbar";
 
 export default {
-  setup() {
-    const snackbarStore = useSnackbarStore();
-    return { snackbarStore };
-  },
   data() {
     return {
       menuShowing: false,
@@ -95,7 +93,14 @@ export default {
       ],
     };
   },
+  watch: {
+    user() {
+      console.log(this.user, "user changed");
+      this.userStore.updateAuthStatus(this.user);
+    },
+  },
   computed: {
+    ...mapStores(useAuthStore, useSnackbarStore),
     isSuperAdmin() {
       if (this.user && this.isAuthenticated) {
         if (this.user["https://asmadebyalex.com/roles"]) {
@@ -130,7 +135,13 @@ export default {
       } else if (item.title == "Logout") {
         this.handleLogout();
       } else {
-        this.$router.push(item.path);
+        if (this.$route.path == item.path) {
+          this.toggleMenu();
+          // this.menuShowing = false;
+          console.log;
+        } else {
+          this.$router.push(item.path);
+        }
       }
     },
     handleLogout() {
