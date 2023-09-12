@@ -43,9 +43,12 @@ import {
   faDrumstickBite,
 } from "@fortawesome/free-solid-svg-icons";
 
+import { faInstagram } from "@fortawesome/free-brands-svg-icons";
+
 // import { fa } from "@fortawesome/free-regular-svg-icons";
 
 library.add(
+  faInstagram,
   faTrash,
   faArrowLeft,
   faBreadSlice,
@@ -67,6 +70,7 @@ app.component("font-awesome-icon", FontAwesomeIcon);
 // GLOBALS
 // =============================================================================
 import axios from "axios";
+
 const axiosInstance = axios.create({
   withCredentials: true,
 });

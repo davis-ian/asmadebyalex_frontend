@@ -17,7 +17,12 @@
             </p>
 
             <div>
-              <v-btn @click="$router.push('/about')">Learn More</v-btn>
+              <v-btn
+                class="underlined"
+                variant="text"
+                @click="$router.push('/about')"
+                >Learn More</v-btn
+              >
             </div>
           </div>
         </v-col>

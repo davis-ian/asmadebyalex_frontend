@@ -2,6 +2,12 @@
   <v-app style="background-color: #fff2f3">
     <!-- START: Header -->
     <v-app-bar style="background-color: #fff2f3" elevation="0">
+      <v-app-bar-nav-icon
+        style="background-color: transparent"
+        class="hidden-md-and-up"
+        @click="toggleMenu"
+      ></v-app-bar-nav-icon>
+      <v-spacer></v-spacer>
       <v-toolbar-title @click="$router.push('/')" style="cursor: pointer">
         <h6 style>AS MADE BY ALEX</h6>
       </v-toolbar-title>
@@ -20,12 +26,18 @@
           >{{ item.title }}</v-btn
         >
       </v-toolbar-items> -->
-
-      <v-app-bar-nav-icon
-        style="background-color: transparent"
-        class="hidden-md-and-up"
-        @click="toggleMenu"
-      ></v-app-bar-nav-icon>
+      <div style="margin-right: 10px">
+        <v-btn
+          @click="openTab('https://www.instagram.com/asmadebyalex/')"
+          color="transparent"
+          icon
+        >
+          <font-awesome-icon
+            style="font-size: 1.4rem"
+            icon="fa-brands fa-instagram"
+          ></font-awesome-icon>
+        </v-btn>
+      </div>
     </v-app-bar>
     <!-- END: Header -->
 
@@ -106,6 +118,9 @@ export default {
     },
   },
   methods: {
+    openTab(url) {
+      window.open(url, "_blank");
+    },
     toggleMenu() {
       this.menuShowing = !this.menuShowing;
     },
@@ -135,6 +150,11 @@ export default {
 </script>
 
 <style lang="scss">
+@font-face {
+  font-family: "FinoRegular";
+  src: local("FinoRegular"),
+    url(./assets/fonts/FinoRegular.ttf) format("truetype");
+}
 #rv {
   height: 100%;
   overflow: auto;
@@ -175,7 +195,8 @@ h6 {
   // font-family: "Poppins", sans-serif;
   font-weight: 400;
   line-height: 1.3;
-  font-family: "DM Serif Display", serif;
+  // font-family: "DM Serif Display", serif;
+  font-family: "FinoRegular", serif;
 }
 
 h1 {
@@ -235,6 +256,11 @@ pre {
   line-height: 0.8;
 }
 
+.underlined {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+}
 .drawer-item {
   // opacity: 0;
   max-width: 100%;
