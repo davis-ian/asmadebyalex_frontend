@@ -259,6 +259,9 @@ pre {
   word-wrap: break-word;
 }
 
+.v-input__control {
+  background-color: white !important;
+}
 .all-caps {
   text-transform: uppercase;
 }
