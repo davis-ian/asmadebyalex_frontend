@@ -7,12 +7,10 @@
         class="hidden-md-and-up"
         @click="toggleMenu"
       ></v-app-bar-nav-icon>
-      <v-spacer></v-spacer>
-      <v-toolbar-title @click="$router.push('/')" style="cursor: pointer">
-        <h6 style>AS MADE BY ALEX</h6>
-      </v-toolbar-title>
 
-      <v-spacer></v-spacer>
+      <v-toolbar-title @click="$router.push('/')" style="cursor: pointer">
+        <h5 class="ma-0 text-center" style>AS MADE BY ALEX</h5>
+      </v-toolbar-title>
 
       <!-- <v-toolbar-items class="hidden-sm-and-down nav-btns">
         <v-btn

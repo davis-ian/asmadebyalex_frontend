@@ -1,9 +1,17 @@
 <template>
   <div class="pa-3 pt-0">
-    <div v-if="loading">
+    <div class="py-3" v-if="loading">
       <v-progress-linear indeterminate></v-progress-linear>
     </div>
-    <v-row>
+    <v-row v-if="loading">
+      <v-col v-for="num in 8" cols="12" md="6">
+        <v-skeleton-loader
+          class="mx-auto border"
+          type="image, article"
+        ></v-skeleton-loader>
+      </v-col>
+    </v-row>
+    <v-row v-else>
       <v-col v-for="(recipe, index) in recipes" cols="12" md="6">
         <v-card
           style="cursor: pointer"
@@ -24,6 +32,8 @@
 </template>
 <script>
 import PlaceholerImgSrc from "@/assets/images/pastry-board.jpg";
+import { VSkeletonLoader } from "vuetify/labs/VSkeletonLoader";
+
 export default {
   name: "Recipes",
 
@@ -44,6 +54,9 @@ export default {
         { id: 8, name: "Recipe8", image: this.placeholderImgSrc },
       ],
     };
+  },
+  components: {
+    VSkeletonLoader,
   },
   methods: {
     getRecipes() {

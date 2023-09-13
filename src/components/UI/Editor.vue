@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-text-field label="Title" v-model="title"></v-text-field>
+    <v-text-field variant="solo" label="Title" v-model="title"></v-text-field>
 
-    <div>
+    <div style="background-color: white">
       <QuillEditor
         class="quill-editor"
         ref="quillEditor"
@@ -11,8 +11,9 @@
         :options="editorOptions"
         @ready="setReady"
       />
-      <v-btn block class="mt-3" color="black">Save</v-btn>
     </div>
+    <v-btn @click="to" block class="mt-3">Preview</v-btn>
+    <v-btn block class="mt-3" color="black">Save</v-btn>
   </div>
 </template>
 <script>

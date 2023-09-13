@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="pa-3">
     <h1>Create Recipe</h1>
-    <div class="pa-3">
+    <div>
       <v-form ref="form" v-model="isValid">
         <v-text-field
           :rules="[rules.required]"
@@ -18,14 +18,9 @@
           <h3>Ingredients</h3>
         </div>
 
-        <div
-          v-for="(item, index) in recipeIngredients"
-          :key="index"
-          style="2px solid blue; gap: 10px"
-          class="d-flex"
-        >
-          <v-row>
-            <v-col>
+        <div v-for="(item, index) in recipeIngredients" :key="index">
+          <v-row no-gutters>
+            <v-col cols="12" md="4">
               <v-autocomplete
                 :items="ingredients"
                 label="Ingredient"
@@ -37,7 +32,7 @@
                 :rules="[rules.required]"
               ></v-autocomplete>
             </v-col>
-            <v-col>
+            <v-col cols="6" md="4">
               <v-text-field
                 type="number"
                 label="Quantity"
@@ -48,7 +43,7 @@
               ></v-text-field>
             </v-col>
 
-            <v-col>
+            <v-col cols="6" md="4">
               <v-autocomplete
                 :items="measurements"
                 variant="outlined"
@@ -60,8 +55,17 @@
                 :rules="[rules.required]"
               ></v-autocomplete>
             </v-col>
+            <v-col>
+              <v-btn
+                @click="removeFromList(item, recipeIngredients)"
+                variant="tonal"
+                block
+                >Remove Ingredient</v-btn
+              >
+              <v-divider class="my-5"></v-divider>
+            </v-col>
 
-            <v-col cols="1">
+            <!-- <v-col cols="1">
               <div class="d-flex flex-column">
                 <v-btn
                   variant="tonal"
@@ -76,7 +80,7 @@
                   ></font-awesome-icon>
                 </v-btn>
               </div>
-            </v-col>
+            </v-col> -->
           </v-row>
         </div>
       </v-form>
@@ -111,6 +115,14 @@ export default {
     };
   },
   methods: {
+    removeFromList(item, arr) {
+      console.log(item, "item");
+      const found = arr.find((x) => x.id == item.id);
+      if (found) {
+        const index = arr.indexOf(found);
+        arr.splice(index, 1);
+      }
+    },
     getIngredients() {
       this.$axios
         .get(import.meta.env.VITE_APP_API + `/ingredients`)

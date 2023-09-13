@@ -28,8 +28,8 @@
           ></v-textarea>
 
           <div v-for="(item, index) in tempRecipe.ingredients" :key="index">
-            <v-row>
-              <v-col cols="4">
+            <v-row no-gutters>
+              <v-col cols="12" md="4">
                 <v-autocomplete
                   :items="ingredients"
                   label="Ingredient"
@@ -41,7 +41,8 @@
                   :rules="[rules.required]"
                 ></v-autocomplete>
               </v-col>
-              <v-col cols="4">
+
+              <v-col cols="6" md="4">
                 <v-text-field
                   type="number"
                   label="Quantity"
@@ -52,7 +53,7 @@
                 ></v-text-field>
               </v-col>
 
-              <v-col cols="4">
+              <v-col cols="6" md="4">
                 <v-autocomplete
                   :items="measurements"
                   variant="outlined"
@@ -63,6 +64,15 @@
                   clearable
                   :rules="[rules.required]"
                 ></v-autocomplete>
+              </v-col>
+              <v-col>
+                <v-btn
+                  @click="removeFromList(item, tempRecipe.ingredients)"
+                  variant="tonal"
+                  block
+                  >Remove Ingredient</v-btn
+                >
+                <v-divider class="my-5"></v-divider>
               </v-col>
             </v-row>
           </div>
@@ -78,7 +88,7 @@
               variant="tonal"
               @click="updateRecipe"
               color="primary"
-              >Update</v-btn
+              >Save</v-btn
             >
           </div>
         </v-form>
@@ -192,6 +202,14 @@ export default {
     ...mapStores(useAuthStore, useSnackbarStore),
   },
   methods: {
+    removeFromList(item, arr) {
+      console.log(item, "item");
+      const found = arr.find((x) => x.id == item.id);
+      if (found) {
+        const index = arr.indexOf(found);
+        arr.splice(index, 1);
+      }
+    },
     confirmDelete() {
       this.loading = true;
       this.$axios
