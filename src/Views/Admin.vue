@@ -102,6 +102,21 @@
           </div>
         </div>
       </div>
+
+      <div>
+        <div class="mb-5 d-flex justify-space-between align-end">
+          <h3 class="ma-0">Measurement Units</h3>
+          <v-btn
+            variant="tonal"
+            @click="$router.push('/recipes/create')"
+            size="small"
+            icon
+          >
+            <font-awesome-icon icon="fa-solid fa-plus"></font-awesome-icon>
+          </v-btn>
+        </div>
+        <unit-list></unit-list>
+      </div>
     </div>
     <div v-else>
       <p>Admin account required</p>
@@ -113,6 +128,7 @@
 import PlaceholerImgSrc from "@/assets/images/pastry-board.jpg";
 import RecipeList from "@/components/Recipes/RecipeList.vue";
 import { VSkeletonLoader } from "vuetify/labs/VSkeletonLoader";
+import UnitList from "@/components/Measurements/UnitList.vue";
 export default {
   data() {
     return {
@@ -124,7 +140,7 @@ export default {
       loading: true,
     };
   },
-  components: { RecipeList, VSkeletonLoader },
+  components: { RecipeList, VSkeletonLoader, UnitList },
   methods: {
     async handleAuthStatus() {
       const token = await this.$auth0.getAccessTokenSilently();

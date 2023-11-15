@@ -1,7 +1,7 @@
 <template>
   <v-app style="background-color: #fff2f3">
     <!-- START: Header -->
-    <v-app-bar style="background-color: #fff2f3" elevation="0">
+    <v-app-bar style="background-color: #fff2f; z-index: 0" elevation="0">
       <v-app-bar-nav-icon
         style="background-color: transparent"
         class="hidden-md-and-up"

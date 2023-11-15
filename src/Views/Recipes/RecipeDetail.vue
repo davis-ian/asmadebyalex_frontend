@@ -14,6 +14,9 @@
     </div>
     <div v-if="recipe">
       <div v-if="editing">
+        <div style="border: 2px solid red">
+          <uploader />
+        </div>
         <v-form ref="form" v-model="isValid">
           <v-text-field
             variant="outlined"
@@ -182,6 +185,7 @@ import IngredientTable from "@/components/Recipes/IngredientTable.vue";
 import { useSnackbarStore } from "@/stores/snackbar";
 import { mapStores } from "pinia";
 import { useAuthStore } from "@/stores/user";
+import Uploader from "@/components/UI/Uploader.vue";
 
 export default {
   data() {
@@ -198,6 +202,7 @@ export default {
       },
     };
   },
+  components: { Uploader },
   computed: {
     ...mapStores(useAuthStore, useSnackbarStore),
   },
@@ -241,6 +246,7 @@ export default {
       });
     },
     getRecipe(id) {
+      console.log("getting recipe", id);
       this.$axios
         .get(import.meta.env.VITE_APP_API + `/recipes/${id}`)
         .then((res) => {
