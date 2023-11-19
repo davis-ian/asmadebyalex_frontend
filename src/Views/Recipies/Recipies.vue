@@ -1,10 +1,8 @@
 <template>
-  <div class="d-flex flex-column align-center">
-    <div class="pa-3 view-content">
-      <v-breadcrumbs :items="breadcrumbs" divider="/"></v-breadcrumbs>
-      <h2 class="ml-3">Recipes</h2>
-      <recipe-list />
-    </div>
+  <div>
+    <v-breadcrumbs :items="breadcrumbs" divider="/"></v-breadcrumbs>
+    <h2>Recipes</h2>
+    <recipe-list />
   </div>
 </template>
 <script>
@@ -30,10 +28,4 @@ export default {
   components: { RecipeList },
 };
 </script>
-<style lang="scss" scoped>
-.view-content {
-  min-height: 100%;
-  width: 100%;
-  max-width: 900px;
-}
-</style>
+<style lang="scss" scoped></style>

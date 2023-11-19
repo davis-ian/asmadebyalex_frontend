@@ -203,6 +203,9 @@ export default {
           this.uppy.emit("upload-error", SELECTED_FILE, error, response);
         }
       }
+      this.$emit("upload-complete");
+      this.isOpen = false;
+      this.uppy.cancelAll();
     },
     open() {
       this.isOpen = !this.isOpen;

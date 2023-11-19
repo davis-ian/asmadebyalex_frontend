@@ -1,10 +1,8 @@
 <template>
-  <div class="d-flex flex-column align-center">
-    <div class="pa-3 view-content">
-      <v-breadcrumbs :items="breadcrumbs" divider="/"></v-breadcrumbs>
-      <h2>About Me</h2>
-      <p>This page is not ready but stay tuned for an update!</p>
-    </div>
+  <div>
+    <v-breadcrumbs :items="breadcrumbs" divider="/"></v-breadcrumbs>
+    <h2>About Me</h2>
+    <p>This page is not ready but stay tuned for an update!</p>
   </div>
 </template>
 <script>

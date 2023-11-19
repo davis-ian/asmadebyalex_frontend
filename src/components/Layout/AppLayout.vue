@@ -1,7 +1,11 @@
 <template>
   <div class="app-layout">
     <nav-bar />
-    <slot />
+    <div class="d-flex flex-column align-center">
+      <div class="pa-3 view-content">
+        <slot />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -16,5 +20,11 @@ export default {
 <style>
 .app-layout {
   background-color: #fff2f3;
+}
+
+.view-content {
+  min-height: 100%;
+  width: 100%;
+  max-width: 900px;
 }
 </style>

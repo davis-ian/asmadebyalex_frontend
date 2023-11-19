@@ -1,6 +1,7 @@
 <template>
-  <div class="pa-3">
-    <h2>Admin Page</h2>
+  <div>
+    <v-breadcrumbs :items="breadcrumbs" divider="/"></v-breadcrumbs>
+    <h2>Admin</h2>
     <div v-if="isAuthenticated">
       <!-- <h3>Account</h3> -->
       <!-- <pre style="width: 100%">{{ $auth0.user }}</pre> -->
@@ -16,23 +17,8 @@
             <font-awesome-icon icon="fa-solid fa-plus"></font-awesome-icon>
           </v-btn>
         </div>
-        <div v-if="loading">
-          <v-skeleton-loader
-            style="background-color: transparent"
-            v-for="num in 5"
-            type="list-item-avatar"
-          ></v-skeleton-loader>
-        </div>
-        <div v-else>
-          <div
-            @click="$router.push(`/articles/${item.id}`)"
-            v-for="(item, index) in articles"
-            :key="item.id"
-            class="my-2"
-          >
-            <recipe-article-list-item :item="item" />
-          </div>
-        </div>
+
+        <article-list></article-list>
       </div>
       <div>
         <div class="mb-5 d-flex justify-space-between align-end">
@@ -46,23 +32,8 @@
             <font-awesome-icon icon="fa-solid fa-plus"></font-awesome-icon>
           </v-btn>
         </div>
-        <div v-if="loading">
-          <v-skeleton-loader
-            style="background-color: transparent"
-            v-for="num in 5"
-            type="list-item-avatar"
-          ></v-skeleton-loader>
-        </div>
-        <div v-else>
-          <div
-            @click="$router.push(`/recipies/${item.id}`)"
-            v-for="(item, index) in recipes"
-            :key="item.id"
-            class="my-2"
-          >
-            <recipe-article-list-item :item="item" />
-          </div>
-        </div>
+
+        <recipe-list></recipe-list>
       </div>
 
       <div>
@@ -89,9 +60,11 @@
 <script>
 import PlaceholerImgSrc from "@/assets/images/pastry-board.jpg";
 import RecipeList from "@/components/Recipes/RecipeList.vue";
+import ArticleList from "@/components/Articles/ArticleList.vue";
 import { VSkeletonLoader } from "vuetify/labs/VSkeletonLoader";
 import UnitList from "@/components/Measurements/UnitList.vue";
 import RecipeArticleListItem from "@/components/UI/RecipeArticleListItem.vue";
+
 export default {
   data() {
     return {
@@ -101,9 +74,27 @@ export default {
       articles: [],
       recipes: [],
       loading: true,
+      breadcrumbs: [
+        {
+          title: "Home",
+          disabled: false,
+          href: "/",
+        },
+        {
+          title: "Admin",
+          disabled: true,
+          href: "/admin",
+        },
+      ],
     };
   },
-  components: { RecipeList, VSkeletonLoader, UnitList, RecipeArticleListItem },
+  components: {
+    RecipeList,
+    ArticleList,
+    VSkeletonLoader,
+    UnitList,
+    RecipeArticleListItem,
+  },
   methods: {
     async handleAuthStatus() {
       const token = await this.$auth0.getAccessTokenSilently();

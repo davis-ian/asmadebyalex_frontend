@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-3 pt-0 recipe-list">
+  <div class="recipe-list">
     <div class="py-3" v-if="loading">
       <v-progress-linear indeterminate></v-progress-linear>
     </div>

@@ -4,8 +4,16 @@
       class="list-item-img"
       aspect-ratio="1"
       cover
-      :src="item.mainPhoto ? item.mainPhoto.secureUrl : placeholderImgSrc"
-      :lazy-src="item.mainPhoto ? item.mainPhoto.secureUrl : placeholderImgSrc"
+      :src="
+        item.mainPhoto
+          ? imgWithLimit(item.mainPhoto.secureUrl, 200)
+          : placeholderImgSrc
+      "
+      :lazy-src="
+        item.mainPhoto
+          ? imgWithLimit(item.mainPhoto.secureUrl, 200)
+          : placeholderImgSrc
+      "
     />
 
     <div class="text-container">
@@ -33,6 +41,28 @@ export default {
     },
   },
   methods: {
+    imgWithLimit(url, limit) {
+      return this.addCustomTextToCloudinaryUrl(
+        url,
+        `c_limit,h_${limit},w_${limit}`
+      );
+    },
+    addCustomTextToCloudinaryUrl(url, customText) {
+      // Check if the URL contains "/upload/" and if customText is not empty
+      if (url.includes("/upload/") && customText.trim() !== "") {
+        // Split the URL into two parts, before and after "/upload/"
+        const parts = url.split("/upload/");
+
+        // Check if there are two parts (URL contains "/upload/"), and insert customText
+        if (parts.length === 2) {
+          const modifiedUrl = `${parts[0]}/upload/${customText}/${parts[1]}`;
+          return modifiedUrl;
+        }
+      }
+
+      // If no modification was made, return the original URL
+      return url;
+    },
     formatDate(val) {
       return new Date(val).toLocaleDateString("en-US", {
         year: "numeric",

@@ -1,12 +1,8 @@
 <template>
   <div>
-    <div class="d-flex flex-column align-center">
-      <div class="pa-3 view-content">
-        <v-breadcrumbs :items="breadcrumbs" divider="/"></v-breadcrumbs>
-        <h2 class="ml-3">Articles</h2>
-        <article-list />
-      </div>
-    </div>
+    <v-breadcrumbs :items="breadcrumbs" divider="/"></v-breadcrumbs>
+    <h2>Articles</h2>
+    <article-list />
   </div>
 </template>
 <script>

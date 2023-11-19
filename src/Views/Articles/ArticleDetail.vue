@@ -1,5 +1,6 @@
 <template>
-  <div class="pa-3">
+  <div>
+    <v-breadcrumbs :items="breadcrumbs" divider="/"></v-breadcrumbs>
     <div class="d-flex justify-space-between mb-3">
       <v-btn size="small" variant="tonal" text @click="$router.back()">
         <font-awesome-icon :icon="['fas', 'arrow-left']" />
@@ -58,6 +59,23 @@ export default {
       article: null,
       loading: false,
       editing: false,
+      breadcrumbs: [
+        {
+          title: "Home",
+          disabled: false,
+          href: "/",
+        },
+        {
+          title: "Articles",
+          disabled: false,
+          href: "/recipies",
+        },
+        {
+          title: "",
+          disabled: true,
+          href: "",
+        },
+      ],
     };
   },
   components: {
@@ -89,6 +107,7 @@ export default {
         .then((res) => {
           console.log(res, "success");
           this.article = res.data;
+          this.breadcrumbs[2].title = this.article.title;
         })
         .catch((err) => {
           console.log(err, "error");
