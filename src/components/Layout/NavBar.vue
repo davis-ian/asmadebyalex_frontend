@@ -64,19 +64,49 @@
   </nav>
 </template>
 <script>
+import { mapStores } from "pinia";
+import { useAuthStore } from "@/stores/user";
+import { useSnackbarStore } from "@/stores/snackbar";
 export default {
   data() {
     return {
       drawer: false,
+      user: this.$auth0.user,
       menuItems: [
         { icon: "home", title: "Home", path: "/" },
         { icon: "home", title: "Recipes", path: "/recipies" },
         { icon: "home", title: "Articles", path: "/articles" },
         { icon: "info", title: "About Me", path: "/about" },
         // { icon: "warning", title: "Contact", path: "/contact" },
-        // { icon: "warning", title: "Admin", path: "/admin" },
+        { icon: "warning", title: "Login", path: "/login" },
       ],
     };
+  },
+  computed: {
+    ...mapStores(useAuthStore, useSnackbarStore),
+  },
+  watch: {
+    user() {
+      if (this.user["https://asmadebyalex.com/roles"].includes("SuperAdmin")) {
+        this.menuItems = [
+          { icon: "home", title: "Home", path: "/" },
+          { icon: "home", title: "Recipes", path: "/recipies" },
+          { icon: "home", title: "Articles", path: "/articles" },
+          { icon: "info", title: "About Me", path: "/about" },
+          // { icon: "warning", title: "Contact", path: "/contact" },
+          { icon: "warning", title: "Admin", path: "/admin" },
+        ];
+      } else {
+        this.menuItems = [
+          { icon: "home", title: "Home", path: "/" },
+          { icon: "home", title: "Recipes", path: "/recipies" },
+          { icon: "home", title: "Articles", path: "/articles" },
+          { icon: "info", title: "About Me", path: "/about" },
+          // { icon: "warning", title: "Contact", path: "/contact" },
+          { icon: "warning", title: "Login", path: "/login" },
+        ];
+      }
+    },
   },
   methods: {
     handleNavClick(path) {

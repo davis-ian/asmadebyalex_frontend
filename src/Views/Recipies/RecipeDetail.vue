@@ -8,7 +8,7 @@
       <v-btn
         v-if="userStore.roles.includes('SuperAdmin')"
         size="small"
-        variant="tonal"
+        variant="outlined"
         @click="editing = !editing"
         >Edit</v-btn
       >
@@ -77,7 +77,7 @@
               <v-col>
                 <v-btn
                   @click="removeFromList(item, tempRecipe.ingredients)"
-                  variant="tonal"
+                  variant="outlined"
                   block
                   >Remove Ingredient</v-btn
                 >
@@ -89,12 +89,12 @@
             style="gap: 20px"
             class="d-flex flex-column justify-space-between flex-sm-row"
           >
-            <v-btn size="large" variant="tonal" @click="addRecipeIngredient"
+            <v-btn size="large" variant="outlined" @click="addRecipeIngredient"
               >Add +</v-btn
             >
             <v-btn
               size="large"
-              variant="tonal"
+              variant="outlined"
               @click="updateRecipe"
               color="primary"
               >Save</v-btn
@@ -182,7 +182,7 @@
 
     <v-row v-if="recipe">
       <v-col class="mt-3" cols="12" v-if="editing">
-        <v-btn @click="initUploader">Photo +</v-btn>
+        <v-btn variant="outlined" @click="initUploader">Photo +</v-btn>
       </v-col>
       <v-col
         v-for="img in recipePhotos"

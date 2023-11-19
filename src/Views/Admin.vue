@@ -1,12 +1,14 @@
 <template>
   <div>
     <v-breadcrumbs :items="breadcrumbs" divider="/"></v-breadcrumbs>
+    <div class="text-right">
+      <v-btn variant="outlined" @click="handleLogout">Logout</v-btn>
+    </div>
     <h2>Admin</h2>
 
     <div v-if="isAuthenticated">
-      <v-btn @click="handleLogout">Logout</v-btn>
       <!-- <h3>Account</h3> -->
-      <pre style="width: 100%">{{ $auth0.user }}</pre>
+      <!-- <pre style="width: 100%">{{ $auth0.user }}</pre> -->
       <div>
         <div class="mb-5 d-flex justify-space-between align-end">
           <h3 class="ma-0">Articles</h3>
@@ -43,7 +45,7 @@
           <h3 class="ma-0">Measurement Units</h3>
           <v-btn
             variant="outlined"
-            @click="$router.push('/recipes/create')"
+            @click="$router.push('/measurements/create')"
             size="small"
             icon
           >
@@ -55,7 +57,7 @@
     </div>
     <div v-else>
       <p>Admin account required</p>
-      <v-btn @click="handleLogin">Login</v-btn>
+      <v-btn variant="outlined" @click="handleLogin">Login</v-btn>
     </div>
   </div>
 </template>

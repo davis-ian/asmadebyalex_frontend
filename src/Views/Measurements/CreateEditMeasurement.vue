@@ -1,0 +1,50 @@
+<template lang="">
+  <div>
+    <h1>Add Measurement</h1>
+    <v-text-field label="Name" v-model="name"></v-text-field>
+    <v-btn variant="outlined" @click="submitMeasurement">Submit</v-btn>
+  </div>
+</template>
+<script>
+import { useSnackbarStore } from "@/stores/snackbar";
+import { mapStores } from "pinia";
+export default {
+  data() {
+    return {
+      loading: false,
+      name: "",
+    };
+  },
+  computed: {
+    ...mapStores(useSnackbarStore),
+  },
+  methods: {
+    submitMeasurement() {
+      if (!this.name) {
+        this.snackbarStore.showSnackbar({
+          message: "Name cannot be blank",
+          color: "error",
+        });
+        return;
+      }
+
+      let data = {
+        name: this.name,
+      };
+      this.loading = true;
+      this.$axios
+        .post(import.meta.env.VITE_APP_API + "/measurements", data)
+        .then((res) => {
+          this.$router.push("/admin");
+        })
+        .catch((err) => {
+          console.log(err, "error");
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+  },
+};
+</script>
+<style lang=""></style>

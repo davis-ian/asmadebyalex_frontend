@@ -23,6 +23,11 @@ const routes = [
     component: () => import("@/Views/Home.vue"),
   },
   {
+    path: "/login",
+    name: "Login",
+    component: () => import("@/Views/Login.vue"),
+  },
+  {
     path: "/about",
     name: "About",
     component: () => import("@/Views/About.vue"),
@@ -77,6 +82,13 @@ const routes = [
     path: "/recipies/create",
     name: "CreateRecipe",
     component: () => import("@/Views/Recipies/CreateRecipe.vue"),
+    meta: { requiresAuth: true, roles: ["SuperAdmin"] },
+    beforeEnter: adminGuard,
+  },
+  {
+    path: "/measurements/create",
+    name: "CreateRecipe",
+    component: () => import("@/Views/Measurements/CreateEditMeasurement.vue"),
     meta: { requiresAuth: true, roles: ["SuperAdmin"] },
     beforeEnter: adminGuard,
   },
