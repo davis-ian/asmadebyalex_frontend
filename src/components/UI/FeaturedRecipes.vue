@@ -2,7 +2,8 @@
   <div class="home-featured pa-5">
     <div>
       <h1 class="all-caps text-center pa-3">
-        Discover My Carefully Curated Selection of Mouth watering Creations!
+        <!-- Discover My Carefully Curated Selection of Mouth watering Creations! -->
+        Featured
       </h1>
 
       <!-- <div class="d-flex justify-center" style="gap: 40px">
@@ -10,25 +11,30 @@
 
       <div class="d-flex justify-center">
         <v-row style="max-width: 1200px">
-          <v-col
-            v-for="(item, index) in featuredRecipes"
-            :key="index"
-            cols="12"
-            md="4"
-            sm="6"
-          >
+          <v-col v-for="(item, index) in featuredRecipes" :key="index">
             <transition name="fade" mode="out-in">
-              <div @click="$router.push(`/recipes/${item.id}`)" class="pa-3">
+              <div
+                style="
+                  border: 2px solid;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                "
+                @click="$router.push(`/recipies/${item.id}`)"
+                class="pa-3"
+              >
                 <v-img
+                  v-if="item.mainPhoto"
                   cover
+                  width="100%"
+                  max-width="400px"
                   aspect-ratio="1"
-                  class="rounded-circle"
-                  :src="placeholderImgSrc"
-                  :lazy-src="placeholderImgSrc"
+                  :src="imgWithLimit(item.mainPhoto.secureUrl, 600)"
+                  :lazy-src="imgWithLimit(item.mainPhoto.secureUrl, 600)"
                 ></v-img>
+                <!-- class="rounded-circle" -->
                 <div class="text-center all-caps">
-                  <h5 class="mb-0">Recipe</h5>
-                  <p>$20</p>
+                  <h3 class="mb-0">{{ item.name }}</h3>
                 </div>
               </div>
             </transition>
@@ -41,7 +47,7 @@
         <v-btn
           variant="text"
           class="underlined"
-          @click="$router.push('/recipes')"
+          @click="$router.push('/recipies')"
           size="large"
           >Explore Recipes</v-btn
         >
@@ -55,12 +61,56 @@ export default {
   data() {
     return {
       placeholderImgSrc: PlaceholerImgSrc,
-      featuredRecipes: [
-        { id: 999, name: "Recipe1", image: this.placeholderImgSrc },
-        { id: 999, name: "Recipe2", image: this.placeholderImgSrc },
-        { id: 999, name: "Recipe3", image: this.placeholderImgSrc },
-      ],
+      // featuredRecipes: [
+      //   { id: 999, name: "Recipe1", image: this.placeholderImgSrc },
+      //   { id: 999, name: "Recipe2", image: this.placeholderImgSrc },
+      //   { id: 999, name: "Recipe3", image: this.placeholderImgSrc },
+      // ],
+      featuredRecipes: [],
     };
+  },
+  methods: {
+    imgWithLimit(url, limit) {
+      return this.addCustomTextToCloudinaryUrl(
+        url,
+        `c_limit,h_${limit},w_${limit}`
+      );
+    },
+    addCustomTextToCloudinaryUrl(url, customText) {
+      // Check if the URL contains "/upload/" and if customText is not empty
+      if (url.includes("/upload/") && customText.trim() !== "") {
+        // Split the URL into two parts, before and after "/upload/"
+        const parts = url.split("/upload/");
+
+        // Check if there are two parts (URL contains "/upload/"), and insert customText
+        if (parts.length === 2) {
+          const modifiedUrl = `${parts[0]}/upload/${customText}/${parts[1]}`;
+          return modifiedUrl;
+        }
+      }
+
+      // If no modification was made, return the original URL
+      return url;
+    },
+    getFeaturedRecipes() {
+      this.loading = true;
+
+      this.$axios
+        .get(import.meta.env.VITE_APP_API + "/recipes?featured=true")
+        .then((res) => {
+          this.featuredRecipes = Array.from(res.data);
+          console.log(this.featuredRecipes);
+        })
+        .catch((err) => {
+          console.log(err, "error");
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+  },
+  mounted() {
+    this.getFeaturedRecipes();
   },
 };
 </script>

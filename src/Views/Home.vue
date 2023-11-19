@@ -2,7 +2,7 @@
   <div class="d-flex flex-column align-center">
     <div class="pa-3 view-content">
       <hero></hero>
-      <!-- <home-featured-recipes></home-featured-recipes> -->
+      <home-featured-recipes></home-featured-recipes>
       <!-- <about-section></about-section> -->
       <!-- <contact-section class="pt-5"></contact-section> -->
 

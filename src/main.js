@@ -47,11 +47,14 @@ import {
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
 
+import { faStar as faStarReg } from "@fortawesome/free-regular-svg-icons";
+
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 
 // import { fa } from "@fortawesome/free-regular-svg-icons";
 
 library.add(
+  faStarReg,
   faCircleCheck,
   faEllipsis,
   faPlus,

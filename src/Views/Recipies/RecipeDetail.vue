@@ -104,7 +104,18 @@
       </div>
 
       <div v-else>
-        <h1>{{ recipe.name }}</h1>
+        <div class="d-flex justify-space-between">
+          <h1>{{ recipe.name }}</h1>
+
+          <!-- <v-btn icon> -->
+          <font-awesome-icon
+            @click="toggleFeatured(recipe)"
+            class="pointer"
+            style="font-size: 1.5rem"
+            :icon="recipe.featured ? 'fa-solid fa-star' : 'fa-regular fa-star'"
+          ></font-awesome-icon>
+          <!-- </v-btn> -->
+        </div>
 
         <p>
           {{ recipe.description }}
@@ -320,6 +331,27 @@ export default {
     ...mapStores(useAuthStore, useSnackbarStore),
   },
   methods: {
+    toggleFeatured(recipe) {
+      let data = {
+        featured: !this.recipe.featured,
+      };
+
+      this.recipe.featured = data.featured;
+
+      this.loading = true;
+      this.$axios
+        .put(
+          import.meta.env.VITE_APP_API + `/recipes/featured/${recipe.id}`,
+          data
+        )
+        .then((resp) => {
+          this.snackbarStore.showSnackbar({ message: "Photo updated" });
+        })
+        .catch((error) => {})
+        .finally(() => {
+          this.loading = false;
+        });
+    },
     confirmImageDelete() {
       if (!this.imageToDelete) {
         this.snackbarStore.showSnackbar({
