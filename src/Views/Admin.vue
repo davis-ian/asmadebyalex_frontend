@@ -2,9 +2,11 @@
   <div>
     <v-breadcrumbs :items="breadcrumbs" divider="/"></v-breadcrumbs>
     <h2>Admin</h2>
+
     <div v-if="isAuthenticated">
+      <v-btn @click="handleLogout">Logout</v-btn>
       <!-- <h3>Account</h3> -->
-      <!-- <pre style="width: 100%">{{ $auth0.user }}</pre> -->
+      <pre style="width: 100%">{{ $auth0.user }}</pre>
       <div>
         <div class="mb-5 d-flex justify-space-between align-end">
           <h3 class="ma-0">Articles</h3>
