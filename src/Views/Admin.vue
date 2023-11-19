@@ -26,7 +26,7 @@
       </div>
       <div>
         <div class="mb-5 d-flex justify-space-between align-end">
-          <h3 class="ma-0">Recipes</h3>
+          <h3 class="ma-0">Recipies</h3>
           <v-btn
             variant="outlined"
             @click="$router.push('/recipies/create')"
@@ -63,7 +63,7 @@
 </template>
 <script>
 import PlaceholerImgSrc from "@/assets/images/pastry-board.jpg";
-import RecipeList from "@/components/Recipes/RecipeList.vue";
+import RecipeList from "@/components/Recipies/RecipeList.vue";
 import ArticleList from "@/components/Articles/ArticleList.vue";
 import { VSkeletonLoader } from "vuetify/labs/VSkeletonLoader";
 import UnitList from "@/components/Measurements/UnitList.vue";
@@ -76,7 +76,7 @@ export default {
       user: this.$auth0.user,
       isAuthenticated: this.$auth0.isAuthenticated,
       articles: [],
-      recipes: [],
+      recipies: [],
       loading: true,
       breadcrumbs: [
         {
@@ -146,13 +146,12 @@ export default {
           this.loading = false;
         });
     },
-    getRecipes() {
+    getRecipies() {
       this.loading = true;
       this.$axios
-        .get(import.meta.env.VITE_APP_API + "/recipes")
+        .get(import.meta.env.VITE_APP_API + "/recipies")
         .then((res) => {
-          console.log(res.data, "recipes");
-          this.recipes = res.data;
+          this.recipies = res.data;
         })
         .catch((err) => {
           console.log(err, "error");
@@ -171,7 +170,7 @@ export default {
   },
   mounted() {
     this.getArtilcles();
-    this.getRecipes();
+    this.getRecipies();
   },
 };
 </script>

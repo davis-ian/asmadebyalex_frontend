@@ -2,7 +2,7 @@
   <div class="d-flex flex-column align-center">
     <div class="pa-3 view-content">
       <hero></hero>
-      <home-featured-recipes></home-featured-recipes>
+      <home-featured-recipies></home-featured-recipies>
       <!-- <about-section></about-section> -->
       <!-- <contact-section class="pt-5"></contact-section> -->
 
@@ -20,10 +20,10 @@
       <div>Progress: {{ uploadProgress }}%</div>
     </div> -->
       <!-- <div id="home-container">
-      <div class="featured-recipes">
+      <div class="featured-recipies">
     
-        <h2 class="text-center">Featured Recipes</h2>
-        <featured-recipes />
+        <h2 class="text-center">Featured Recipies</h2>
+        <featured-recipies />
       </div>
      
       <div class="recipe-list">
@@ -41,7 +41,7 @@
             </div>
           </v-col>
           <v-col class="pa-2">
-            <h2 class="text-center">More Recipes</h2>
+            <h2 class="text-center">More Recipies</h2>
           </v-col>
           <v-col cols="3">
             <div
@@ -65,11 +65,10 @@
 
 <script>
 // import ArticleList from "@/components/Articles/ArticleList.vue";
-import RecipeList from "@/components/Recipes/RecipeList.vue";
-import RecipeCardScroll from "@/components/Recipes/RecipeCardScroll.vue";
+import RecipeList from "@/components/Recipies/RecipeList.vue";
 
 import Hero from "@/components/UI/Hero.vue";
-import HomeFeaturedRecipes from "@/components/UI/FeaturedRecipes.vue";
+import HomeFeaturedRecipies from "@/components/UI/FeaturedRecipies.vue";
 import AboutSection from "@/components/UI/AboutSection.vue";
 import ContactSection from "@/components/UI/ContactSection.vue";
 export default {
@@ -95,9 +94,9 @@ export default {
   components: {
     // // ArticleList,
     // RecipeList,
-    // RecipeCardScroll,
+
     Hero,
-    HomeFeaturedRecipes,
+    HomeFeaturedRecipies,
     AboutSection,
     ContactSection,
   },
@@ -154,7 +153,7 @@ export default {
 
       try {
         const response = await this.$axios.post(
-          import.meta.env.VITE_APP_API + "/recipes/test"
+          import.meta.env.VITE_APP_API + "/recipies/test"
           // formData,
           // {
           //   onUploadProgress: (progressEvent) => {
@@ -177,7 +176,7 @@ export default {
 // #home-container {
 //   min-height: 100%;
 // }
-.featured-recipes {
+.featured-recipies {
   margin: 20px 10px;
 }
 .quick-search {

@@ -11,7 +11,7 @@
 
       <div class="d-flex justify-center">
         <v-row style="max-width: 1200px">
-          <v-col v-for="(item, index) in featuredRecipes" :key="index">
+          <v-col v-for="(item, index) in featuredRecipies" :key="index">
             <transition name="fade" mode="out-in">
               <div
                 style="
@@ -49,7 +49,7 @@
           class="underlined"
           @click="$router.push('/recipies')"
           size="large"
-          >Explore Recipes</v-btn
+          >Explore Recipies</v-btn
         >
       </div>
     </div>
@@ -61,12 +61,7 @@ export default {
   data() {
     return {
       placeholderImgSrc: PlaceholerImgSrc,
-      // featuredRecipes: [
-      //   { id: 999, name: "Recipe1", image: this.placeholderImgSrc },
-      //   { id: 999, name: "Recipe2", image: this.placeholderImgSrc },
-      //   { id: 999, name: "Recipe3", image: this.placeholderImgSrc },
-      // ],
-      featuredRecipes: [],
+      featuredRecipies: [],
     };
   },
   methods: {
@@ -92,14 +87,14 @@ export default {
       // If no modification was made, return the original URL
       return url;
     },
-    getFeaturedRecipes() {
+    getFeaturedRecipies() {
       this.loading = true;
 
       this.$axios
-        .get(import.meta.env.VITE_APP_API + "/recipes?featured=true")
+        .get(import.meta.env.VITE_APP_API + "/recipies?featured=true")
         .then((res) => {
-          this.featuredRecipes = Array.from(res.data);
-          console.log(this.featuredRecipes);
+          this.featuredRecipies = Array.from(res.data);
+          console.log(this.featuredRecipies);
         })
         .catch((err) => {
           console.log(err, "error");
@@ -110,7 +105,7 @@ export default {
     },
   },
   mounted() {
-    this.getFeaturedRecipes();
+    this.getFeaturedRecipies();
   },
 };
 </script>

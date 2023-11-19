@@ -184,7 +184,7 @@ export default {
       };
 
       this.$axios
-        .post(import.meta.env.VITE_APP_API + `/recipes`, data)
+        .post(import.meta.env.VITE_APP_API + `/recipies`, data)
         .then((res) => {
           this.snackbarStore.showSnackbar({
             message: "Recipe created",

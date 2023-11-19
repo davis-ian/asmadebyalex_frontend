@@ -74,7 +74,7 @@ export default {
       user: this.$auth0.user,
       menuItems: [
         { icon: "home", title: "Home", path: "/" },
-        { icon: "home", title: "Recipes", path: "/recipies" },
+        { icon: "home", title: "Recipies", path: "/recipies" },
         { icon: "home", title: "Articles", path: "/articles" },
         { icon: "info", title: "About Me", path: "/about" },
         // { icon: "warning", title: "Contact", path: "/contact" },
@@ -90,7 +90,7 @@ export default {
       if (this.user["https://asmadebyalex.com/roles"].includes("SuperAdmin")) {
         this.menuItems = [
           { icon: "home", title: "Home", path: "/" },
-          { icon: "home", title: "Recipes", path: "/recipies" },
+          { icon: "home", title: "Recipies", path: "/recipies" },
           { icon: "home", title: "Articles", path: "/articles" },
           { icon: "info", title: "About Me", path: "/about" },
           // { icon: "warning", title: "Contact", path: "/contact" },
@@ -99,7 +99,7 @@ export default {
       } else {
         this.menuItems = [
           { icon: "home", title: "Home", path: "/" },
-          { icon: "home", title: "Recipes", path: "/recipies" },
+          { icon: "home", title: "Recipies", path: "/recipies" },
           { icon: "home", title: "Articles", path: "/articles" },
           { icon: "info", title: "About Me", path: "/about" },
           // { icon: "warning", title: "Contact", path: "/contact" },

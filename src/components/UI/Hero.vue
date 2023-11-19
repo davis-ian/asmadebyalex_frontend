@@ -12,7 +12,7 @@
 
             <p>
               A site that will provoke culinary inspiration; where I
-              passionately curate a collection of delicious recipes, genuine
+              passionately curate a collection of delicious recipies, genuine
               opinions, helpful tips, and valuable suggestions.
             </p>
 

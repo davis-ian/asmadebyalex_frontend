@@ -14,7 +14,7 @@
     <div v-else>
       <div
         @click="$router.push(`/recipies/${item.id}`)"
-        v-for="(item, index) in recipes"
+        v-for="(item, index) in recipies"
         :key="item.id"
         class="my-5"
         :style="{
@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       message: "hi",
-      recipes: [],
+      recipies: [],
       loading: true,
       placeholderImgSrc: PlaceholerImgSrc,
     };
@@ -47,14 +47,13 @@ export default {
     RecipeArticleListItem,
   },
   methods: {
-    getRecipes() {
+    getRecipies() {
       this.loading = true;
 
       this.$axios
-        .get(import.meta.env.VITE_APP_API + "/recipes")
+        .get(import.meta.env.VITE_APP_API + "/recipies")
         .then((res) => {
-          console.log(res.data, "recipes success");
-          this.recipes = res.data;
+          this.recipies = res.data;
         })
         .catch((err) => {
           console.log(err, "error");
@@ -65,7 +64,7 @@ export default {
     },
   },
   mounted() {
-    this.getRecipes();
+    this.getRecipies();
   },
 };
 </script>

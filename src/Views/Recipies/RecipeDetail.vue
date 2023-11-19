@@ -283,7 +283,7 @@
 </template>
 
 <script>
-import IngredientTable from "@/components/Recipes/IngredientTable.vue";
+import IngredientTable from "@/components/Recipies/IngredientTable.vue";
 import { useSnackbarStore } from "@/stores/snackbar";
 import { mapStores } from "pinia";
 import { useAuthStore } from "@/stores/user";
@@ -341,7 +341,7 @@ export default {
       this.loading = true;
       this.$axios
         .put(
-          import.meta.env.VITE_APP_API + `/recipes/featured/${recipe.id}`,
+          import.meta.env.VITE_APP_API + `/recipies/featured/${recipe.id}`,
           data
         )
         .then((resp) => {
@@ -431,7 +431,7 @@ export default {
       this.$axios
         .put(
           import.meta.env.VITE_APP_API +
-            `/recipes/main-photo/${this.recipe.id}/${img.id}`
+            `/recipies/main-photo/${this.recipe.id}/${img.id}`
         )
         .then((resp) => {
           this.snackbarStore.showSnackbar({ message: "Main photo updated" });
@@ -460,7 +460,7 @@ export default {
     confirmDelete() {
       this.loading = true;
       this.$axios
-        .delete(import.meta.env.VITE_APP_API + `/recipes/${this.recipe.id}`)
+        .delete(import.meta.env.VITE_APP_API + `/recipies/${this.recipe.id}`)
         .then((res) => {
           this.snackbarStore.showSnackbar({ message: "Recipe deleted" });
           this.$router.push("/admin");
@@ -488,7 +488,7 @@ export default {
     },
     getRecipe(id) {
       this.$axios
-        .get(import.meta.env.VITE_APP_API + `/recipes/${id}`)
+        .get(import.meta.env.VITE_APP_API + `/recipies/${id}`)
         .then((res) => {
           console.log(res, "recipe success");
           this.recipe = res.data;
@@ -559,7 +559,7 @@ export default {
 
         this.$axios
           .put(
-            import.meta.env.VITE_APP_API + `/recipes/` + this.recipe.id,
+            import.meta.env.VITE_APP_API + `/recipies/` + this.recipe.id,
             data
           )
           .then((res) => {
