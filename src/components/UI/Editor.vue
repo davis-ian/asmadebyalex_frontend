@@ -69,15 +69,13 @@ export default {
         content: this.htmlContent,
       };
 
-      console.log(data, "data");
-
       this.$axios
         .post(import.meta.env.VITE_APP_API + `/articles`, data)
         .then((res) => {
-          // this.snackbarStore.showSnackbar({
-          //   message: "Article created",
-          // });
-          // this.$router.push("/admin");
+          this.snackbarStore.showSnackbar({
+            message: "Article created",
+          });
+          this.$router.push("/admin");
         })
         .catch((err) => {
           console.log(err, "error");
@@ -93,7 +91,6 @@ export default {
   },
   mounted() {
     if (this.$route.params.id) {
-      console.log(this.$route.params.id, "route id");
     }
   },
 };

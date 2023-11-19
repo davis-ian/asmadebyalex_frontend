@@ -105,7 +105,6 @@ export default {
       this.$axios
         .get(import.meta.env.VITE_APP_API + `/articles/${id}`)
         .then((res) => {
-          console.log(res, "success");
           this.article = res.data;
           this.breadcrumbs[2].title = this.article.title;
         })

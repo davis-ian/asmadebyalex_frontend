@@ -103,7 +103,6 @@ export default {
     async handleAuthStatus() {
       const token = await this.$auth0.getAccessTokenSilently();
 
-      console.log("TESTING");
       this.$axios
         // .get("http://localhost:3000/todos")
         .get(import.meta.env.VITE_APP_API + "/private", {
@@ -111,9 +110,7 @@ export default {
             Authorization: `Bearer ${token}`,
           },
         })
-        .then((resp) => {
-          console.log(resp, "test success");
-        })
+        .then((resp) => {})
         .catch((err) => {
           console.log(err, "test err");
         });
@@ -136,7 +133,6 @@ export default {
       this.$axios
         .get(import.meta.env.VITE_APP_API + "/articles")
         .then((res) => {
-          console.log(res.data, "articles");
           this.articles = res.data;
         })
         .catch((err) => {

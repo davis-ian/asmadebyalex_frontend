@@ -94,7 +94,6 @@ export default {
         .get(import.meta.env.VITE_APP_API + "/recipies?featured=true")
         .then((res) => {
           this.featuredRecipies = Array.from(res.data);
-          console.log(this.featuredRecipies);
         })
         .catch((err) => {
           console.log(err, "error");

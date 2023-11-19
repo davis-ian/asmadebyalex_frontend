@@ -28,7 +28,6 @@ export default {
       this.$axios
         .get(import.meta.env.VITE_APP_API + "/measurements")
         .then((res) => {
-          console.log(res.data, "measurement success");
           this.measurements = res.data;
         })
         .catch((err) => {
@@ -40,7 +39,6 @@ export default {
     },
   },
   mounted() {
-    console.log("measurement mounted");
     this.getMeasurements();
   },
 };

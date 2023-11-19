@@ -8,10 +8,10 @@ const getRoles = async () => {
 export const adminGuard = async (to, from, next) => {
   const roles = await getRoles();
   if (roles.includes("SuperAdmin")) {
-    console.log("GRANTED");
+    // console.log("GRANTED");
     next();
   } else {
-    console.log("DENIED");
+    // console.log("DENIED");
     next("/login");
   }
 };

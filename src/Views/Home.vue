@@ -16,7 +16,7 @@
         label="File Input"
         v-model="files"
       ></v-file-input>
-      <v-btn @click="handleFileUpload">Submit</v-btn>
+
       <div>Progress: {{ uploadProgress }}%</div>
     </div> -->
       <!-- <div id="home-container">
@@ -104,7 +104,6 @@ export default {
     async handleAuthStatus() {
       const token = await this.$auth0.getAccessTokenSilently();
 
-      console.log("TESTING");
       this.$axios
         // .get("http://localhost:3000/todos")
         .get("http://localhost:3000/private", {
@@ -112,9 +111,7 @@ export default {
             Authorization: `Bearer ${token}`,
           },
         })
-        .then((resp) => {
-          console.log(resp, "test success");
-        })
+        .then((resp) => {})
         .catch((err) => {
           console.log(err, "test err");
         });
@@ -135,39 +132,6 @@ export default {
     },
     handleProfile() {
       console.log(this.user, "USER");
-    },
-    async handleFileUpload() {
-      console.log(this.files[0], "files upload");
-
-      if (this.files.length == 0) {
-        this.showSnackbar({ message: "No file selected" });
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("image", this.files[0]);
-      formData.append("key", "f1ea07e92d707b432e6c016a09728e7b");
-
-      // const targetUrl = "https://api.imgbb.com/1/upload";
-      const targetUrl = "http://localhost:3000/upload";
-
-      try {
-        const response = await this.$axios.post(
-          import.meta.env.VITE_APP_API + "/recipies/test"
-          // formData,
-          // {
-          //   onUploadProgress: (progressEvent) => {
-          //     this.uploadProgress = Math.round(
-          //       (progressEvent.loaded * 100) / progressEvent.total
-          //     );
-          //   },
-          // }
-        );
-
-        console.log(response, "response");
-      } catch (error) {
-        console.error("There was a problem uploading the image:", error);
-      }
     },
   },
 };

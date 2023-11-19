@@ -34,7 +34,6 @@ export default {
   },
   watch: {
     user() {
-      console.log(this.user, "user changed");
       this.userStore.updateAuthStatus(this.user);
     },
   },
@@ -77,7 +76,6 @@ export default {
         if (this.$route.path == item.path) {
           this.toggleMenu();
           // this.menuShowing = false;
-          console.log;
         } else {
           this.$router.push(item.path);
         }
@@ -89,7 +87,6 @@ export default {
       });
     },
     handleLogin() {
-      console.log("logging in ");
       this.$auth0.loginWithRedirect({
         redirect_uri: window.location.origin + "/callback",
       });

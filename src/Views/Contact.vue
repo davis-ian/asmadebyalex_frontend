@@ -94,8 +94,6 @@ export default {
   },
   methods: {
     handleSubmit(e) {
-      console.log(this.$refs.form);
-      console.log(e.target, "target");
       if (this.valid) {
         const templateParams = {
           firstName: this.firstName,
@@ -113,7 +111,6 @@ export default {
               import.meta.env.VITE_APP_EMAILJS_PUB_KEY
             )
             .then((response) => {
-              console.log(response, "success");
               this.snackbarStore.showSnackbar({ message: "Message sent!" });
             });
         } catch (error) {

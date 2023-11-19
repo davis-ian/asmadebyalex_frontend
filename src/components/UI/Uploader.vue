@@ -88,7 +88,6 @@ export default {
     },
     async uploadToEndpoint(file, onUploadProgress) {
       if (!file) {
-        console.log("NO FILE FOUND");
         return;
       }
       const formData = new FormData();
@@ -113,7 +112,6 @@ export default {
       return this.$axios
         .post(baseUrl, formData, config)
         .then((res) => {
-          console.log(res, "upload success");
           return res;
         })
         .catch((err) => {
@@ -212,8 +210,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.recipeId, "uploader recipe id");
-    console.log(this.articleId, "uploader article id");
     this.initUppy();
   },
 };

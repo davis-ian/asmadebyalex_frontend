@@ -116,7 +116,6 @@ export default {
   },
   methods: {
     removeFromList(item, arr) {
-      console.log(item, "item");
       const found = arr.find((x) => x.id == item.id);
       if (found) {
         const index = arr.indexOf(found);
@@ -127,7 +126,6 @@ export default {
       this.$axios
         .get(import.meta.env.VITE_APP_API + `/ingredients`)
         .then((res) => {
-          console.log(res, "success");
           this.ingredients = res.data;
         })
         .catch((err) => {
@@ -141,7 +139,6 @@ export default {
       this.$axios
         .get(import.meta.env.VITE_APP_API + `/measurements`)
         .then((res) => {
-          console.log(res, "m -success");
           this.measurements = res.data;
         })
         .catch((err) => {
@@ -160,7 +157,6 @@ export default {
     },
     submitRecipe() {
       if (!this.isValid) {
-        console.log("fill out required fields");
         this.$refs.form.validate();
         this.snackbarStore.showSnackbar({
           message: "Fill in required fields",

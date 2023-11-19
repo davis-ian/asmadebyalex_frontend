@@ -59,7 +59,6 @@ export default {
       this.$axios
         .get(import.meta.env.VITE_APP_API + "/articles")
         .then((res) => {
-          console.log(res.data, "articles");
           this.articles = res.data;
         })
         .catch((err) => {

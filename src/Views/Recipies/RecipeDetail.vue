@@ -368,8 +368,6 @@ export default {
             `/media/recipe-photo/${this.imageToDelete.id}`
         )
         .then((resp) => {
-          console.log(typeof this.recipePhotos, "photos");
-          console.log(this.imageToDelete.id, "id");
           removeFromListById(this.recipePhotos, this.imageToDelete.id);
           this.snackbarStore.showSnackbar({ message: "Photo deleted" });
           this.cancelImageDelete();
@@ -490,14 +488,11 @@ export default {
       this.$axios
         .get(import.meta.env.VITE_APP_API + `/recipies/${id}`)
         .then((res) => {
-          console.log(res, "recipe success");
           this.recipe = res.data;
           this.tempRecipe = res.data;
           this.recipePhotos = Array.from(this.recipe.photos);
 
           this.breadcrumbs[2].title = this.recipe.name;
-
-          console.log(this.recipe, "recipe");
         })
         .catch((err) => {
           console.log(err, "error");
