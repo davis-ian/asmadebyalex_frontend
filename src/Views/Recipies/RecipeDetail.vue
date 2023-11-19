@@ -208,11 +208,11 @@
                 position: absolute;
                 top: 12px;
                 right: 12px;
-                color: #f7cc42;
-                font-size: 1.2rem;
+                color: #aa585f;
+                font-size: 1.8rem;
               "
               v-if="checkMainImg(img) == true"
-              icon="fa-solid fa-star"
+              icon="fa-solid fa-circle-check"
             ></font-awesome-icon>
           </div>
         </v-col>
@@ -296,6 +296,8 @@ export default {
     handleImgClick(img) {
       this.loading = true;
 
+      const oldMain = this.recipe.mainPhoto;
+      this.recipe.mainPhoto = img;
       this.recipe.mainPhotoId = img.id;
 
       this.$axios
@@ -305,10 +307,11 @@ export default {
         )
         .then((resp) => {
           this.snackbarStore.showSnackbar({ message: "Main photo updated" });
-          this.getRecipe(this.$route.params.id);
         })
         .catch((error) => {
           console.log(error, "Error updateing main photo");
+          this.recipe.mainPhoto = oldMain;
+          this.recipe.mainPhotoId.oldMain.id;
         })
         .finally(() => {
           this.loading = false;
@@ -457,7 +460,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .gallery-main {
-  // border: 5px solid #f7cc42;
+  border: 5px solid #aa585f;
 }
 
 .view-content {

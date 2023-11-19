@@ -35,6 +35,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 // FONT AWESOME ICONS
 // =============================================================================
 import {
+  faCircleCheck,
   faEllipsis,
   faPlus,
   faTrash,
@@ -51,6 +52,7 @@ import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 // import { fa } from "@fortawesome/free-regular-svg-icons";
 
 library.add(
+  faCircleCheck,
   faEllipsis,
   faPlus,
   faInstagram,

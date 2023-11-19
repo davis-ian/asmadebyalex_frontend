@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-layout">
     <nav-bar />
     <slot />
   </div>
@@ -12,3 +12,9 @@ export default {
   components: { NavBar },
 };
 </script>
+
+<style>
+.app-layout {
+  background-color: #fff2f3;
+}
+</style>
