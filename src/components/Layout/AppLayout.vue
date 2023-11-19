@@ -1,7 +1,14 @@
 <template>
-  <div class="main-app-container"></div>
+  <div>
+    <nav-bar />
+    <slot />
+  </div>
 </template>
+
 <script>
-export default {};
+import NavBar from "@/components/Layout/NavBar.vue";
+export default {
+  name: "AppLayout",
+  components: { NavBar },
+};
 </script>
-<style lang=""></style>

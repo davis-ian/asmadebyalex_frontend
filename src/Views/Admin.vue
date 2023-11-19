@@ -8,7 +8,7 @@
         <div class="mb-5 d-flex justify-space-between align-end">
           <h3 class="ma-0">Articles</h3>
           <v-btn
-            variant="tonal"
+            variant="outlined"
             @click="$router.push('/articles/create')"
             size="small"
             icon
@@ -28,28 +28,9 @@
             @click="$router.push(`/articles/${item.id}`)"
             v-for="(item, index) in articles"
             :key="item.id"
+            class="my-2"
           >
-            <div class="d-flex">
-              <div class="pa-2">
-                <img
-                  style="
-                    width: 60px;
-                    height: 60px;
-
-                    object-fit: cover;
-                  "
-                  :src="placeholderImgSrc"
-                  :lazy-src="placeholderImgSrc"
-                />
-              </div>
-              <div class="pa-2" style="width: 100%">
-                <div>
-                  {{ item.title }}
-                </div>
-                <div>{{ formatDate(item.createdAt) }}</div>
-              </div>
-            </div>
-            <v-divider v-if="index != articles.length - 1"></v-divider>
+            <recipe-article-list-item :item="item" />
           </div>
         </div>
       </div>
@@ -57,8 +38,8 @@
         <div class="mb-5 d-flex justify-space-between align-end">
           <h3 class="ma-0">Recipes</h3>
           <v-btn
-            variant="tonal"
-            @click="$router.push('/recipes/create')"
+            variant="outlined"
+            @click="$router.push('/recipies/create')"
             size="small"
             icon
           >
@@ -74,31 +55,12 @@
         </div>
         <div v-else>
           <div
-            @click="$router.push(`/recipes/${item.id}`)"
+            @click="$router.push(`/recipies/${item.id}`)"
             v-for="(item, index) in recipes"
             :key="item.id"
+            class="my-2"
           >
-            <div class="d-flex">
-              <div class="pa-2">
-                <img
-                  style="
-                    width: 60px;
-                    height: 60px;
-
-                    object-fit: cover;
-                  "
-                  :src="placeholderImgSrc"
-                  :lazy-src="placeholderImgSrc"
-                />
-              </div>
-              <div class="pa-2" style="width: 100%">
-                <div>
-                  {{ item.name }}
-                </div>
-                <div>{{ formatDate(item.createdAt) }}</div>
-              </div>
-            </div>
-            <v-divider v-if="index != recipes.length - 1"></v-divider>
+            <recipe-article-list-item :item="item" />
           </div>
         </div>
       </div>
@@ -107,7 +69,7 @@
         <div class="mb-5 d-flex justify-space-between align-end">
           <h3 class="ma-0">Measurement Units</h3>
           <v-btn
-            variant="tonal"
+            variant="outlined"
             @click="$router.push('/recipes/create')"
             size="small"
             icon
@@ -129,6 +91,7 @@ import PlaceholerImgSrc from "@/assets/images/pastry-board.jpg";
 import RecipeList from "@/components/Recipes/RecipeList.vue";
 import { VSkeletonLoader } from "vuetify/labs/VSkeletonLoader";
 import UnitList from "@/components/Measurements/UnitList.vue";
+import RecipeArticleListItem from "@/components/UI/RecipeArticleListItem.vue";
 export default {
   data() {
     return {
@@ -140,7 +103,7 @@ export default {
       loading: true,
     };
   },
-  components: { RecipeList, VSkeletonLoader, UnitList },
+  components: { RecipeList, VSkeletonLoader, UnitList, RecipeArticleListItem },
   methods: {
     async handleAuthStatus() {
       const token = await this.$auth0.getAccessTokenSilently();

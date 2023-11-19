@@ -12,8 +12,8 @@
         @ready="setReady"
       />
     </div>
-    <v-btn @click="to" block class="mt-3">Preview</v-btn>
-    <v-btn block class="mt-3" color="black">Save</v-btn>
+    <!-- <v-btn block class="mt-3">Preview</v-btn> -->
+    <v-btn @click="submitPost" block class="mt-3" color="black">Save</v-btn>
   </div>
 </template>
 <script>

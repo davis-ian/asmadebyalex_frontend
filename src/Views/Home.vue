@@ -1,11 +1,12 @@
 <template>
-  <div>
-    <hero></hero>
-    <!-- <home-featured-recipes></home-featured-recipes> -->
-    <!-- <about-section></about-section> -->
-    <contact-section class="pt-5"></contact-section>
+  <div class="d-flex flex-column align-center">
+    <div class="pa-3 view-content">
+      <hero></hero>
+      <!-- <home-featured-recipes></home-featured-recipes> -->
+      <!-- <about-section></about-section> -->
+      <!-- <contact-section class="pt-5"></contact-section> -->
 
-    <!-- <div style="border: 2px solid red">
+      <!-- <div style="border: 2px solid red">
       <p>upload test</p>
       <v-file-input
         multiple
@@ -18,7 +19,7 @@
       <v-btn @click="handleFileUpload">Submit</v-btn>
       <div>Progress: {{ uploadProgress }}%</div>
     </div> -->
-    <!-- <div id="home-container">
+      <!-- <div id="home-container">
       <div class="featured-recipes">
     
         <h2 class="text-center">Featured Recipes</h2>
@@ -58,6 +59,7 @@
         <recipe-list />
       </div>
     </div> -->
+    </div>
   </div>
 </template>
 
@@ -171,7 +173,7 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 // #home-container {
 //   min-height: 100%;
 // }
@@ -181,5 +183,11 @@ export default {
 .quick-search {
   background-color: #1d201f;
   padding: 10px;
+}
+
+.view-content {
+  min-height: 100%;
+  width: 100%;
+  max-width: 900px;
 }
 </style>

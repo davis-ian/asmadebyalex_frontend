@@ -7,52 +7,76 @@ import { adminGuard } from "@/auth/authGuard";
 // =============================================================================
 // Main
 // =============================================================================
-import Home from "@/Views/Home.vue";
-import About from "@/Views/About.vue";
-import Contact from "@/Views/Contact.vue";
-import Admin from "@/Views/Admin.vue";
-import Callback from "@/Views/Callback.vue";
 
 // =============================================================================
 // Articles
 // =============================================================================
-import Articles from "@/Views/Articles/Articles.vue";
-import ArticleDetail from "@/Views/Articles/ArticleDetail.vue";
-import CreateEditArticle from "@/Views/Articles/CreateEditArticle.vue";
 
 // =============================================================================
 // Recipes
 // =============================================================================
-import Recipes from "@/Views/Recipes/Recipes.vue";
-import RecipeDetail from "@/Views/Recipes/RecipeDetail.vue";
-import CreateRecipe from "@/Views/Recipes/CreateRecipe.vue";
 
 const routes = [
-  { path: "/", name: "Home", component: Home },
-  { path: "/about", name: "About", component: About },
+  {
+    path: "/",
+    name: "Home",
+    component: () => import("@/Views/Home.vue"),
+  },
+  {
+    path: "/about",
+    name: "About",
+    component: () => import("@/Views/About.vue"),
+  },
   {
     path: "/admin",
     name: "Admin",
-    component: Admin,
-    meta: { requiresAuth: true, roles: ["SuperAdmin"] },
+    component: () => import("@/Views/Admin.vue"),
+    meta: {
+      requiresAuth: true,
+      roles: ["SuperAdmin"],
+    },
     // beforeEnter: adminGuard,
   },
-  { path: "/callback", name: "Callback", component: Callback },
-  { path: "/contact", name: "Contact", component: Contact },
-  { path: "/articles", name: "Articles", component: Articles },
+  {
+    path: "/callback",
+    name: "Callback",
+    component: () => import("@/Views/Callback.vue"),
+  },
+  {
+    path: "/contact",
+    name: "Contact",
+    component: () => import("@/Views/Contact.vue"),
+  },
+  {
+    path: "/articles",
+    name: "Articles",
+    component: () => import("@/Views/Articles/Articles.vue"),
+  },
   {
     path: "/articles/create",
     name: "CreateArticle",
-    component: CreateEditArticle,
+    component: () => import("@/Views/Articles/CreateEditArticle.vue"),
   },
 
-  { path: "/articles/:id", name: "ArticleDetail", component: ArticleDetail },
-  { path: "/recipes", name: "Recipes", component: Recipes },
-  { path: "/recipes/:id", name: "RecipeDetail", component: RecipeDetail },
   {
-    path: "/recipes/create",
+    path: "/articles/:id",
+    name: "ArticleDetail",
+    component: () => import("@/Views/Articles/ArticleDetail.vue"),
+  },
+  {
+    path: "/recipies",
+    name: "Recipies",
+    component: () => import("@/Views/Recipies/Recipies.vue"),
+  },
+  {
+    path: "/recipies/:id",
+    name: "RecipeDetail",
+    component: () => import("@/Views/Recipies/RecipeDetail.vue"),
+  },
+  {
+    path: "/recipies/create",
     name: "CreateRecipe",
-    component: CreateRecipe,
+    component: () => import("@/Views/Recipies/CreateRecipe.vue"),
     meta: { requiresAuth: true, roles: ["SuperAdmin"] },
     beforeEnter: adminGuard,
   },

@@ -1,8 +1,5 @@
 <template>
   <div>
-    <h3>Uploader</h3>
-    <v-btn @click="openModal">Upload</v-btn>
-
     <dashboard-modal
       v-if="uppy"
       :uppy="uppy"
@@ -18,9 +15,12 @@ import UppyAddUploaderPlugin from "@/utilities/uppy-add-uploader-plugin.js";
 import "@uppy/core/dist/style.min.css";
 import "@uppy/dashboard/dist/style.min.css";
 
+import { useSnackbarStore } from "@/stores/snackbar";
+
 export default {
   data() {
     return {
+      snackbarStore: useSnackbarStore(),
       isOpen: false,
       maxFileSize: 15000000,
       dashboardProps: {
@@ -43,7 +43,10 @@ export default {
     articleId: {
       type: Number,
       required: false,
-      default: 0,
+    },
+    recipeId: {
+      type: Number,
+      required: false,
     },
   },
   components: { DashboardModal },
@@ -67,6 +70,7 @@ export default {
             await this.initUpload();
           },
         })
+        .on("upload-progress", (file, progress) => {})
         .on("file-added", (file) => {
           this.tempFiles = [...this.tempFiles, file];
         })
@@ -82,18 +86,23 @@ export default {
     handleClose() {
       this.isOpen = false;
     },
-    async uploadToEndpoint(file, sig, onUploadProgress) {
-      let formData = {
-        file: file,
-        api_key: import.meta.env.VITE_APP_CLOUDINARY_API_KEY,
-        signature: sig.hash,
-        timestamp: sig.timestamp,
-      };
+    async uploadToEndpoint(file, onUploadProgress) {
+      if (!file) {
+        console.log("NO FILE FOUND");
+        return;
+      }
+      const formData = new FormData();
+      formData.append("file", file.data);
+      formData.append(
+        "upload_preset",
+        import.meta.env.VITE_APP_CLOUDINARY_UNSIGNED_PRESET
+      );
 
       const config = {
         headers: {
           "content-type": "multipart/form-data",
         },
+        withCredentials: false,
         onUploadProgress,
       };
 
@@ -113,11 +122,6 @@ export default {
         .finally(() => {
           this.loading = false;
         });
-    },
-    uploadProgressHandler(progressEvent) {
-      const { loaded, total } = progressEvent;
-      const progressPercentage = Math.round((loaded / total) * 100);
-      console.log(`Upload progress: ${progressPercentage}%`);
     },
     async getUploadSignature() {
       return this.$axios
@@ -140,41 +144,73 @@ export default {
         });
     },
     async initUpload() {
-      console.log(this.tempFiles, "sim upload files");
+      if (!this.recipeId && !this.articleId) {
+        this.snackbarStore.showSnackbar({
+          message: "Must include articleId or recipeId",
+          color: "error",
+        });
+        return;
+      }
+
+      this.uppy.emit("upload-start", this.tempFiles);
 
       for (let i = 0; i < this.tempFiles.length; i++) {
         let SELECTED_FILE = this.tempFiles[i];
 
-        console.log(SELECTED_FILE, "selected");
         try {
-          const sig = await this.getUploadSignature();
-          console.log(sig, "upload signature");
-
           const uploadResp = await this.uploadToEndpoint(
             SELECTED_FILE,
-            sig,
-            this.uploadProgressHandler
+            (ev) => {
+              // Emit progress update so Uppy Dashboard shows progress bar
+              this.uppy.emit("upload-progress", SELECTED_FILE, {
+                uploader: this,
+                bytesUploaded: ev.loaded,
+                bytesTotal: ev.total,
+                percentage: (ev.loaded / ev.total) * 100,
+                uploadComplete: ev.total < ev.loaded ? false : true,
+                uploadStarted: ev.total > 0 ? true : false,
+              });
+            }
           );
 
+          if (uploadResp) {
+            this.uppy.emit("upload-success", SELECTED_FILE, uploadResp);
+          } else {
+            console.log("Upload error");
+            return;
+          }
+
           const uploadData = {
-            ...uploadResp,
+            ...uploadResp.data,
             articleId: this.articleId > 0 ? this.articleId : null,
+            recipeId: this.recipeId > 0 ? this.recipeId : null,
           };
 
           const dbResult = await this.addToDb(uploadData);
-
-          console.log(dbResult, "dbResult");
         } catch (error) {
           console.log(error, "Error occurred during upload");
+
+          var status = -1;
+
+          if (error.response) {
+            status = error.response.status;
+          }
+
+          const response = {
+            status: status,
+          };
+
+          this.uppy.emit("upload-error", SELECTED_FILE, error, response);
         }
       }
     },
-    openModal() {
-      console.log(this.uppy, "uppy");
+    open() {
       this.isOpen = !this.isOpen;
     },
   },
   mounted() {
+    console.log(this.recipeId, "uploader recipe id");
+    console.log(this.articleId, "uploader article id");
     this.initUppy();
   },
 };

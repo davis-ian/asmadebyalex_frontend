@@ -1,88 +1,142 @@
 <template>
-  <div>
-    <v-app-bar app elevation="0">
-      <v-toolbar-title style="font-size: 1rem">
-        <strong>AS MADE BY ALEX</strong>
-      </v-toolbar-title>
-
-      <v-spacer></v-spacer>
-
-      <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn v-for="item in menu" :key="item.icon" :to="item.link" flat>{{
-          item.title
-        }}</v-btn>
-      </v-toolbar-items>
-
+  <nav class="navbar">
+    <div class="text-center">
       <v-app-bar-nav-icon
-        class="hidden-md-and-up"
-        @click="toggleMobileMenu"
+        v-bind="props"
+        class="hamburger"
+        @click="drawer = !drawer"
       ></v-app-bar-nav-icon>
 
-      <!-- <v-dialog
-        transition="dialog-bottom-transition"
-        class="hidden-md-and-up"
-        v-model="mobileMenu"
-        style="height: 100vh"
+      <h1 class="mb-0 pa-3 nav-title">As Made By Alex</h1>
+    </div>
+    <div style="gap: 20px" class="justify-center horizontal-nav-container">
+      <h4
+        @click="handleNavClick(item.path)"
+        v-for="item in menuItems"
+        class="nav-item pointer pa-2 ma-1"
       >
-        <v-card style="border: 2px solid green">
-          <v-list>
-            <v-list-item v-for="item in menu">{{ item.title }}</v-list-item>
-          </v-list>
-        </v-card>
-      </v-dialog> -->
-      <v-navigation-drawer v-model="mobileMenu" absolute bottom temporary>
-        <v-list nav dense>
-          <v-list-item-group active-class="deep-purple--text text--accent-4">
-            <v-list-item>
-              <v-list-item-title>Foo</v-list-item-title>
-            </v-list-item>
+        {{ item.title }}
+      </h4>
+      <!-- Add more navigation links as needed -->
+    </div>
 
-            <v-list-item>
-              <v-list-item-title>Bar</v-list-item-title>
-            </v-list-item>
-
-            <v-list-item>
-              <v-list-item-title>Fizz</v-list-item-title>
-            </v-list-item>
-
-            <v-list-item>
-              <v-list-item-title>Buzz</v-list-item-title>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
-      </v-navigation-drawer>
-
-      <!-- <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn> -->
-    </v-app-bar>
-  </div>
+    <div class="drop-down-nav-container">
+      <v-expand-transition>
+        <div v-show="drawer" class="drop-down-nav-content">
+          <h3
+            @click="handleNavClick(item.path)"
+            v-for="item in menuItems"
+            class="pointer pa-2 pl-6 nav-item ma-0"
+          >
+            {{ item.title }}
+          </h3>
+        </div>
+      </v-expand-transition>
+    </div>
+    <!-- <v-navigation-drawer
+      style="width: 100vw"
+      color="#fff2f3"
+      :scrim="false"
+      class="drawer"
+      app
+      v-model="drawer"
+      temporary
+    >
+      <div class="pa-3">
+        <v-btn variant="depressed" icon @click="drawer = false">x</v-btn>
+      </div>
+      <v-list>
+        <v-list-item-group>
+          <v-list-item
+            v-for="item in menuItems"
+            :key="item.title"
+            link
+            @click="$router.push(item.path)"
+          >
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer> -->
+  </nav>
 </template>
 <script>
 export default {
   data() {
     return {
-      mobileMenu: false,
-      menu: [
-        { icon: "home", title: "Recipes" },
-        { icon: "info", title: "About Me" },
-        { icon: "warning", title: "Contact" },
+      drawer: false,
+      menuItems: [
+        { icon: "home", title: "Home", path: "/" },
+        { icon: "home", title: "Recipes", path: "/recipies" },
+        { icon: "home", title: "Articles", path: "/articles" },
+        { icon: "info", title: "About Me", path: "/about" },
+        // { icon: "warning", title: "Contact", path: "/contact" },
+        // { icon: "warning", title: "Admin", path: "/admin" },
       ],
     };
   },
   methods: {
-    toggleMobileMenu() {
-      this.mobileMenu = !this.mobileMenu;
+    handleNavClick(path) {
+      this.drawer = false;
+      this.$router.push(path);
     },
   },
 };
 </script>
-<style lang=""></style>
+<style lang="scss" scoped>
+.navbar {
+  position: sticky;
+  top: 0;
+  border-bottom: 1px solid;
+  background-color: #fff2f3;
+  z-index: 10;
+  padding: 10px;
+}
+.nav-item:hover {
+  background-color: rgba(0, 0, 0, 0.078);
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.horizontal-nav-container {
+  display: none !important;
+}
+
+.hamburger {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 12px;
+}
+
+.nav-title {
+  font-size: 2rem;
+}
+
+.drop-down-nav-container {
+  position: relative;
+}
+.drop-down-nav-content {
+  width: 100%;
+  background-color: #fff2f3;
+}
+@media (min-width: 768px) {
+  .horizontal-nav-container {
+    display: flex !important;
+  }
+
+  .hamburger {
+    display: none;
+  }
+  .drawer {
+    display: none;
+  }
+  .drop-down-nav-container {
+    display: none;
+  }
+}
+</style>

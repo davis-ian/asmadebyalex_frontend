@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="pa-3">
+      <v-breadcrumbs :items="breadcrumbs" divider="/"></v-breadcrumbs>
       <div
         v-if="messageSent"
         style="border: 1px solid #efb0a1; border-radius: 5px"
@@ -76,6 +77,18 @@ export default {
       emailRules: [
         (v) => !!v || "E-mail is required",
         (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      ],
+      breadcrumbs: [
+        {
+          title: "Home",
+          disabled: false,
+          href: "/",
+        },
+        {
+          title: "Contact",
+          disabled: true,
+          href: "/contact",
+        },
       ],
     };
   },

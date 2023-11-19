@@ -43,6 +43,7 @@ import {
   faBacon,
   faIceCream,
   faDrumstickBite,
+  faStar,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
@@ -58,7 +59,8 @@ library.add(
   faBreadSlice,
   faBacon,
   faIceCream,
-  faDrumstickBite
+  faDrumstickBite,
+  faStar
 );
 
 // =============================================================================

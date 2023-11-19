@@ -1,73 +1,22 @@
 <template>
   <v-app style="background-color: #fff2f3">
-    <!-- START: Header -->
-    <v-app-bar style="background-color: #fff2f; z-index: 0" elevation="0">
-      <v-app-bar-nav-icon
-        style="background-color: transparent"
-        class="hidden-md-and-up"
-        @click="toggleMenu"
-      ></v-app-bar-nav-icon>
-
-      <v-toolbar-title @click="$router.push('/')" style="cursor: pointer">
-        <h5 class="ma-0 text-center" style>AS MADE BY ALEX</h5>
-      </v-toolbar-title>
-
-      <!-- <v-toolbar-items class="hidden-sm-and-down nav-btns">
-        <v-btn
-          v-for="(item, index) in menuItems"
-          :key="item.icon"
-          :to="item.path"
-          :style="{ '--item-index': index }"
-          style="border: 2px solid red"
-          tile
-          rounded
-          >{{ item.title }}</v-btn
-        >
-      </v-toolbar-items> -->
-      <div style="margin-right: 10px">
-        <v-btn
-          @click="openTab('https://www.instagram.com/asmadebyalex/')"
-          color="transparent"
-          icon
-        >
-          <font-awesome-icon
-            style="font-size: 1.4rem"
-            icon="fa-brands fa-instagram"
-          ></font-awesome-icon>
-        </v-btn>
-      </div>
-    </v-app-bar>
-    <!-- END: Header -->
-
-    <!-- START: Main nav -->
-    <v-navigation-drawer
-      color="#fff2f3"
-      style="width: 100%; height: calc(100vh - 64px); overflow: auto"
-      v-model="menuShowing"
-      bottom
-    >
-      <v-list nav dense>
-        <v-list-item
-          :style="{ '--item-index': index }"
-          class="drawer-item"
-          v-for="(item, index) in filteredMenuItems"
-        >
-          <h4 @click="handleNavItemClick(item)">{{ item.title }}</h4>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-    <!-- END: Main nav -->
-
     <!-- START: Main Content -->
-    <v-main id="main">
-      <router-view id="rv" />
+    <!-- <v-main>
+      <router-view />
       <snackbar />
-    </v-main>
+    </v-main> -->
+
+    <app-layout>
+      <router-view />
+      <snackbar />
+    </app-layout>
+
     <!-- END: Main Content -->
   </v-app>
 </template>
 
 <script>
+import AppLayout from "@/components/Layout/AppLayout.vue";
 import NavBar from "@/components/Layout/NavBar.vue";
 import Snackbar from "@/components/UI/Snackbar.vue";
 import Footer from "@/components/Layout/Footer.vue";
@@ -81,14 +30,6 @@ export default {
       menuShowing: false,
       user: this.$auth0.user,
       isAuthenticated: this.$auth0.isAuthenticated,
-      menuItems: [
-        { icon: "home", title: "Home", path: "/" },
-        { icon: "home", title: "Recipes", path: "/recipes" },
-        { icon: "home", title: "Articles", path: "/articles" },
-        { icon: "info", title: "About Me", path: "/about" },
-        { icon: "warning", title: "Contact", path: "/contact" },
-        // { icon: "warning", title: "Admin", path: "/admin" },
-      ],
     };
   },
   watch: {
@@ -154,7 +95,7 @@ export default {
       });
     },
   },
-  components: { NavBar, Snackbar, Footer },
+  components: { NavBar, Snackbar, Footer, AppLayout },
 };
 </script>
 
@@ -164,14 +105,15 @@ export default {
   src: local("FinoRegular"),
     url(./assets/fonts/FinoRegular.ttf) format("truetype");
 }
-#rv {
-  height: 100%;
-  overflow: auto;
-  background-color: #fff2f3;
+@font-face {
+  font-family: "CourierPrime-Regular";
+  src: local("CourierPrime-Regular"),
+    url(./assets/fonts/CourierPrime-Regular.ttf) format("truetype");
 }
-
-.nav-btns .v-btn--active {
-  color: red;
+@font-face {
+  font-family: "GlassAntiqua-Regular";
+  src: local("GalssAntiqua-Regular"),
+    url(./assets/fonts/GlassAntiqua-Regular-Regular.ttf) format("truetype");
 }
 
 // Typescale setup
@@ -183,7 +125,8 @@ html {
 } /*16px*/
 
 body {
-  font-family: "DM Sans", sans-serif;
+  // font-family: "DM Sans", sans-serif;
+  font-family: "CourierPrime-Regular", serif;
   font-weight: 400;
   line-height: 1.75;
   color: #000000;
@@ -272,6 +215,9 @@ pre {
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 5px;
+}
+.pointer {
+  cursor: pointer;
 }
 .drawer-item {
   // opacity: 0;

@@ -1,6 +1,6 @@
 <template>
   <div name="snackbars">
-    <v-snackbar v-model="show" :color="color" :timeout="timeout">
+    <v-snackbar v-model="show" location="top" :color="color" :timeout="timeout">
       {{ message }}
       <template v-if="button" v-slot:action="{ attrs }">
         <v-btn
@@ -46,3 +46,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+#snackbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+</style>

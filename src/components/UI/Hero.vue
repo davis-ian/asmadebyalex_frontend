@@ -2,13 +2,13 @@
   <div>
     <div class="hero">
       <v-row no-gutters>
-        <v-col cols="12" md="6">
+        <v-col cols="12">
           <div
             style="display: flex; flex-direction: column"
             class="welcome pa-5"
           >
-            <h1 class="all-caps display">Welcome to</h1>
-            <h1 class="all-caps display">As Made By Alex</h1>
+            <!-- <h1 class="all-caps display">Welcome to</h1>
+            <h1 class="all-caps display">As Made By Alex</h1> -->
 
             <p>
               A site that will provoke culinary inspiration; where I
@@ -26,7 +26,7 @@
             </div>
           </div>
         </v-col>
-        <v-col cols="12" md="6">
+        <v-col cols="12">
           <div style="height: 100%" class="image pa-5">
             <v-img
               height="100%"
