@@ -485,21 +485,23 @@ export default {
       });
     },
     getRecipe(id) {
-      this.$axios
-        .get(import.meta.env.VITE_APP_API + `/recipies/${id}`)
-        .then((res) => {
-          this.recipe = res.data;
-          this.tempRecipe = res.data;
-          this.recipePhotos = Array.from(this.recipe.photos);
+      if (typeof parseInt(id) == "number") {
+        this.$axios
+          .get(import.meta.env.VITE_APP_API + `/recipies/${id}`)
+          .then((res) => {
+            this.recipe = res.data;
+            this.tempRecipe = res.data;
+            this.recipePhotos = Array.from(this.recipe.photos);
 
-          this.breadcrumbs[2].title = this.recipe.name;
-        })
-        .catch((err) => {
-          console.log(err, "error");
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+            this.breadcrumbs[2].title = this.recipe.name;
+          })
+          .catch((err) => {
+            console.log(err, "error");
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+      }
     },
     getIngredients() {
       this.$axios

@@ -69,6 +69,13 @@ const routes = [
     component: () => import("@/Views/Articles/ArticleDetail.vue"),
   },
   {
+    path: "/recipies/create",
+    name: "CreateRecipe",
+    component: () => import("@/Views/Recipies/CreateRecipe.vue"),
+    meta: { requiresAuth: true, roles: ["SuperAdmin"] },
+    beforeEnter: adminGuard,
+  },
+  {
     path: "/recipies",
     name: "Recipies",
     component: () => import("@/Views/Recipies/Recipies.vue"),
@@ -79,15 +86,8 @@ const routes = [
     component: () => import("@/Views/Recipies/RecipeDetail.vue"),
   },
   {
-    path: "/recipies/create",
-    name: "CreateRecipe",
-    component: () => import("@/Views/Recipies/CreateRecipe.vue"),
-    meta: { requiresAuth: true, roles: ["SuperAdmin"] },
-    beforeEnter: adminGuard,
-  },
-  {
     path: "/measurements/create",
-    name: "CreateRecipe",
+    name: "CreateMeasurement",
     component: () => import("@/Views/Measurements/CreateEditMeasurement.vue"),
     meta: { requiresAuth: true, roles: ["SuperAdmin"] },
     beforeEnter: adminGuard,

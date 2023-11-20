@@ -16,6 +16,9 @@
         ></v-textarea>
         <div class="d-flex justify-space-between mb-3">
           <h3>Ingredients</h3>
+          <v-btn @click="openIngredientModal" variant="outlined"
+            >Manage Ingredients</v-btn
+          >
         </div>
 
         <div v-for="(item, index) in recipeIngredients" :key="index">
@@ -91,10 +94,13 @@
         >
       </div>
     </div>
+
+    <ingredient-modal ref="ingredientModal"></ingredient-modal>
   </div>
 </template>
 <script>
 import { useSnackbarStore } from "@/stores/snackbar";
+import ingredientModal from "@/components/Admin/IngredientModal.vue";
 export default {
   data() {
     return {
@@ -114,7 +120,13 @@ export default {
       },
     };
   },
+  components: { ingredientModal },
   methods: {
+    openIngredientModal() {
+      if (this.$refs.ingredientModal) {
+        this.$refs.ingredientModal.open();
+      }
+    },
     removeFromList(item, arr) {
       const found = arr.find((x) => x.id == item.id);
       if (found) {
