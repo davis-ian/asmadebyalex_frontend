@@ -80,6 +80,13 @@
             v-model="tempRecipe.description"
           ></v-textarea>
 
+          <v-textarea
+            variant="outlined"
+            v-if="editing"
+            label="Instructions"
+            v-model="tempRecipe.instructions"
+          ></v-textarea>
+
           <div v-for="(item, index) in tempRecipe.ingredients" :key="index">
             <v-row no-gutters>
               <v-col cols="12" md="4">
@@ -633,6 +640,7 @@ export default {
         let data = {
           name: this.tempRecipe.name,
           description: this.tempRecipe.description,
+          instructions: this.tempRecipe.instructions,
           ingredients: this.tempRecipe.ingredients.filter(
             (x) => x.deleted == false
           ),
