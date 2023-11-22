@@ -1,6 +1,7 @@
 <template>
   <div class="pa-3">
     <h1>Create Recipe</h1>
+    <v-btn @click="testToken">test token</v-btn>
     <div>
       <v-form ref="form" v-model="isValid">
         <v-text-field
@@ -122,6 +123,18 @@ export default {
   },
   components: { ingredientModal },
   methods: {
+    async testToken() {
+      const token = await this.$auth0.getAccessTokenSilently();
+
+      console.log(token, "token");
+
+      if (token) {
+        await navigator.clipboard.writeText(`Bearer ${token}`);
+        console.log("token copied");
+      } else {
+        console.log("no token available");
+      }
+    },
     openIngredientModal() {
       if (this.$refs.ingredientModal) {
         this.$refs.ingredientModal.open();
@@ -135,8 +148,8 @@ export default {
       }
     },
     getIngredients() {
-      this.$axios
-        .get(import.meta.env.VITE_APP_API + `/ingredients`)
+      this.axiosInstance
+        .get(`/ingredients`)
         .then((res) => {
           this.ingredients = res.data;
         })
@@ -148,8 +161,8 @@ export default {
         });
     },
     getMeasurements() {
-      this.$axios
-        .get(import.meta.env.VITE_APP_API + `/measurements`)
+      this.axiosInstance
+        .get(`/measurements`)
         .then((res) => {
           this.measurements = res.data;
         })
@@ -191,8 +204,8 @@ export default {
         ingredients: this.recipeIngredients,
       };
 
-      this.$axios
-        .post(import.meta.env.VITE_APP_API + `/recipies`, data)
+      this.axiosInstance
+        .post(`/recipies`, data)
         .then((res) => {
           this.snackbarStore.showSnackbar({
             message: "Recipe created",
@@ -210,8 +223,19 @@ export default {
           this.loading = false;
         });
     },
+    async setAuthToken() {
+      this.token = await this.$auth0.getAccessTokenSilently();
+    },
+    createAxiosInstance() {
+      this.axiosInstance = this.$axios.create({
+        headers: { Authorization: `Bearer ${this.token}` },
+        baseURL: import.meta.env.VITE_APP_API,
+      });
+    },
   },
-  mounted() {
+  async mounted() {
+    await this.setAuthToken();
+    this.createAxiosInstance();
     this.getIngredients();
     this.getMeasurements();
   },

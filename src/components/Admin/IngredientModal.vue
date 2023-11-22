@@ -1,12 +1,35 @@
 <template>
   <div>
-    <v-dialog v-model="display">
-      <v-card>
+    <v-dialog v-model="display" max-width="650px">
+      <v-card :loading="loading">
         <v-card-title>Ingredients</v-card-title>
         <v-card-text>
+          <div class="text-center" v-if="ingredients.length == 0">
+            <p v-if="loading">Loading results..</p>
+            <p v-else>No results found</p>
+          </div>
           <v-list>
             <v-list-item v-for="(item, index) in ingredients">
               <v-list-item-title>{{ item.name }}</v-list-item-title>
+              <template v-slot:append>
+                <div style="gap: 10px" class="d-flex">
+                  <v-btn
+                    @click="initEdit(item)"
+                    variant="tonal"
+                    class="xs-btn"
+                    icon
+                  >
+                    <font-awesome-icon
+                      icon="fa-solid fa-pencil"
+                    ></font-awesome-icon>
+                  </v-btn>
+                  <v-btn variant="tonal" color="error" class="xs-btn" icon>
+                    <font-awesome-icon
+                      icon="fa-solid fa-trash"
+                    ></font-awesome-icon>
+                  </v-btn>
+                </div>
+              </template>
             </v-list-item>
           </v-list>
         </v-card-text>
@@ -17,14 +40,51 @@
     </v-dialog>
 
     <v-dialog v-model="newIngredientModal" max-width="400px">
-      <v-card>
+      <v-card :loading="loading">
         <v-card-title>New Ingredient</v-card-title>
         <v-card-text>
           <v-text-field label="name" v-model="newIngredientName"></v-text-field>
         </v-card-text>
         <v-card-actions>
-          <v-btn @click="cancelNewIngredient">Cancel</v-btn>
-          <v-btn @click="submitNewIngredient">Submit</v-btn>
+          <v-btn
+            :loading="loading"
+            :disabled="loading"
+            @click="cancelNewIngredient"
+            >Cancel</v-btn
+          >
+          <v-btn
+            :loading="loading"
+            :disabled="loading"
+            @click="submitNewIngredient"
+            >Submit</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="editing" max-width="400px">
+      <v-card :loading="loading">
+        <v-card-text>
+          <v-text-field
+            @keydown.enter="submitEditIngredient"
+            v-if="tempIngredient"
+            v-model="tempIngredient.name"
+            label="Name"
+          ></v-text-field>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn
+            :loading="loading"
+            :disabled="loading"
+            @click="cancelEditIngredient"
+            >Cancel</v-btn
+          >
+          <v-btn
+            :loading="loading"
+            :disabled="loading"
+            @click="submitEditIngredient"
+            >Submit</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -40,6 +100,9 @@ export default {
       display: false,
       newIngredientModal: false,
       newIngredientName: "",
+      tempIngredient: null,
+      editing: false,
+      loading: true,
     };
   },
   watch: {
@@ -53,6 +116,60 @@ export default {
     ...mapStores(useSnackbarStore),
   },
   methods: {
+    submitEditIngredient() {
+      console.log(this.tempIngredient, "submit edit");
+
+      if (!this.tempIngredient.name) {
+        this.snackbarStore.showSnackbar({
+          message: "Ingredient name cannot be empty",
+        });
+        return;
+      }
+      if (!this.tempIngredient.id) {
+        this.snackbarStore.showSnackbar({
+          message: "Ingredient id cannot be empty",
+        });
+        return;
+      }
+
+      let data = {
+        name: this.tempIngredient.name,
+      };
+
+      this.loading = true;
+
+      this.axiosInstance
+        .put(`/ingredients/${this.tempIngredient.id}`, data)
+        .then((res) => {
+          console.log(res.data, "ingredient response");
+
+          let found = this.ingredients.find(
+            (x) => x.id == this.tempIngredient.id
+          );
+          if (found) {
+            found.name = this.tempIngredient.name;
+          }
+
+          this.snackbarStore.showSnackbar({ message: "Ingredient updated" });
+        })
+        .catch((err) => {
+          console.log(err, "error");
+        })
+        .finally(() => {
+          this.loading = false;
+          this.cancelEditIngredient();
+        });
+    },
+    cancelEditIngredient() {
+      this.editing = false;
+      setTimeout(() => {
+        this.tempIngredient = null;
+      }, 500);
+    },
+    initEdit(item) {
+      this.tempIngredient = item;
+      this.editing = true;
+    },
     submitNewIngredient() {
       console.log(this.newIngredientName, "new name");
 
@@ -69,8 +186,8 @@ export default {
 
       this.loading = true;
 
-      this.$axios
-        .post(import.meta.env.VITE_APP_API + `/ingredients`, data)
+      this.axiosInstance
+        .post(`/ingredients`, data)
         .then((res) => {
           console.log(res.data, "ingredient response");
           this.ingredients.push(res.data);
@@ -98,8 +215,8 @@ export default {
     getIngredients() {
       this.loading = true;
 
-      this.$axios
-        .get(import.meta.env.VITE_APP_API + `/ingredients`)
+      this.axiosInstance
+        .get(`/ingredients`)
         .then((res) => {
           this.ingredients = res.data;
         })
@@ -110,7 +227,25 @@ export default {
           this.loading = false;
         });
     },
+    async setAuthToken() {
+      this.token = await this.$auth0.getAccessTokenSilently();
+    },
+    createAxiosInstance() {
+      this.axiosInstance = this.$axios.create({
+        headers: { Authorization: `Bearer ${this.token}` },
+        baseURL: import.meta.env.VITE_APP_API,
+      });
+    },
+  },
+  async mounted() {
+    await this.setAuthToken();
+    this.createAxiosInstance();
   },
 };
 </script>
-<style lang=""></style>
+<style lang="scss" scoped>
+.xs-btn {
+  height: 2rem;
+  width: 2rem;
+}
+</style>

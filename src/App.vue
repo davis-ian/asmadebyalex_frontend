@@ -33,8 +33,9 @@ export default {
     };
   },
   watch: {
-    user() {
+    async user() {
       this.userStore.updateAuthStatus(this.user);
+      console.log(this.user, "USER");
     },
   },
   computed: {
