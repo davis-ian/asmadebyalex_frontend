@@ -9,8 +9,8 @@
         v-if="userStore.roles.includes('SuperAdmin')"
         size="small"
         variant="outlined"
-        @click="editing = !editing"
-        >Edit</v-btn
+        @click="toggleEditing"
+        >{{ editing ? "Cancel" : "Edit" }}</v-btn
       >
     </div>
     <div v-if="recipe">
@@ -23,6 +23,50 @@
         ></v-img>
       </div>
       <div v-if="editing">
+        <div style="gap: 30px" class="d-flex">
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              max-width: 100px;
+              margin-bottom: 24px;
+            "
+          >
+            <!-- <v-btn variant="flat" icon> -->
+            <font-awesome-icon
+              @click="toggleFeatured(recipe)"
+              class="pointer"
+              style="font-size: 1.5rem"
+              :icon="
+                recipe.featured ? 'fa-solid fa-star' : 'fa-regular fa-star'
+              "
+            ></font-awesome-icon>
+            <!-- </v-btn> -->
+            <p class="mt-3 mb-0">Featured</p>
+          </div>
+          <!-- <div
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              max-width: 100px;
+              margin-bottom: 24px;
+            "
+          >
+
+            <font-awesome-icon
+              @click="toggleFeatured(recipe)"
+              class="pointer"
+              style="font-size: 1.5rem"
+              :icon="
+                recipe.featured ? 'fa-solid fa-star' : 'fa-regular fa-star'
+              "
+            ></font-awesome-icon>
+     
+            <p class="mt-3 mb-0">Published</p>
+          </div> -->
+        </div>
         <v-form ref="form" v-model="isValid">
           <v-text-field
             variant="outlined"
@@ -40,6 +84,7 @@
             <v-row no-gutters>
               <v-col cols="12" md="4">
                 <v-autocomplete
+                  :disabled="item.deleted"
                   :items="ingredients"
                   label="Ingredient"
                   item-value="id"
@@ -51,8 +96,9 @@
                 ></v-autocomplete>
               </v-col>
 
-              <v-col cols="6" md="4">
+              <v-col cols="6" md="3">
                 <v-text-field
+                  :disabled="item.deleted"
                   type="number"
                   label="Quantity"
                   variant="outlined"
@@ -64,6 +110,7 @@
 
               <v-col cols="6" md="4">
                 <v-autocomplete
+                  :disabled="item.deleted"
                   :items="measurements"
                   variant="outlined"
                   label="Measurement"
@@ -74,7 +121,7 @@
                   :rules="[rules.required]"
                 ></v-autocomplete>
               </v-col>
-              <v-col>
+              <!-- <v-col>
                 <v-btn
                   @click="removeFromList(item, tempRecipe.ingredients)"
                   variant="outlined"
@@ -82,6 +129,35 @@
                   >Remove Ingredient</v-btn
                 >
                 <v-divider class="my-5"></v-divider>
+              </v-col> -->
+              <v-col cols="12" md="1">
+                <!-- <v-btn
+                  @click="removeFromList(item, tempRecipe.ingredients)"
+                  variant="outlined"
+                  
+                  >Remove Ingredient</v-btn
+                > -->
+                <div
+                  style="height: 56px"
+                  class="d-flex flex-grow-1 justify-center align-center"
+                >
+                  <v-btn
+                    :disabled="loading"
+                    @click="toggleIngredientDeleted(item)"
+                    variant="outlined"
+                    :color="item.deleted ? 'primary' : 'error'"
+                    class="xs-btn"
+                    icon
+                  >
+                    <font-awesome-icon
+                      :icon="
+                        item.deleted
+                          ? 'fa-solid fa-rotate-left'
+                          : 'fa-solid fa-trash'
+                      "
+                    ></font-awesome-icon>
+                  </v-btn>
+                </div>
               </v-col>
             </v-row>
           </div>
@@ -90,7 +166,7 @@
             class="d-flex flex-column justify-space-between flex-sm-row"
           >
             <v-btn size="large" variant="outlined" @click="addRecipeIngredient"
-              >Add +</v-btn
+              >Ingredient +</v-btn
             >
             <v-btn
               size="large"
@@ -106,26 +182,17 @@
       <div v-else>
         <div class="d-flex justify-space-between">
           <h1>{{ recipe.name }}</h1>
-
-          <!-- <v-btn icon> -->
-          <font-awesome-icon
-            @click="toggleFeatured(recipe)"
-            class="pointer"
-            style="font-size: 1.5rem"
-            :icon="recipe.featured ? 'fa-solid fa-star' : 'fa-regular fa-star'"
-          ></font-awesome-icon>
-          <!-- </v-btn> -->
         </div>
 
         <p>
           {{ recipe.description }}
         </p>
 
-        <v-card class="mt-4" v-if="recipe.ingredients">
-          <div class="pa-3">
-            <h3>Ingredients</h3>
+        <v-card :loading="loading" class="mt-4" v-if="recipe.ingredients">
+          <v-card-title>Ingredients</v-card-title>
+          <div class="px-3">
+            <v-divider></v-divider>
           </div>
-          <v-divider></v-divider>
           <v-list density="compact">
             <v-list-item
               two-line
@@ -331,6 +398,27 @@ export default {
     ...mapStores(useAuthStore, useSnackbarStore),
   },
   methods: {
+    toggleIngredientDeleted(item) {
+      item.deleted = !item.deleted;
+    },
+    toggleEditing() {
+      this.editing = !this.editing;
+
+      if (this.editing) {
+        this.tempRecipe = { ...this.recipe };
+        this.tempRecipe.ingredients = this.recipe.ingredients.map(
+          (ingredient) => ({
+            ...ingredient,
+            deleted: false,
+          })
+        );
+        this.editing = true;
+
+        console.log(this.tempRecipe, "temp");
+      } else {
+        this.tempRecipe = null;
+      }
+    },
     toggleFeatured(recipe) {
       let data = {
         featured: !this.recipe.featured,
@@ -339,11 +427,8 @@ export default {
       this.recipe.featured = data.featured;
 
       this.loading = true;
-      this.$axios
-        .put(
-          import.meta.env.VITE_APP_API + `/recipies/featured/${recipe.id}`,
-          data
-        )
+      this.axiosInstance
+        .put(`/recipies/featured/${recipe.id}`, data)
         .then((resp) => {
           this.snackbarStore.showSnackbar({ message: "Photo updated" });
         })
@@ -362,11 +447,8 @@ export default {
       }
 
       this.loading = true;
-      this.$axios
-        .delete(
-          import.meta.env.VITE_APP_API +
-            `/media/recipe-photo/${this.imageToDelete.id}`
-        )
+      this.axiosInstance
+        .delete(`/media/recipe-photo/${this.imageToDelete.id}`)
         .then((resp) => {
           removeFromListById(this.recipePhotos, this.imageToDelete.id);
           this.snackbarStore.showSnackbar({ message: "Photo deleted" });
@@ -426,11 +508,8 @@ export default {
       this.recipe.mainPhoto = img;
       this.recipe.mainPhotoId = img.id;
 
-      this.$axios
-        .put(
-          import.meta.env.VITE_APP_API +
-            `/recipies/main-photo/${this.recipe.id}/${img.id}`
-        )
+      this.axiosInstance
+        .put(`/recipies/main-photo/${this.recipe.id}/${img.id}`)
         .then((resp) => {
           this.snackbarStore.showSnackbar({ message: "Main photo updated" });
         })
@@ -457,8 +536,8 @@ export default {
     },
     confirmDelete() {
       this.loading = true;
-      this.$axios
-        .delete(import.meta.env.VITE_APP_API + `/recipies/${this.recipe.id}`)
+      this.axiosInstance
+        .delete(`/recipies/${this.recipe.id}`)
         .then((res) => {
           this.snackbarStore.showSnackbar({ message: "Recipe deleted" });
           this.$router.push("/admin");
@@ -482,15 +561,15 @@ export default {
         ingredientId: "",
         quantity: 0,
         measurementUnitId: "",
+        deleted: false,
       });
     },
     getRecipe(id) {
       if (typeof parseInt(id) == "number") {
-        this.$axios
-          .get(import.meta.env.VITE_APP_API + `/recipies/${id}`)
+        this.axiosInstance
+          .get(`/recipies/${id}`)
           .then((res) => {
             this.recipe = res.data;
-            this.tempRecipe = res.data;
             this.recipePhotos = Array.from(this.recipe.photos);
 
             this.breadcrumbs[2].title = this.recipe.name;
@@ -504,8 +583,10 @@ export default {
       }
     },
     getIngredients() {
-      this.$axios
-        .get(import.meta.env.VITE_APP_API + `/ingredients`)
+      this.loading = true;
+
+      this.axiosInstance
+        .get(`/ingredients`)
         .then((res) => {
           this.ingredients = res.data;
         })
@@ -517,8 +598,9 @@ export default {
         });
     },
     getMeasurements() {
-      this.$axios
-        .get(import.meta.env.VITE_APP_API + `/measurements`)
+      this.loading = true;
+      this.axiosInstance
+        .get(`/measurements`)
         .then((res) => {
           this.measurements = res.data;
         })
@@ -549,20 +631,22 @@ export default {
         }
 
         let data = {
-          name: this.name,
-          description: this.description,
-          ingredients: this.recipeIngredients,
+          name: this.tempRecipe.name,
+          description: this.tempRecipe.description,
+          ingredients: this.tempRecipe.ingredients.filter(
+            (x) => x.deleted == false
+          ),
         };
 
-        this.$axios
-          .put(
-            import.meta.env.VITE_APP_API + `/recipies/` + this.recipe.id,
-            data
-          )
+        this.loading = true;
+        this.axiosInstance
+          .put(`/recipies/` + this.recipe.id, data)
           .then((res) => {
             this.snackbarStore.showSnackbar({
               message: "Recipe updated",
             });
+            this.editing = false;
+            this.getRecipe(this.recipe.id);
           })
           .catch((err) => {
             console.log(err, "error");
@@ -576,8 +660,19 @@ export default {
           });
       });
     },
+    async setAuthToken() {
+      this.token = await this.$auth0.getAccessTokenSilently();
+    },
+    createAxiosInstance() {
+      this.axiosInstance = this.$axios.create({
+        headers: { Authorization: `Bearer ${this.token}` },
+        baseURL: import.meta.env.VITE_APP_API,
+      });
+    },
   },
-  mounted() {
+  async mounted() {
+    await this.setAuthToken();
+    this.createAxiosInstance();
     this.getRecipe(this.$route.params.id);
     this.getIngredients();
     this.getMeasurements();
@@ -585,6 +680,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.xs-btn {
+  height: 2rem;
+  width: 2rem;
+}
 .gallery-main {
   border: 5px solid black;
 }

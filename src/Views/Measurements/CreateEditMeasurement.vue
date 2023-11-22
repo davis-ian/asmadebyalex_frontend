@@ -32,8 +32,8 @@ export default {
         name: this.name,
       };
       this.loading = true;
-      this.$axios
-        .post(import.meta.env.VITE_APP_API + "/measurements", data)
+      this.axiosInstance
+        .post("/measurements", data)
         .then((res) => {
           this.$router.push("/admin");
         })
@@ -44,6 +44,19 @@ export default {
           this.loading = false;
         });
     },
+    async setAuthToken() {
+      this.token = await this.$auth0.getAccessTokenSilently();
+    },
+    createAxiosInstance() {
+      this.axiosInstance = this.$axios.create({
+        headers: { Authorization: `Bearer ${this.token}` },
+        baseURL: import.meta.env.VITE_APP_API,
+      });
+    },
+  },
+  async mounted() {
+    await this.setAuthToken();
+    this.createAxiosInstance();
   },
 };
 </script>
