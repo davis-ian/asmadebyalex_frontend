@@ -87,7 +87,10 @@ export default {
   },
   watch: {
     user() {
-      if (this.user["https://asmadebyalex.com/roles"].includes("SuperAdmin")) {
+      if (
+        this.user &&
+        this.user["https://asmadebyalex.com/roles"].includes("SuperAdmin")
+      ) {
         this.menuItems = [
           { icon: "home", title: "Home", path: "/" },
           { icon: "home", title: "Recipies", path: "/recipies" },

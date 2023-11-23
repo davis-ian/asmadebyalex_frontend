@@ -7,12 +7,15 @@
 </template>
 <script>
 import { useSnackbarStore } from "@/stores/snackbar";
+import { useAuthStore } from "@/stores/user";
 import { mapStores } from "pinia";
 export default {
   data() {
     return {
       loading: false,
       name: "",
+      token: "",
+      authStore: this.useAuthStore(),
     };
   },
   computed: {
@@ -45,7 +48,9 @@ export default {
         });
     },
     async setAuthToken() {
-      this.token = await this.$auth0.getAccessTokenSilently();
+      if (this.authStore.isAuthenticated) {
+        this.token = await this.$auth0.getAccessTokenSilently();
+      }
     },
     createAxiosInstance() {
       this.axiosInstance = this.$axios.create({

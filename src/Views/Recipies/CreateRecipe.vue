@@ -101,11 +101,13 @@
 </template>
 <script>
 import { useSnackbarStore } from "@/stores/snackbar";
+import { useAuthStore } from "@/stores/user";
 import ingredientModal from "@/components/Admin/IngredientModal.vue";
 export default {
   data() {
     return {
       snackbarStore: useSnackbarStore(),
+      authStore: useAuthStore(),
       isValid: false,
       name: "",
       description: "",
@@ -224,7 +226,9 @@ export default {
         });
     },
     async setAuthToken() {
-      this.token = await this.$auth0.getAccessTokenSilently();
+      if (this.authStore.isAuthenticated) {
+        this.token = await this.$auth0.getAccessTokenSilently();
+      }
     },
     createAxiosInstance() {
       this.axiosInstance = this.$axios.create({

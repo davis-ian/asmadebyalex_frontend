@@ -68,10 +68,12 @@ import ArticleList from "@/components/Articles/ArticleList.vue";
 import { VSkeletonLoader } from "vuetify/labs/VSkeletonLoader";
 import UnitList from "@/components/Measurements/UnitList.vue";
 import RecipeArticleListItem from "@/components/UI/RecipeArticleListItem.vue";
+import { useAuthStore } from "@/stores/user";
 
 export default {
   data() {
     return {
+      authStore: this.useAuthStore(),
       placeholderImgSrc: PlaceholerImgSrc,
       user: this.$auth0.user,
       isAuthenticated: this.$auth0.isAuthenticated,
@@ -163,8 +165,21 @@ export default {
         day: "numeric",
       });
     },
+    async setAuthToken() {
+      if (this.authStore.isAuthenticated) {
+        this.token = await this.$auth0.getAccessTokenSilently();
+      }
+    },
+    createAxiosInstance() {
+      this.axiosInstance = this.$axios.create({
+        headers: { Authorization: `Bearer ${this.token}` },
+        baseURL: import.meta.env.VITE_APP_API,
+      });
+    },
   },
-  mounted() {
+  async mounted() {
+    await this.setAuthToken();
+    this.createAxiosInstance();
     this.getArtilcles();
     this.getRecipies();
   },

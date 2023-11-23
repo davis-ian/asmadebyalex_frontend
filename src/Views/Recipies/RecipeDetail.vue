@@ -5,13 +5,13 @@
       <v-btn size="small" variant="text" text @click="$router.back()">
         <font-awesome-icon :icon="['fas', 'arrow-left']" />
       </v-btn>
-      <v-btn
+      <!-- <v-btn
         v-if="userStore.roles.includes('SuperAdmin')"
         size="small"
         variant="text"
         @click="toggleEditing"
         >{{ editing ? "Cancel" : "Edit" }}</v-btn
-      >
+      > -->
     </div>
     <div v-if="recipe">
       <div v-if="editing">
@@ -392,6 +392,7 @@ import Editor from "@/components/UI/Editor.vue";
 export default {
   data() {
     return {
+      authStore: useAuthStore(),
       message: "recipe details",
       testModal: false,
       recipe: null,
@@ -403,6 +404,7 @@ export default {
       deleteImageModal: false,
       imageToDelete: null,
       recipePhotos: [],
+      token: "",
       rules: {
         required: (value) => !!value || "Field is required",
       },
@@ -427,7 +429,7 @@ export default {
   },
   components: { Uploader, Editor },
   computed: {
-    ...mapStores(useAuthStore, useSnackbarStore),
+    ...mapStores(useSnackbarStore),
   },
   methods: {
     toggleIngredientDeleted(item) {
@@ -698,7 +700,10 @@ export default {
       });
     },
     async setAuthToken() {
-      this.token = await this.$auth0.getAccessTokenSilently();
+      console.log(this.authStore.isAuthenticated, "is auth");
+      if (this.authStore.isAuthenticated) {
+        this.token = await this.$auth0.getAccessTokenSilently();
+      }
     },
     createAxiosInstance() {
       this.axiosInstance = this.$axios.create({
