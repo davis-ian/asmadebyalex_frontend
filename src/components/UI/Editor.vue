@@ -1,19 +1,18 @@
 <template>
   <div>
-    <v-text-field variant="solo" label="Title" v-model="title"></v-text-field>
+    <!-- <v-text-field variant="solo" label="Title" v-model="title"></v-text-field> -->
 
     <div style="background-color: white">
       <QuillEditor
         class="quill-editor"
         ref="quillEditor"
         v-model:content="editorContent"
-        :toolbar="'full'"
         :options="editorOptions"
         @ready="setReady"
       />
     </div>
     <!-- <v-btn block class="mt-3">Preview</v-btn> -->
-    <v-btn @click="submitPost" block class="mt-3" color="black">Save</v-btn>
+    <!-- <v-btn @click="submitPost" block class="mt-3" color="black">Save</v-btn> -->
   </div>
 </template>
 <script>
@@ -30,24 +29,49 @@ export default {
       editorContent: "", // Store the editor content
       htmlContent: "",
       showRaw: false,
+
       editorOptions: {
         // Quill options (customize as needed)
         placeholder: "Type something...",
+        modules: {
+          toolbar: this.toolbarOptions,
+        },
       },
     };
+  },
+  props: {
+    toolbarOptions: {
+      type: Object,
+      default: [
+        [{ header: "1" }, { header: "2" }],
+        ["bold", "italic", "underline", "strike"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["link", "image"],
+        ["clean"],
+      ],
+    },
+    content: {
+      type: String,
+      required: false,
+    },
   },
   components: {
     QuillEditor,
   },
   methods: {
     setReady(evt) {
-      // console.log(evt, "ready");
+      console.log(evt, "ready");
+      console.log(this.content, "content");
+      if (this.content) {
+        this.setHtml(this.content);
+      }
     },
     getHtml() {
       const htmlContent = this.$refs.quillEditor.getHTML();
-      this.htmlContent = htmlContent;
+      // this.htmlContent = htmlContent;
+      return htmlContent;
     },
-    setHTML(val) {
+    setHtml(val) {
       this.$refs.quillEditor.setHTML(val);
     },
     testRef() {
@@ -96,10 +120,17 @@ export default {
 };
 </script>
 <style lang="scss">
+.ql-toolbar.ql-snow {
+  // border: 2px solid red !important;
+  border-radius: 5px 5px 0 0 !important;
+}
 .quill-editor {
   min-height: 300px;
-
+  border-radius: 0 0 5px 5px !important;
   .ql-editor {
+    border-radius: 0 0 5px 5px !important;
+    // border: 2px solid red !important;
+    border: none;
     min-height: 300px;
   }
 }

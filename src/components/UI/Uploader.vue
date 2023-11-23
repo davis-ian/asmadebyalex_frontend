@@ -121,19 +121,10 @@ export default {
           this.loading = false;
         });
     },
-    async getUploadSignature() {
-      return this.$axios
-        .get(import.meta.env.VITE_APP_API + "/media/upload-signature")
-        .then((resp) => {
-          return resp.data;
-        })
-        .catch((error) => {
-          console.log(error, "Error getting upload signature");
-        });
-    },
+
     async addToDb(data) {
-      return this.$axios
-        .post(import.meta.env.VITE_APP_API + "/media/", data)
+      return this.axiosInstance
+        .post("/media", data)
         .then((resp) => {
           return resp.data;
         })
@@ -208,8 +199,19 @@ export default {
     open() {
       this.isOpen = !this.isOpen;
     },
+    async setAuthToken() {
+      this.token = await this.$auth0.getAccessTokenSilently();
+    },
+    createAxiosInstance() {
+      this.axiosInstance = this.$axios.create({
+        headers: { Authorization: `Bearer ${this.token}` },
+        baseURL: import.meta.env.VITE_APP_API,
+      });
+    },
   },
-  mounted() {
+  async mounted() {
+    await this.setAuthToken();
+    this.createAxiosInstance();
     this.initUppy();
   },
 };

@@ -75,18 +75,17 @@
 
           <v-textarea
             variant="outlined"
-            v-if="editing"
             label="Description"
             v-model="tempRecipe.description"
           ></v-textarea>
 
-          <v-textarea
-            variant="outlined"
-            v-if="editing"
-            label="Instructions"
-            v-model="tempRecipe.instructions"
-          ></v-textarea>
+          <span>Instructions</span>
+          <editor :content="recipe.instructions" class="mb-6" ref="editor" />
 
+          <v-divider></v-divider>
+          <div class="mb-6">
+            <span>Ingredients</span>
+          </div>
           <div v-for="(item, index) in tempRecipe.ingredients" :key="index">
             <v-row no-gutters>
               <v-col cols="12" md="4">
@@ -363,6 +362,7 @@ import { mapStores } from "pinia";
 import { useAuthStore } from "@/stores/user";
 import Uploader from "@/components/UI/Uploader.vue";
 import { removeFromListById } from "@/utilities/general.js";
+import Editor from "@/components/UI/Editor.vue";
 
 export default {
   data() {
@@ -400,7 +400,7 @@ export default {
       ],
     };
   },
-  components: { Uploader },
+  components: { Uploader, Editor },
   computed: {
     ...mapStores(useAuthStore, useSnackbarStore),
   },
@@ -637,14 +637,18 @@ export default {
           return;
         }
 
+        let instructions = this.$refs.editor.getHtml();
+
         let data = {
           name: this.tempRecipe.name,
           description: this.tempRecipe.description,
-          instructions: this.tempRecipe.instructions,
+          instructions: instructions,
           ingredients: this.tempRecipe.ingredients.filter(
             (x) => x.deleted == false
           ),
         };
+
+        console.log(data, "data");
 
         this.loading = true;
         this.axiosInstance
