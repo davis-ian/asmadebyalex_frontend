@@ -2,26 +2,18 @@
   <div>
     <v-breadcrumbs :items="breadcrumbs" divider="/"></v-breadcrumbs>
     <div class="d-flex justify-space-between mb-3">
-      <v-btn size="small" variant="tonal" text @click="$router.back()">
+      <v-btn size="small" variant="text" text @click="$router.back()">
         <font-awesome-icon :icon="['fas', 'arrow-left']" />
       </v-btn>
       <v-btn
         v-if="userStore.roles.includes('SuperAdmin')"
         size="small"
-        variant="outlined"
+        variant="text"
         @click="toggleEditing"
         >{{ editing ? "Cancel" : "Edit" }}</v-btn
       >
     </div>
     <div v-if="recipe">
-      <div class="d-flex justify-center pa-6">
-        <v-img
-          max-width="500px"
-          v-if="recipe.mainPhoto"
-          :src="recipe.mainPhoto.secureUrl"
-          :lazy-src="recipe.mainPhoto.secureUrl"
-        ></v-img>
-      </div>
       <div v-if="editing">
         <div style="gap: 30px" class="d-flex">
           <div
@@ -185,38 +177,69 @@
         </v-form>
       </div>
 
-      <div v-else>
-        <div class="d-flex justify-space-between">
-          <h1>{{ recipe.name }}</h1>
+      <div
+        class="pa-3 mb-6"
+        style="border-radius: 5px; background-color: rgba(0, 0, 0, 0.066)"
+        v-else
+      >
+        <div class="d-flex flex-column flex-md-row">
+          <div class="d-flex flex-grow-1 justify-center pa-6">
+            <v-img
+              max-width="200px"
+              v-if="recipe.mainPhoto"
+              :src="recipe.mainPhoto.secureUrl"
+              :lazy-src="recipe.mainPhoto.secureUrl"
+            ></v-img>
+          </div>
+
+          <div class="d-flex flex-grow-1 flex-column justify-center">
+            <h1 class="text-center">{{ recipe.name }}</h1>
+
+            <p class="text-center">
+              {{ recipe.description }}
+            </p>
+          </div>
         </div>
+        <v-divider></v-divider>
 
-        <p>
-          {{ recipe.description }}
-        </p>
+        <h4>Ingredients</h4>
+        <v-list bg-color="transparent" density="compact">
+          <v-list-item
+            two-line
+            v-for="(item, index) in recipe.ingredients"
+            :key="index"
+          >
+            <v-list-item-title>
+              {{ item.quantity }}
+              {{
+                item.quantity > 0
+                  ? `${item.measurementUnit.name}s`
+                  : item.measurementUnit.name
+              }}
+              {{ item.ingredient.name }}</v-list-item-title
+            >
+            <!-- <v-list-item-subtitle
+              >{{ item.quantity }}
+              {{ item.measurementUnit.name }}</v-list-item-subtitle
+            > -->
+          </v-list-item>
+        </v-list>
 
-        <v-card :loading="loading" class="mt-4" v-if="recipe.ingredients">
+        <!-- <v-card :loading="loading" class="mt-4" v-if="recipe.ingredients">
           <v-card-title>Ingredients</v-card-title>
           <div class="px-3">
             <v-divider></v-divider>
           </div>
-          <v-list density="compact">
-            <v-list-item
-              two-line
-              v-for="(item, index) in recipe.ingredients"
-              :key="index"
-            >
-              <v-list-item-title> {{ item.ingredient.name }}</v-list-item-title>
-              <v-list-item-subtitle
-                >{{ item.quantity }}
-                {{ item.measurementUnit.name }}</v-list-item-subtitle
-              >
-            </v-list-item>
-          </v-list>
-        </v-card>
+          
+        </v-card> -->
 
-        <div class="mt-3">
-          <h3>Instructions</h3>
-          <div v-if="recipe.instructions" v-html="recipe.instructions"></div>
+        <div>
+          <h4>Instructions</h4>
+          <div
+            v-if="recipe.instructions"
+            class="pl-10"
+            v-html="recipe.instructions"
+          ></div>
           <div v-else>
             <p>No instructions available.</p>
           </div>
@@ -263,11 +286,11 @@
         class="d-flex child-flex"
         cols="4"
       >
-        <div class="pointer gallery-img-wrap">
+        <div :class="editing ? 'pointer' : ''" class="gallery-img-wrap">
           <v-img
             max-width="400px"
             @click="handleImgClick(img)"
-            :class="checkMainImg(img) == true ? 'gallery-main' : ''"
+            :class="checkMainImg(img) == true && editing ? 'gallery-main' : ''"
             :src="imgWithLimit(img.secureUrl, 400)"
             :lazy-src="imgWithLimit(img.secureUrl, 400)"
             aspect-ratio="1"
@@ -292,17 +315,19 @@
               color: black;
               font-size: 1.8rem;
             "
-            v-if="checkMainImg(img) == true"
+            v-if="checkMainImg(img) == true && editing"
             icon="fa-solid fa-circle-check"
           ></font-awesome-icon>
 
           <v-btn
+            v-if="editing"
             icon
             dark
             color="error"
             small
             @click.stop="deleteImage1(img)"
             class="img-delete-btn"
+            :class="editing ? 'pointer' : ''"
           >
             <font-awesome-icon icon="fa-solid fa-trash"></font-awesome-icon>
           </v-btn>
