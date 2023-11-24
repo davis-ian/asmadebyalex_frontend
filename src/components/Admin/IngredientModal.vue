@@ -115,7 +115,7 @@ import { mapStores } from "pinia";
 export default {
   data() {
     return {
-      authStore: this.useAuthStore(),
+      authStore: useAuthStore(),
       ingredients: [],
       display: false,
       newIngredientModal: false,

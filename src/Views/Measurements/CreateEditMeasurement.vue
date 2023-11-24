@@ -15,7 +15,7 @@ export default {
       loading: false,
       name: "",
       token: "",
-      authStore: this.useAuthStore(),
+      authStore: useAuthStore(),
     };
   },
   computed: {
