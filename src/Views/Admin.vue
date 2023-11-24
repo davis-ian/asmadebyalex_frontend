@@ -73,7 +73,7 @@ import { useAuthStore } from "@/stores/user";
 export default {
   data() {
     return {
-      authStore: this.useAuthStore(),
+      authStore: useAuthStore(),
       placeholderImgSrc: PlaceholerImgSrc,
       user: this.$auth0.user,
       isAuthenticated: this.$auth0.isAuthenticated,
