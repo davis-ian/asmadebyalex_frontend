@@ -1,7 +1,7 @@
 <template>
   <div class="pa-3">
     <h1>Create Recipe</h1>
-    <v-btn @click="testToken">test token</v-btn>
+    <!-- <v-btn @click="testToken">test token</v-btn> -->
     <div>
       <v-form ref="form" v-model="isValid">
         <v-text-field
