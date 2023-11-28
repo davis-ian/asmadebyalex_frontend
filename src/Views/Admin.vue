@@ -65,7 +65,7 @@
 import PlaceholerImgSrc from "@/assets/images/pastry-board.jpg";
 import RecipeList from "@/components/Recipies/RecipeList.vue";
 import ArticleList from "@/components/Articles/ArticleList.vue";
-import { VSkeletonLoader } from "vuetify/labs/VSkeletonLoader";
+// import { VSkeletonLoader } from "vuetify/labs/VSkeletonLoader";
 import UnitList from "@/components/Measurements/UnitList.vue";
 import RecipeArticleListItem from "@/components/UI/RecipeArticleListItem.vue";
 import { useAuthStore } from "@/stores/user";
@@ -97,7 +97,7 @@ export default {
   components: {
     RecipeList,
     ArticleList,
-    VSkeletonLoader,
+    // VSkeletonLoader,
     UnitList,
     RecipeArticleListItem,
   },
@@ -166,7 +166,7 @@ export default {
       });
     },
     async setAuthToken() {
-      if (this.authStore.isAuthenticated) {
+      if (this.$auth0.isAuthenticated) {
         this.token = await this.$auth0.getAccessTokenSilently();
       }
     },

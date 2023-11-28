@@ -130,9 +130,6 @@ export default {
         logoutParams: { returnTo: window.location.origin },
       });
     },
-    handleProfile() {
-      console.log(this.user, "USER");
-    },
   },
 };
 </script>

@@ -151,8 +151,6 @@ export default {
       this.axiosInstance
         .delete(`/ingredients/${this.tempIngredient.id}`)
         .then((res) => {
-          console.log(res.data, "ingredient response");
-
           let found = this.ingredients.find(
             (x) => x.id == this.tempIngredient.id
           );
@@ -186,8 +184,6 @@ export default {
       this.deleteModal = true;
     },
     submitEditIngredient() {
-      console.log(this.tempIngredient, "submit edit");
-
       if (!this.tempIngredient.name) {
         this.snackbarStore.showSnackbar({
           message: "Ingredient name cannot be empty",
@@ -210,8 +206,6 @@ export default {
       this.axiosInstance
         .put(`/ingredients/${this.tempIngredient.id}`, data)
         .then((res) => {
-          console.log(res.data, "ingredient response");
-
           let found = this.ingredients.find(
             (x) => x.id == this.tempIngredient.id
           );
@@ -240,8 +234,6 @@ export default {
       this.editing = true;
     },
     submitNewIngredient() {
-      console.log(this.newIngredientName, "new name");
-
       if (!this.newIngredientName) {
         this.snackbarStore.showSnackbar({
           message: "Ingredient name cannot be empty",
@@ -258,7 +250,6 @@ export default {
       this.axiosInstance
         .post(`/ingredients`, data)
         .then((res) => {
-          console.log(res.data, "ingredient response");
           this.ingredients.push(res.data);
           this.snackbarStore.showSnackbar({ message: "Ingredient added" });
         })

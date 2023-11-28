@@ -5,13 +5,13 @@
       <v-btn size="small" variant="text" text @click="$router.back()">
         <font-awesome-icon :icon="['fas', 'arrow-left']" />
       </v-btn>
-      <!-- <v-btn
-        v-if="userStore.roles.includes('SuperAdmin')"
+      <v-btn
+        v-if="authStore.roles.includes('SuperAdmin')"
         size="small"
         variant="text"
         @click="toggleEditing"
         >{{ editing ? "Cancel" : "Edit" }}</v-btn
-      > -->
+      >
     </div>
     <div v-if="recipe">
       <div v-if="editing">
@@ -90,8 +90,21 @@
                   v-model="item.ingredientId"
                   clearable
                   variant="outlined"
-                  :rules="[rules.required]"
-                ></v-autocomplete>
+                  :rules="[!item.deleted ? rules.required : () => true]"
+                  @update:search="updateIngredientInputSearch"
+                  :key="`ingredient-input-${refreshKey}`"
+                >
+                  <template v-slot:no-data>
+                    <div class="text-center">
+                      <v-btn
+                        block=""
+                        variant="text"
+                        @click="addIngredientToDb(index)"
+                        >Add ingredient</v-btn
+                      >
+                    </div>
+                  </template>
+                </v-autocomplete>
               </v-col>
 
               <v-col cols="6" md="3">
@@ -102,7 +115,7 @@
                   variant="outlined"
                   min="0"
                   v-model.number="item.quantity"
-                  :rules="[rules.required]"
+                  :rules="[!item.deleted ? rules.required : () => true]"
                 ></v-text-field>
               </v-col>
 
@@ -116,8 +129,21 @@
                   item-title="name"
                   v-model="item.measurementUnitId"
                   clearable
-                  :rules="[rules.required]"
-                ></v-autocomplete>
+                  :rules="[!item.deleted ? rules.required : () => true]"
+                  @update:search="updateMeasurementInputSearch"
+                  :key="`measurement-input-${refreshKey}`"
+                >
+                  <template v-slot:no-data>
+                    <div class="text-center">
+                      <v-btn
+                        block=""
+                        variant="text"
+                        @click="addMeasurementToDb(index)"
+                        >Add measurement</v-btn
+                      >
+                    </div>
+                  </template>
+                </v-autocomplete>
               </v-col>
               <!-- <v-col>
                 <v-btn
@@ -405,6 +431,9 @@ export default {
       imageToDelete: null,
       recipePhotos: [],
       token: "",
+      ingredientSearchText: "",
+      measurementSearchText: "",
+      refreshKey: 0,
       rules: {
         required: (value) => !!value || "Field is required",
       },
@@ -432,6 +461,47 @@ export default {
     ...mapStores(useSnackbarStore),
   },
   methods: {
+    updateIngredientInputSearch(evt) {
+      console.log(evt, "search updated");
+      this.ingredientSearchText = evt;
+    },
+    updateMeasurementInputSearch(evt) {
+      console.log(evt, "search updated");
+      this.measurementSearchText = evt;
+    },
+    addMeasurementToDb(index) {
+      let data = {
+        name: this.measurementSearchText,
+      };
+      console.log(data, "data");
+      this.axiosInstance
+        .post("/measurements", data)
+        .then((resp) => {
+          this.measurements.push(resp.data);
+          this.refreshKey++;
+          this.tempRecipe.ingredients[index].measurementUnitId = resp.data.id;
+          console.log(this.tempRecipe.ingredients);
+        })
+        .catch((error) => {
+          console.log(error, "ingredient error");
+        });
+    },
+    addIngredientToDb(index) {
+      let data = {
+        name: this.ingredientSearchText,
+      };
+      console.log(data, "data");
+      this.axiosInstance
+        .post("/ingredients", data)
+        .then((resp) => {
+          this.ingredients.push(resp.data);
+          this.refreshKey++;
+          this.tempRecipe.ingredients[index].ingredientId = resp.data.id;
+        })
+        .catch((error) => {
+          console.log(error, "ingredient error");
+        });
+    },
     toggleIngredientDeleted(item) {
       item.deleted = !item.deleted;
     },
@@ -700,8 +770,7 @@ export default {
       });
     },
     async setAuthToken() {
-      console.log(this.authStore.isAuthenticated, "is auth");
-      if (this.authStore.isAuthenticated) {
+      if (this.$auth0.isAuthenticated) {
         this.token = await this.$auth0.getAccessTokenSilently();
       }
     },

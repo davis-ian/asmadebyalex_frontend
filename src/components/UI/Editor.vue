@@ -60,8 +60,6 @@ export default {
   },
   methods: {
     setReady(evt) {
-      console.log(evt, "ready");
-      console.log(this.content, "content");
       if (this.content) {
         this.setHtml(this.content);
       }

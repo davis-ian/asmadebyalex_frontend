@@ -4,14 +4,14 @@
       <v-progress-linear indeterminate></v-progress-linear>
     </div>
 
-    <div v-if="loading">
+    <!-- <div v-if="loading">
       <v-skeleton-loader
         v-for="i in 4"
         class="mx-auto border my-5"
         type="list-item-avatar-three-line"
       ></v-skeleton-loader>
-    </div>
-    <div v-else>
+    </div> -->
+    <div>
       <div
         @click="$router.push(`/recipies/${item.id}`)"
         v-for="(item, index) in recipies"
@@ -28,7 +28,7 @@
 </template>
 <script>
 import PlaceholerImgSrc from "@/assets/images/pastry-board.jpg";
-import { VSkeletonLoader } from "vuetify/labs/VSkeletonLoader";
+// import { VSkeletonLoader } from "vuetify/labs/VSkeletonLoader";
 import RecipeArticleListItem from "@/components/UI/RecipeArticleListItem.vue";
 
 export default {
@@ -43,7 +43,7 @@ export default {
     };
   },
   components: {
-    VSkeletonLoader,
+    // VSkeletonLoader,
     RecipeArticleListItem,
   },
   methods: {

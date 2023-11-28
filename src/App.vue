@@ -28,24 +28,27 @@ export default {
   data() {
     return {
       menuShowing: false,
+      user: this.$auth0.user,
+      isAuthenticated: this.$auth0.isAuthenticated,
+      authStore: useAuthStore(),
     };
   },
   watch: {
     async user(newValue) {
       if (newValue) {
-        this.userStore.updateAuthStatus(this.user);
+        this.authStore.updateAuthStatus(this.user);
         console.log(this.user, "USER");
       }
     },
   },
   computed: {
     ...mapStores(useAuthStore, useSnackbarStore),
-    user() {
-      return this.$auth0 ? this.$auth0.user : null;
-    },
-    isAuthenticated() {
-      return this.$auth0 ? this.$auth0.isAuthenticated : false;
-    },
+    // user() {
+    //   return this.$auth0 ? this.$auth0.user : null;
+    // },
+    // isAuthenticated() {
+    //   return this.$auth0 ? this.$auth0.isAuthenticated : false;
+    // },
     isSuperAdmin() {
       if (this.user && this.isAuthenticated) {
         const userRoles = this.user["https://asmadebyalex.com/roles"];
