@@ -36,7 +36,7 @@ export default {
   watch: {
     async user(newValue) {
       if (newValue) {
-        this.authStore.updateAuthStatus(this.user);
+        this.authStore.updateAuthStatus(this.user, this.isAuthenticated);
         console.log(this.user, "USER");
       }
     },

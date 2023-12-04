@@ -9,7 +9,7 @@
     <div v-if="isAuthenticated">
       <!-- <h3>Account</h3> -->
       <!-- <pre style="width: 100%">{{ $auth0.user }}</pre> -->
-      <div>
+      <!-- <div>
         <div class="mb-5 d-flex justify-space-between align-end">
           <h3 class="ma-0">Articles</h3>
           <v-btn
@@ -23,7 +23,7 @@
         </div>
 
         <article-list></article-list>
-      </div>
+      </div> -->
       <div>
         <div class="mb-5 d-flex justify-space-between align-end">
           <h3 class="ma-0">Recipies</h3>

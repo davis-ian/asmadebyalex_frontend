@@ -2,7 +2,7 @@
 // CORE
 // =============================================================================
 import { createRouter, createWebHistory } from "vue-router";
-import { adminGuard } from "@/auth/authGuard";
+import { authGuard } from "@/auth/authGuard";
 
 // =============================================================================
 // Main
@@ -18,6 +18,11 @@ import { adminGuard } from "@/auth/authGuard";
 
 const routes = [
   {
+    path: "/forbidden",
+    name: "Forbidden",
+    component: () => import("@/Views/Forbidden.vue"),
+  },
+  {
     path: "/",
     name: "Home",
     component: () => import("@/Views/Home.vue"),
@@ -31,6 +36,9 @@ const routes = [
     path: "/about",
     name: "About",
     component: () => import("@/Views/About.vue"),
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/admin",
@@ -40,7 +48,6 @@ const routes = [
       requiresAuth: true,
       roles: ["SuperAdmin"],
     },
-    // beforeEnter: adminGuard,
   },
   {
     path: "/callback",
@@ -61,6 +68,10 @@ const routes = [
     path: "/articles/create",
     name: "CreateArticle",
     component: () => import("@/Views/Articles/CreateEditArticle.vue"),
+    meta: {
+      requiresAuth: true,
+      roles: ["SuperAdmin"],
+    },
   },
 
   {
@@ -72,8 +83,10 @@ const routes = [
     path: "/recipies/create",
     name: "CreateRecipe",
     component: () => import("@/Views/Recipies/CreateRecipe.vue"),
-    meta: { requiresAuth: true, roles: ["SuperAdmin"] },
-    beforeEnter: adminGuard,
+    meta: {
+      requiresAuth: true,
+      roles: ["SuperAdmin"],
+    },
   },
   {
     path: "/recipies",
@@ -89,8 +102,10 @@ const routes = [
     path: "/measurements/create",
     name: "CreateMeasurement",
     component: () => import("@/Views/Measurements/CreateEditMeasurement.vue"),
-    meta: { requiresAuth: true, roles: ["SuperAdmin"] },
-    beforeEnter: adminGuard,
+    meta: {
+      requiresAuth: true,
+      roles: ["SuperAdmin"],
+    },
   },
 ];
 
@@ -98,5 +113,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+router.beforeEach(authGuard);
 
 export default router;

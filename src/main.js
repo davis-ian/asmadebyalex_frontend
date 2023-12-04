@@ -41,6 +41,7 @@ import {
   faEllipsis,
   faPlus,
   faTrash,
+  faTrashCan,
   faArrowLeft,
   faBreadSlice,
   faBacon,
@@ -56,6 +57,7 @@ import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 // import { fa } from "@fortawesome/free-regular-svg-icons";
 
 library.add(
+  faTrashCan,
   faRotateLeft,
   faPencil,
   faStarReg,
@@ -85,6 +87,7 @@ app.component("font-awesome-icon", FontAwesomeIcon);
 // GLOBALS
 // =============================================================================
 import axios from "axios";
+import { useAuthStore } from "./stores/user";
 
 const axiosInstance = axios.create({
   withCredentials: true,
@@ -97,6 +100,13 @@ app.config.globalProperties.$axios = { ...axiosInstance };
 app.use(router);
 
 app.use(pinia);
+const authStore = useAuthStore(pinia);
 app.use(auth0);
 registerPlugins(app);
-app.mount("#app");
+// app.mount("#app");
+// Callback function to be called once the store is created
+const startApp = () => {
+  app.mount("#app");
+};
+
+startApp();

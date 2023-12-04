@@ -209,10 +209,12 @@
         v-else
       >
         <div class="d-flex flex-column flex-md-row">
-          <div class="d-flex flex-grow-1 justify-center pa-6">
+          <div
+            v-if="recipe.mainPhoto"
+            class="d-flex flex-grow-1 justify-center pa-6"
+          >
             <v-img
               max-width="200px"
-              v-if="recipe.mainPhoto"
               :src="recipe.mainPhoto.secureUrl"
               :lazy-src="recipe.mainPhoto.secureUrl"
             ></v-img>

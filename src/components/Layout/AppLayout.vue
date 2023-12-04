@@ -1,7 +1,7 @@
 <template>
   <div class="app-layout">
     <nav-bar />
-    <div class="d-flex flex-column align-center">
+    <div class="d-flex flex-column align-center flex-grow-1">
       <div class="pa-3 view-content">
         <slot />
       </div>
@@ -20,6 +20,9 @@ export default {
 <style>
 .app-layout {
   background-color: #fff2f3;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .view-content {

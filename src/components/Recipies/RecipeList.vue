@@ -21,15 +21,35 @@
           '--item-index': index,
         }"
       >
-        <recipe-article-list-item :item="item" class="list-item pointer" />
+        <recipe-article-list-item
+          @delete="recipeDeleteHandler(item)"
+          :item="item"
+          class="list-item pointer"
+        />
       </div>
     </div>
   </div>
+
+  <v-dialog v-if="selectedRecipe" v-model="deleteModal" max-width="600px">
+    <v-card :loading="loading">
+      <v-card-title>Delete Recipe?</v-card-title>
+      <v-card-text
+        >Are you sure you want to delete
+        <strong>{{ selectedRecipe.name }}?</strong>
+      </v-card-text>
+      <v-card-text>This cannot be undone.</v-card-text>
+      <v-card-actions>
+        <v-btn :disabled="loading" @click="cancelDelete">Cancel</v-btn>
+        <v-btn :disabled="loading" @click="submitRecipeDelete">Submit</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 <script>
 import PlaceholerImgSrc from "@/assets/images/pastry-board.jpg";
 // import { VSkeletonLoader } from "vuetify/labs/VSkeletonLoader";
 import RecipeArticleListItem from "@/components/UI/RecipeArticleListItem.vue";
+import { useSnackbarStore } from "@/stores/snackbar";
 
 export default {
   name: "Recipies",
@@ -40,6 +60,9 @@ export default {
       recipies: [],
       loading: true,
       placeholderImgSrc: PlaceholerImgSrc,
+      selectedRecipe: null,
+      deleteModal: false,
+      snackbarStore: useSnackbarStore(),
     };
   },
   components: {
@@ -47,6 +70,35 @@ export default {
     RecipeArticleListItem,
   },
   methods: {
+    submitRecipeDelete() {
+      this.loading = true;
+      this.axiosInstance
+        .delete(`/recipies/` + this.selectedRecipe.id)
+        .then((res) => {
+          this.snackbarStore.showSnackbar({
+            message: "Recipe deleted",
+          });
+          this.getRecipies();
+        })
+        .catch((err) => {
+          console.log(err, "error");
+          this.snackbarStore.showSnackbar({
+            message: "Error creating recipe",
+            color: "error",
+          });
+        })
+        .finally(() => {
+          this.loading = false;
+          this.cancelDelete();
+        });
+    },
+    cancelDelete() {
+      (this.deleteModal = false), (this.selectedRecipe = null);
+    },
+    recipeDeleteHandler(recipe) {
+      this.selectedRecipe = recipe;
+      this.deleteModal = true;
+    },
     getRecipies() {
       this.loading = true;
 
@@ -62,8 +114,21 @@ export default {
           this.loading = false;
         });
     },
+    async setAuthToken() {
+      if (this.$auth0.isAuthenticated) {
+        this.token = await this.$auth0.getAccessTokenSilently();
+      }
+    },
+    createAxiosInstance() {
+      this.axiosInstance = this.$axios.create({
+        headers: { Authorization: `Bearer ${this.token}` },
+        baseURL: import.meta.env.VITE_APP_API,
+      });
+    },
   },
-  mounted() {
+  async mounted() {
+    await this.setAuthToken();
+    this.createAxiosInstance();
     this.getRecipies();
   },
 };

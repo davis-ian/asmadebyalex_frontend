@@ -1,8 +1,8 @@
 <template>
   <nav class="navbar">
     <div class="text-center">
+      <!-- v-bind="props" -->
       <v-app-bar-nav-icon
-        v-bind="props"
         class="hamburger"
         @click="drawer = !drawer"
       ></v-app-bar-nav-icon>
@@ -75,7 +75,7 @@ export default {
       menuItems: [
         { icon: "home", title: "Home", path: "/" },
         { icon: "home", title: "Recipies", path: "/recipies" },
-        { icon: "home", title: "Articles", path: "/articles" },
+        // { icon: "home", title: "Articles", path: "/articles" },
         { icon: "info", title: "About Me", path: "/about" },
         // { icon: "warning", title: "Contact", path: "/contact" },
         { icon: "warning", title: "Login", path: "/login" },

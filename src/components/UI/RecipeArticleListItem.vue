@@ -24,6 +24,17 @@
       </div>
       <div v-if="item.createdAt">{{ formatDate(item.createdAt) }}</div>
     </div>
+    <div class="d-flex justify-center align-center ma-3">
+      <v-btn
+        class="delete-btn"
+        @click.stop="$emit('delete')"
+        color="#ef5267"
+        icon
+        variant="flat"
+      >
+        <font-awesome-icon icon="fa-solid fa-trash-can"></font-awesome-icon>
+      </v-btn>
+    </div>
   </div>
 </template>
 <script>
@@ -90,5 +101,18 @@ export default {
   width: 100px;
   height: 100px;
   border-right: 1px solid;
+}
+
+.delete-btn {
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.delete-btn:hover {
+  opacity: 1 !important;
+}
+
+.list-item-wrapper:hover .delete-btn {
+  opacity: 0.3;
 }
 </style>
