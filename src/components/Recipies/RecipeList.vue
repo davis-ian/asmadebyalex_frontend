@@ -39,8 +39,18 @@
       </v-card-text>
       <v-card-text>This cannot be undone.</v-card-text>
       <v-card-actions>
-        <v-btn :disabled="loading" @click="cancelDelete">Cancel</v-btn>
-        <v-btn :disabled="loading" @click="submitRecipeDelete">Submit</v-btn>
+        <div class="d-flex justify-space-between flex-grow-1">
+          <v-btn :disabled="loading" color="#f5eee6" variant="flat" @click="cancelDelete"
+            >Cancel</v-btn
+          >
+          <v-btn
+            :disabled="loading"
+            variant="flat"
+            color="#ef5267"
+            @click="submitRecipeDelete"
+            >Delete</v-btn
+          >
+        </div>
       </v-card-actions>
     </v-card>
   </v-dialog>

@@ -40,7 +40,7 @@
         <recipe-list></recipe-list>
       </div>
 
-      <div>
+      <!-- <div>
         <div class="mb-5 d-flex justify-space-between align-end">
           <h3 class="ma-0">Measurement Units</h3>
           <v-btn
@@ -53,7 +53,7 @@
           </v-btn>
         </div>
         <unit-list></unit-list>
-      </div>
+      </div> -->
     </div>
     <div v-else>
       <p>Admin account required</p>

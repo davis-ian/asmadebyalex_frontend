@@ -168,8 +168,8 @@
                   <v-btn
                     :disabled="loading"
                     @click="toggleIngredientDeleted(item)"
-                    variant="outlined"
-                    :color="item.deleted ? 'primary' : 'error'"
+                    variant="flat"
+                    :color="item.deleted ? 'primary' : '#ef5267'"
                     class="xs-btn"
                     icon
                   >
@@ -185,21 +185,22 @@
               </v-col>
             </v-row>
           </div>
-          <div
+          <v-btn variant="tonal" @click="addRecipeIngredient"
+            >Ingredient +</v-btn
+          >
+          <v-divider class="mt-3"></v-divider>
+          <!-- <div
             style="gap: 20px"
             class="d-flex flex-column justify-space-between flex-sm-row"
           >
-            <v-btn size="large" variant="outlined" @click="addRecipeIngredient"
-              >Ingredient +</v-btn
-            >
             <v-btn
               size="large"
-              variant="outlined"
+              variant="flat"
               @click="updateRecipe"
               color="primary"
               >Save</v-btn
             >
-          </div>
+          </div> -->
         </v-form>
       </div>
 
@@ -306,7 +307,10 @@
 
     <v-row v-if="recipe">
       <v-col class="mt-3" cols="12" v-if="editing">
-        <v-btn variant="outlined" @click="initUploader">Photo +</v-btn>
+        <div>
+          <span>Photos</span>
+        </div>
+        <v-btn variant="tonal" @click="initUploader">Photo +</v-btn>
       </v-col>
       <v-col
         v-for="img in recipePhotos"
@@ -351,7 +355,7 @@
             v-if="editing"
             icon
             dark
-            color="error"
+            color="#ef5267"
             small
             @click.stop="deleteImage1(img)"
             class="img-delete-btn"
@@ -359,6 +363,19 @@
           >
             <font-awesome-icon icon="fa-solid fa-trash"></font-awesome-icon>
           </v-btn>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row v-if="editing">
+      <v-col>
+        <div class="text-right">
+          <v-btn
+            size="large"
+            variant="flat"
+            @click="updateRecipe"
+            color="primary"
+            >Save</v-btn
+          >
         </div>
       </v-col>
     </v-row>
@@ -371,7 +388,7 @@
         <v-card-text>This cannot be undone, confirm to continue.</v-card-text>
         <v-card-actions class="d-flex justify-space-between mx-2">
           <v-btn @click="deleteModal = false">Cancel</v-btn>
-          <v-btn @click="confirmDelete" color="error" variant="outlined"
+          <v-btn @click="confirmDelete" color="#ef5267" variant="flat"
             >Confirm</v-btn
           >
         </v-card-actions>
@@ -392,7 +409,7 @@
         </div>
         <v-card-actions class="d-flex justify-space-between mx-2">
           <v-btn @click="cancelImageDelete">Cancel</v-btn>
-          <v-btn @click="confirmImageDelete" color="error" variant="outlined"
+          <v-btn @click="confirmImageDelete" color="#ef5267" variant="flat"
             >Confirm</v-btn
           >
         </v-card-actions>
@@ -547,7 +564,7 @@ export default {
       if (!this.imageToDelete) {
         this.snackbarStore.showSnackbar({
           message: "Image to delete not found",
-          color: "error",
+          color: "#ef5267",
         });
         return;
       }
@@ -652,7 +669,7 @@ export default {
           console.log(err, "error");
           this.snackbarStore.showSnackbar({
             message: "Error deleting recipe",
-            color: "error",
+            color: "#ef5267",
           });
         })
         .finally(() => {
@@ -723,7 +740,7 @@ export default {
           this.$refs.form.validate();
           this.snackbarStore.showSnackbar({
             message: "Fill in required fields",
-            color: "error",
+            color: "#ef5267",
           });
           return;
         }
@@ -731,7 +748,7 @@ export default {
         if (this.tempRecipe.ingredients.length == 0) {
           this.snackbarStore.showSnackbar({
             message: "Recipe cannot have 0 ingredients",
-            color: "error",
+            color: "#ef5267",
           });
           return;
         }
@@ -763,7 +780,7 @@ export default {
             console.log(err, "error");
             this.snackbarStore.showSnackbar({
               message: "Error creating recipe",
-              color: "error",
+              color: "#ef5267",
             });
           })
           .finally(() => {
