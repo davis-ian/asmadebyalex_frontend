@@ -1,7 +1,9 @@
 <template>
   <div>
     <v-breadcrumbs :items="breadcrumbs" divider="/"></v-breadcrumbs>
-    <div class="text-right">
+    <div v-if="authStore.isAuthenticated" class="text-right">
+      <p>Hello, {{ authStore.user.name }}!</p>
+
       <v-btn variant="outlined" @click="handleLogout">Logout</v-btn>
     </div>
     <h2>Admin</h2>
@@ -31,9 +33,12 @@
             variant="outlined"
             @click="$router.push('/recipies/create')"
             size="small"
-            icon
           >
-            <font-awesome-icon icon="fa-solid fa-plus"></font-awesome-icon>
+            <span> Recipe </span>
+            <font-awesome-icon
+              class="ml-2"
+              icon="fa-solid fa-plus"
+            ></font-awesome-icon>
           </v-btn>
         </div>
 
@@ -182,6 +187,7 @@ export default {
     this.createAxiosInstance();
     this.getArtilcles();
     this.getRecipies();
+    // console.log(this.authStore.user);
   },
 };
 </script>

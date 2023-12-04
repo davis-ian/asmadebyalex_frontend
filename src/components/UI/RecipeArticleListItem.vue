@@ -24,7 +24,10 @@
       </div>
       <div v-if="item.createdAt">{{ formatDate(item.createdAt) }}</div>
     </div>
-    <div class="d-flex justify-center align-center ma-3">
+    <div
+      v-if="$route.name == 'Admin' && authStore.roles.includes('SuperAdmin')"
+      class="d-flex justify-center align-center ma-3"
+    >
       <v-btn
         class="delete-btn"
         @click.stop="$emit('delete')"
@@ -39,10 +42,12 @@
 </template>
 <script>
 import PlaceholerImgSrc from "@/assets/images/pastry-board.jpg";
+import { useAuthStore } from "@/stores/user";
 export default {
   data() {
     return {
       placeholderImgSrc: PlaceholerImgSrc,
+      authStore: useAuthStore(),
     };
   },
   props: {

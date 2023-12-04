@@ -37,7 +37,7 @@ export default {
     async user(newValue) {
       if (newValue) {
         this.authStore.updateAuthStatus(this.user, this.isAuthenticated);
-        console.log(this.user, "USER");
+        // console.log(this.user, "USER");
       }
     },
   },

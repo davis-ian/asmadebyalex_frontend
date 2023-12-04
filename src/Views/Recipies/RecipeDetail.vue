@@ -481,25 +481,25 @@ export default {
   },
   methods: {
     updateIngredientInputSearch(evt) {
-      console.log(evt, "search updated");
+      // console.log(evt, "search updated");
       this.ingredientSearchText = evt;
     },
     updateMeasurementInputSearch(evt) {
-      console.log(evt, "search updated");
+      // console.log(evt, "search updated");
       this.measurementSearchText = evt;
     },
     addMeasurementToDb(index) {
       let data = {
         name: this.measurementSearchText,
       };
-      console.log(data, "data");
+      // console.log(data, "data");
       this.axiosInstance
         .post("/measurements", data)
         .then((resp) => {
           this.measurements.push(resp.data);
           this.refreshKey++;
           this.tempRecipe.ingredients[index].measurementUnitId = resp.data.id;
-          console.log(this.tempRecipe.ingredients);
+          // console.log(this.tempRecipe.ingredients);
         })
         .catch((error) => {
           console.log(error, "ingredient error");
@@ -509,7 +509,7 @@ export default {
       let data = {
         name: this.ingredientSearchText,
       };
-      console.log(data, "data");
+      // console.log(data, "data");
       this.axiosInstance
         .post("/ingredients", data)
         .then((resp) => {
@@ -537,7 +537,7 @@ export default {
         );
         this.editing = true;
 
-        console.log(this.tempRecipe, "temp");
+        // console.log(this.tempRecipe, "temp");
       } else {
         this.tempRecipe = null;
       }
@@ -764,7 +764,7 @@ export default {
           ),
         };
 
-        console.log(data, "data");
+        // console.log(data, "data");
 
         this.loading = true;
         this.axiosInstance
