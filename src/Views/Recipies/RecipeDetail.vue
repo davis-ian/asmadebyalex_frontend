@@ -310,7 +310,12 @@
         <div>
           <span>Photos</span>
         </div>
-        <v-btn variant="tonal" @click="initUploader">Photo +</v-btn>
+        <v-btn
+          v-if="authStore.roles.includes('SuperAdmin')"
+          variant="tonal"
+          @click="initUploader"
+          >Photo +</v-btn
+        >
       </v-col>
       <v-col
         v-for="img in recipePhotos"
@@ -320,6 +325,7 @@
       >
         <div :class="editing ? 'pointer' : ''" class="gallery-img-wrap">
           <v-img
+            v-if="authStore.roles.includes('SuperAdmin')"
             max-width="400px"
             @click="handleImgClick(img)"
             :class="checkMainImg(img) == true && editing ? 'gallery-main' : ''"
@@ -352,7 +358,7 @@
           ></font-awesome-icon>
 
           <v-btn
-            v-if="editing"
+            v-if="editing && authStore.roles.includes('SuperAdmin')"
             icon
             dark
             color="#ef5267"
@@ -370,6 +376,7 @@
       <v-col>
         <div class="text-right">
           <v-btn
+            v-if="authStore.roles.includes('SuperAdmin')"
             size="large"
             variant="flat"
             @click="updateRecipe"
@@ -417,7 +424,7 @@
     </v-dialog>
 
     <uploader
-      v-if="$route.params.id"
+      v-if="$route.params.id && authStore.roles.includes('SuperAdmin')"
       :recipeId="parseInt($route.params.id)"
       ref="uploader"
       @upload-complete="getRecipe(parseInt($route.params.id))"
@@ -496,6 +503,7 @@ export default {
       this.axiosInstance
         .post("/measurements", data)
         .then((resp) => {
+          console.log(this.tempRecipe, "temp recipe");
           this.measurements.push(resp.data);
           this.refreshKey++;
           this.tempRecipe.ingredients[index].measurementUnitId = resp.data.id;
@@ -689,7 +697,9 @@ export default {
     },
     getRecipe(id) {
       if (typeof parseInt(id) == "number") {
-        this.axiosInstance
+        this.loading = true;
+
+        return this.axiosInstance
           .get(`/recipies/${id}`)
           .then((res) => {
             this.recipe = res.data;
@@ -702,6 +712,7 @@ export default {
           })
           .finally(() => {
             this.loading = false;
+            this.mounted = true;
           });
       }
     },
@@ -769,12 +780,12 @@ export default {
         this.loading = true;
         this.axiosInstance
           .put(`/recipies/` + this.recipe.id, data)
-          .then((res) => {
+          .then(async (res) => {
             this.snackbarStore.showSnackbar({
               message: "Recipe updated",
             });
             this.editing = false;
-            this.getRecipe(this.recipe.id);
+            await this.getRecipe(this.recipe.id);
           })
           .catch((err) => {
             console.log(err, "error");
@@ -789,7 +800,7 @@ export default {
       });
     },
     async setAuthToken() {
-      if (this.$auth0.isAuthenticated) {
+      if (this.authStore.isAuthenticated) {
         this.token = await this.$auth0.getAccessTokenSilently();
       }
     },
@@ -803,7 +814,7 @@ export default {
   async mounted() {
     await this.setAuthToken();
     this.createAxiosInstance();
-    this.getRecipe(this.$route.params.id);
+    await this.getRecipe(this.$route.params.id);
     this.getIngredients();
     this.getMeasurements();
   },

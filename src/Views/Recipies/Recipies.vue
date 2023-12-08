@@ -1,8 +1,11 @@
 <template>
   <div>
     <v-breadcrumbs :items="breadcrumbs" divider="/"></v-breadcrumbs>
+
     <h2>Recipies</h2>
-    <recipe-list />
+    <v-text-field v-model="search" label="Search" variant="solo"></v-text-field>
+
+    <recipe-list :search="search" />
   </div>
 </template>
 <script>
@@ -11,6 +14,7 @@ export default {
   name: "Articles",
   data() {
     return {
+      search: "",
       breadcrumbs: [
         {
           title: "Home",

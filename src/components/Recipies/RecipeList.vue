@@ -40,7 +40,11 @@
       <v-card-text>This cannot be undone.</v-card-text>
       <v-card-actions>
         <div class="d-flex justify-space-between flex-grow-1">
-          <v-btn :disabled="loading" color="#f5eee6" variant="flat" @click="cancelDelete"
+          <v-btn
+            :disabled="loading"
+            color="#f5eee6"
+            variant="flat"
+            @click="cancelDelete"
             >Cancel</v-btn
           >
           <v-btn
@@ -60,6 +64,8 @@ import PlaceholerImgSrc from "@/assets/images/pastry-board.jpg";
 // import { VSkeletonLoader } from "vuetify/labs/VSkeletonLoader";
 import RecipeArticleListItem from "@/components/UI/RecipeArticleListItem.vue";
 import { useSnackbarStore } from "@/stores/snackbar";
+import { useAuthStore } from "@/stores/user";
+import { debounce } from "@/utilities/general";
 
 export default {
   name: "Recipies",
@@ -73,13 +79,34 @@ export default {
       selectedRecipe: null,
       deleteModal: false,
       snackbarStore: useSnackbarStore(),
+      authStore: useAuthStore(),
+      token: "",
     };
   },
   components: {
     // VSkeletonLoader,
     RecipeArticleListItem,
   },
+  props: {
+    search: {
+      type: String,
+      default: "",
+    },
+    featured: {
+      type: Boolean,
+      deafault: false,
+    },
+  },
+  watch: {
+    search() {
+      this.debouncedSearch();
+    },
+  },
   methods: {
+    debouncedSearch: debounce(function () {
+      console.log(this.search);
+      this.getRecipies();
+    }, 500),
     submitRecipeDelete() {
       this.loading = true;
       this.axiosInstance
@@ -110,10 +137,14 @@ export default {
       this.deleteModal = true;
     },
     getRecipies() {
+      let data = {
+        search: this.search,
+        featured: this.featured,
+      };
       this.loading = true;
 
       this.$axios
-        .get(import.meta.env.VITE_APP_API + "/recipies")
+        .get(import.meta.env.VITE_APP_API + "/recipies", { params: data })
         .then((res) => {
           this.recipies = res.data;
         })
@@ -125,7 +156,7 @@ export default {
         });
     },
     async setAuthToken() {
-      if (this.$auth0.isAuthenticated) {
+      if (this.authStore.isAuthenticated) {
         this.token = await this.$auth0.getAccessTokenSilently();
       }
     },

@@ -3,6 +3,7 @@ import { useAuthStore } from "@/stores/user";
 
 export const authGuard = async (to, from, next) => {
   try {
+    console.log("route start");
     await auth0.checkSession();
     const authStore = useAuthStore();
 
@@ -48,7 +49,13 @@ export const authGuard = async (to, from, next) => {
     }
 
     // If the route does not require authentication, allow access
-    authStore.updateAuthStatus(auth0.user.value, auth0.isAuthenticated.value);
+    if (auth0.user.value) {
+      authStore.updateAuthStatus(auth0.user.value, auth0.isAuthenticated.value);
+    } else {
+      authStore.updateAuthStatus(null, false);
+    }
+
+    console.log(authStore, "auth store after route");
     next();
   } catch (error) {
     console.log("Error in authGuard: ", error);

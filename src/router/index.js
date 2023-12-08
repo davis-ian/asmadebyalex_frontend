@@ -36,9 +36,6 @@ const routes = [
     path: "/about",
     name: "About",
     component: () => import("@/Views/About.vue"),
-    meta: {
-      requiresAuth: true,
-    },
   },
   {
     path: "/admin",

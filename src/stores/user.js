@@ -12,15 +12,18 @@ export const useAuthStore = defineStore({
   }),
 
   actions: {
-    updateAuthStatus(user, isAuth) {
+    updateAuthStatus(user, isAuth = false) {
       if (user) {
         // console.log(user, "user");
         this.user = user;
         this.roles = user["https://asmadebyalex.com/roles"];
+      } else {
+        this.user = null;
+        this.roles = [];
       }
 
       // console.log(isAuth, "isAuth in store");
-      if (isAuth != undefined) {
+      if (isAuth) {
         this.isAuthenticated = isAuth;
       }
       // console.log(this.isAuthenticated, "isAuth in store");

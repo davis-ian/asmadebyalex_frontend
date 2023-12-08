@@ -16,11 +16,13 @@ import "@uppy/core/dist/style.min.css";
 import "@uppy/dashboard/dist/style.min.css";
 
 import { useSnackbarStore } from "@/stores/snackbar";
+import { useAuthStore } from "@/stores/user";
 
 export default {
   data() {
     return {
       snackbarStore: useSnackbarStore(),
+      authStore: useAuthStore(),
       isOpen: false,
       maxFileSize: 15000000,
       dashboardProps: {
@@ -37,6 +39,7 @@ export default {
       uppy: null,
       tempFiles: [],
       cloud: null,
+      token: "",
     };
   },
   props: {
@@ -200,7 +203,9 @@ export default {
       this.isOpen = !this.isOpen;
     },
     async setAuthToken() {
-      this.token = await this.$auth0.getAccessTokenSilently();
+      if (this.authStore.isAuthenticated) {
+        this.token = await this.$auth0.getAccessTokenSilently();
+      }
     },
     createAxiosInstance() {
       this.axiosInstance = this.$axios.create({

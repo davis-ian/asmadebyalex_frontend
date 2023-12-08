@@ -7,3 +7,17 @@ export const removeFromListById = (arr, id) => {
     arr.splice(indexToRemove, 1);
   }
 };
+
+export function debounce(func, delay) {
+  let timerId;
+  return function () {
+    const context = this;
+    const args = arguments;
+
+    clearTimeout(timerId);
+
+    timerId = setTimeout(() => {
+      func.apply(context, args);
+    }, delay);
+  };
+}

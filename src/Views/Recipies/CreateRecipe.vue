@@ -212,7 +212,7 @@ export default {
         .then((resp) => {
           this.measurements.push(resp.data);
           this.refreshKey++;
-          this.tempRecipe.ingredients[index].measurementUnitId = resp.data.id;
+          this.recipeIngredients[index].measurementUnitId = resp.data.id;
           console.log(this.tempRecipe.ingredients);
         })
         .catch((error) => {
