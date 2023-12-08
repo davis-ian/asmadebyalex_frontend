@@ -171,7 +171,7 @@ export default {
       });
     },
     async setAuthToken() {
-      if (this.$auth0.isAuthenticated) {
+      if (this.authStore.isAuthenticated) {
         this.token = await this.$auth0.getAccessTokenSilently();
       }
     },
@@ -187,7 +187,6 @@ export default {
     this.createAxiosInstance();
     this.getArtilcles();
     this.getRecipies();
-    // console.log(this.authStore.user);
   },
 };
 </script>

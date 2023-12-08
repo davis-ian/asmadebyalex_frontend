@@ -22,11 +22,9 @@ export const useAuthStore = defineStore({
         this.roles = [];
       }
 
-      // console.log(isAuth, "isAuth in store");
       if (isAuth) {
         this.isAuthenticated = isAuth;
       }
-      // console.log(this.isAuthenticated, "isAuth in store");
     },
   },
 });

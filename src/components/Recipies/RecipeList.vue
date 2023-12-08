@@ -104,7 +104,6 @@ export default {
   },
   methods: {
     debouncedSearch: debounce(function () {
-      console.log(this.search);
       this.getRecipies();
     }, 500),
     submitRecipeDelete() {

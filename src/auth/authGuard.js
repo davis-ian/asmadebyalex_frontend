@@ -3,22 +3,18 @@ import { useAuthStore } from "@/stores/user";
 
 export const authGuard = async (to, from, next) => {
   try {
-    console.log("route start");
     await auth0.checkSession();
     const authStore = useAuthStore();
 
-    // console.log(to, "to");
     // Check if the route requires authentication
     if (to?.meta?.requiresAuth) {
-      // console.log(to?.meta?.requiresAuth, "requires auth");
       // Check if the user is authenticated
       if (auth0.isAuthenticated.value) {
         const roles = auth0.user.value["https://asmadebyalex.com/roles"];
         const requiredRoles = to.meta.roles;
-        // console.log(requiredRoles, "required roles");
+
         // Check if requiredRoles is defined in the route's meta
 
-        // console.log(roles, "current roles");
         if (requiredRoles) {
           if (requiredRoles.some((role) => roles.includes(role))) {
             // User has the required role, allow access
@@ -55,7 +51,6 @@ export const authGuard = async (to, from, next) => {
       authStore.updateAuthStatus(null, false);
     }
 
-    console.log(authStore, "auth store after route");
     next();
   } catch (error) {
     console.log("Error in authGuard: ", error);
