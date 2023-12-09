@@ -17,11 +17,18 @@
     />
 
     <div class="text-container">
-      <div v-if="item.name">
+      <div v-if="item.title">
+        <strong>
+          {{ item.title }}
+        </strong>
+      </div>
+      <div v-else-if="item.name">
         <strong>
           {{ item.name }}
         </strong>
       </div>
+      
+
       <div v-if="item.createdAt">{{ formatDate(item.createdAt) }}</div>
     </div>
     <div

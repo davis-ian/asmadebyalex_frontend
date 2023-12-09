@@ -6,7 +6,7 @@
         <font-awesome-icon :icon="['fas', 'arrow-left']" />
       </v-btn>
       <v-btn
-        v-if="userStore.roles.includes('SuperAdmin')"
+        v-if="authStore.roles.includes('SuperAdmin')"
         @click="toggleEditing"
         size="small"
         variant="tonal"
@@ -14,9 +14,14 @@
       >
     </div>
     <div>
-      <div style="width: 100%; max-width: 600px" v-if="article">
-        <editor ref="editor" v-show="editing" />
-
+      <div style="width: 100%; " v-if="article">
+        <div v-show="editing">
+          <v-text-field  v-model="tempTitle" label="Title" variant="outlined"></v-text-field>
+          <editor ref="editor" v-show="editing" />
+          <div  class="text-right mt-3">
+            <v-btn @click="updateArticle($route.params.id)" :disabled="loading" :loading="loading" color="primary" variant="flat">Save</v-btn>
+          </div>
+        </div>
         <div v-if="!editing">
           <h1 class="mb-2">{{ article.title }}</h1>
           <div>
@@ -55,10 +60,12 @@ export default {
   data() {
     return {
       placeholderImgSrc: PlaceholerImgSrc,
+      authStore: useAuthStore(),
       message: "article details",
       article: null,
       loading: false,
       editing: false,
+      tempTitle: "",
       breadcrumbs: [
         {
           title: "Home",
@@ -85,11 +92,37 @@ export default {
     ...mapStores(useAuthStore),
   },
   methods: {
+    updateArticle(id) {
+      let content = this.$refs.editor.getHtml();
+
+      let data = {
+        title: this.tempTitle,
+        content: content
+      }
+
+      this.loading = true;
+
+      this.axiosInstance
+        .put(`/articles/${id}`, data)
+        .then((res) => {
+          this.article = res.data;
+          this.editing = false
+        
+        })
+        .catch((err) => {
+          console.log(err, "error");
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+
+    },  
     toggleEditing() {
       this.editing = !this.editing;
       if (this.editing) {
-        this.$refs.editor.title = this.article.title;
-        this.$refs.editor.setHTML(this.article.content);
+        console.log(this.article)
+        this.tempTitle = this.article.title
+        this.$refs.editor.setHtml(this.article.content);
       }
     },
     formatDate(val) {
@@ -115,8 +148,21 @@ export default {
           this.loading = false;
         });
     },
+    async setAuthToken() {
+      if (this.authStore.isAuthenticated) {
+        this.token = await this.$auth0.getAccessTokenSilently();
+      }
+    },
+    createAxiosInstance() {
+      this.axiosInstance = this.$axios.create({
+        headers: { Authorization: `Bearer ${this.token}` },
+        baseURL: import.meta.env.VITE_APP_API,
+      });
+    },
   },
-  mounted() {
+  async mounted() {
+    await this.setAuthToken();
+    this.createAxiosInstance()
     this.getArticle(this.$route.params.id);
   },
 };

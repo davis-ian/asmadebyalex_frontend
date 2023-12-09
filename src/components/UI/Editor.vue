@@ -111,10 +111,6 @@ export default {
       // });
     },
   },
-  mounted() {
-    if (this.$route.params.id) {
-    }
-  },
 };
 </script>
 <style lang="scss">

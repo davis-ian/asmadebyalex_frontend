@@ -94,7 +94,7 @@ export default {
         this.menuItems = [
           { icon: "home", title: "Home", path: "/" },
           { icon: "home", title: "Recipies", path: "/recipies" },
-          // { icon: "home", title: "Articles", path: "/articles" },
+          { icon: "home", title: "Articles", path: "/articles" },
           { icon: "info", title: "About Me", path: "/about" },
           // { icon: "warning", title: "Contact", path: "/contact" },
           { icon: "warning", title: "Admin", path: "/admin" },
@@ -103,7 +103,7 @@ export default {
         this.menuItems = [
           { icon: "home", title: "Home", path: "/" },
           { icon: "home", title: "Recipies", path: "/recipies" },
-          // { icon: "home", title: "Articles", path: "/articles" },
+          { icon: "home", title: "Articles", path: "/articles" },
           { icon: "info", title: "About Me", path: "/about" },
           // { icon: "warning", title: "Contact", path: "/contact" },
           { icon: "warning", title: "Login", path: "/login" },

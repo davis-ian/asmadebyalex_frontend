@@ -3,6 +3,9 @@
     <div class="py-3" v-if="loading">
       <v-progress-linear indeterminate></v-progress-linear>
     </div>
+    <div vlass="text-center" v-if="!loading && recipies.length == 0">
+    <p>No recipes found..</p>
+    </div>
 
     <!-- <div v-if="loading">
       <v-skeleton-loader
